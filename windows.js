@@ -1,6 +1,6 @@
 function setCell(cell1, i, j){
-    cell1.setAttribute("ondrop","droppoint(event)");
-    cell1.setAttribute("ondragover","allowDropOption(event)");
+    cell1.setAttribute("ondrop","drop(event)");
+    cell1.setAttribute("ondragover","allowDrop(event)");
     cell1.id = "t_" + i + "_" + j;
 }
 

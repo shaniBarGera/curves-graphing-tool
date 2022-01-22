@@ -4,9 +4,7 @@
         <link rel="stylesheet" href="layout.css">
         <link rel="stylesheet" href="texts.css">
         <link rel="stylesheet" href="sidebar.css">
-        <link rel="stylesheet" href="windows.css">
-        <link rel="stylesheet" href="bezier/css/main.css">
-        
+        <link rel="stylesheet" href="windows.css">     
     </head>
 
 
@@ -22,26 +20,26 @@
                       <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-container">
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Monomial</a>
+                        <button id="Monomial-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Monomial</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Lagrange</a>
+                        <button id="Lagrange-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Lagrange</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Hermite Basis</a>
+                        <button id="HB-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Hermite Basis</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Splines</a>
+                        <button id="Splines-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Splines</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Bezier</a>
+                        <button id="Bezier-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Bezier</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">B-Splines</a>
+                        <button id="BSplines-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>B-Splines</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Bernstien</a>
+                        <button id="Bernstein-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Bernstein</a>
                         </button>
                     </div>
     
@@ -49,17 +47,17 @@
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-container">
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Bilinear</a>
+                        <button id="Bilinear-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Bilinear</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Ruled</a>
+                        <button id="Ruled-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Ruled</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Boolean Sum</a>
+                        <button id="BSum-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Boolean Sum</a>
                         </button>
-                        <button id="sidenav-btn" class="sidenav-btn">
-                            <a href="#">Revolution</a>
+                        <button id="Revolution-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Revolution</a>
                         </button>
                     </div>
                 </div>       
@@ -69,7 +67,7 @@
             <main>
                 <table id="myTable">
                     <tr>
-                        <td id="t_0" ondrop="droppoint(event)" ondragover="allowDropOption(event)">
+                        <td id="t_0" ondrop="drop(event)" ondragover="allowDrop(event)">
                         </td>
                     </tr>
                 </table>

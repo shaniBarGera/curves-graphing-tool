@@ -137,8 +137,9 @@ function drop(ev) {
     var btn = document.getElementById(data);
   
     var title = btn.firstElementChild.innerHTML;
+    alert(title);
     
-    //removeAllChildNodes(ev.target);
+    removeAllChildNodes(ev.target);
     ev.target.appendChild(createHeader(title));
     ev.target.appendChild(createControls());
     drawCurve(ev.target);
