@@ -13,10 +13,3 @@ for (i = 0; i < dropdown.length; i++) {
     }
   });
 }
-
-/*When sidbar button is clicked
-function changeImage(pic_src) {
-    var img = document.getElementById("main-img");
-    img.src=pic_src;
-    return false;
-}*/

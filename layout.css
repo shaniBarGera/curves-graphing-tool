@@ -20,12 +20,25 @@ header{
    padding-top: 10px;
 }
 
+header a{
+   color: rgb(184, 184, 184);
+   font-style: Arial, sans-serif;
+   font-size: 40px;
+}
+
+
 footer{
    height: 30px;
    background-color: rgb(102, 51, 153);
    text-align: center;
    padding-top: 5px;
 }
+
+
+footer a{
+   color: rgb(139, 139, 139);
+}
+
 
 section {
    height: 100%;
