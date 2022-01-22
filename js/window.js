@@ -1,3 +1,9 @@
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
 function createHeader(title){
     var header = document.createElement("div");
     header.id = title;
@@ -21,6 +27,25 @@ function createHeader(title){
     return header;
 }
 
+function createNumInput(title){
+    var div = document.createElement("div");
+    div.id = title + "_input";
+    div.style.display = "inline-block";
+    div.style.float = "left";
+    var text = document.createTextNode(title + " ");
+    div.appendChild(text);
+    var input = document.createElement("input");
+    input.type = "number";
+    input.name = title;
+    input.value = "3";
+    input.style.backgroundColor = "black";
+    input.style.color = "rgb(184, 184, 184)";
+    input.size = "3";
+    input.style.marginRight = "50px";
+    div.appendChild(input);
+    return div;
+}
+
 function createControls(){
     // controls main box
     var controls = document.createElement("div");
@@ -41,16 +66,8 @@ function createControls(){
 
 
     // order input
-    var orderText = document.createTextNode("Order ");
-    controls.appendChild(orderText);
-    var input = document.createElement("input");
-    input.type = "text";
-    input.name = "order";
-    input.style.backgroundColor = "black";
-    input.style.color = "rgb(184, 184, 184)";
-    input.size = "3";
-    input.style.marginRight = "50px";
-    controls.appendChild(input);
+    var ordreInput = createNumInput("order");
+    controls.appendChild(ordreInput);
 
     //steps input
     var stepsText = document.createTextNode("Steps# ");
@@ -92,24 +109,14 @@ function createControls(){
     return controls;
 }
 
-
-
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
-
-function drawCurve(t){
+function drawCurve(title){
     var c = createCanvas(t);
-    t.appendChild(c);
-
     var ctx = c.getContext("2d");
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.strokeStyle = "rgb(102, 51, 153)";
     ctx.lineWidth = "5px";
 
-    switch(t.firstChild.id.toString()){
+    switch(title){
         case "Bezier":
             drawBezier(c, ctx);
             break;
@@ -120,27 +127,5 @@ function drawCurve(t){
             drawLine(c, ctx);
             break;
     }
-}
-
-
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-  
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-}
-  
-function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    var btn = document.getElementById(data);
-  
-    var title = btn.firstElementChild.innerHTML;
-    alert(title);
-    
-    removeAllChildNodes(ev.target);
-    ev.target.appendChild(createHeader(title));
-    ev.target.appendChild(createControls());
-    drawCurve(ev.target);
+    return c;
 }
