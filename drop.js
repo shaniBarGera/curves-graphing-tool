@@ -1,6 +1,6 @@
-function createHeader(data){
+function createHeader(title){
     var header = document.createElement("div");
-    header.innerHTML = data;
+    header.id = title;
     header.style.backgroundImage = "linear-gradient(rgb(36, 35, 35), rgb(56, 55, 55), rgb(46, 45, 45))";
     header.style.backgroundColor = "rgb(46, 45, 45)";
     header.style.display = 'inline-block';
@@ -11,11 +11,12 @@ function createHeader(data){
     header.style.margin= "0";
     header.style.paddingTop = "10px";
     
-    var title = header.firstElementChild;
-    title.style.color = "rgb(184, 184, 184)";
-    title.style.font ="bold 20px Arial, sans-serif";
-    title.style.textDecoration = "none";
-    header.id = title.innerHTML + "_Header";
+    var text = document.createElement('a');
+    text.innerText = title;
+    text.style.color = "rgb(184, 184, 184)";
+    text.style.font ="bold 20px Arial, sans-serif";
+    text.style.textDecoration = "none";
+    header.appendChild(text);
 
     return header;
 }
@@ -109,10 +110,10 @@ function drawCurve(t){
     ctx.lineWidth = "5px";
 
     switch(t.firstChild.id.toString()){
-        case "Bezier_Header":
+        case "Bezier":
             drawBezier(c, ctx);
             break;
-        case "Monomial_Header":
+        case "Monomial":
             drawRect(c, ctx);
             break;
         default:
@@ -122,20 +123,23 @@ function drawCurve(t){
 }
 
 
-function droppoint(event) {
-    event.preventDefault();
-    removeAllChildNodes(event.target);
-
-    var data = event.target.dataTransfer.getData("text/html");
-    event.target.appendChild(createHeader(data));
-    event.target.appendChild(createControls());
-    //drawCurve(event.target);
+function allowDrop(ev) {
+    ev.preventDefault();
 }
-
-function allowDropOption(event) {
-    event.preventDefault();
+  
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
 }
-
-function dragpoint(event) {
-    event.dataTransfer.setData("Text", event.target.id);
+  
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    var btn = document.getElementById(data);
+  
+    var title = btn.firstElementChild.innerHTML;
+    
+    //removeAllChildNodes(ev.target);
+    ev.target.appendChild(createHeader(title));
+    ev.target.appendChild(createControls());
+    drawCurve(ev.target);
 }
