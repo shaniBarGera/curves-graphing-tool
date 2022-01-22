@@ -1,0 +1,111 @@
+/* Fixed sidenav, full height */
+.sidenav {
+    background-image: linear-gradient(to left, #535353, rgb(29, 29, 29));
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.19), 0 17px 50px 0 rgba(0,0,0,0.24);
+  }
+  
+  /* Style the sidenav links and the dropdown button */
+  .sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #dbd8d8;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    border-radius: 10px;
+    
+  }
+  
+  .dropdown-btn{
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #dbd8d8;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+
+  /* On mouse-over */
+  .sidenav a:hover, .dropdown-btn a:hover{
+    color: white;
+  }
+
+  .dropdown-btn:hover{
+    background-color: rgb(66, 34, 99);
+  }
+  
+  /* Add an active class to the active dropdown button */
+  .active {
+    background-color:rgb(66, 34, 99);
+    color: white;
+  }
+  
+  /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+  .dropdown-container {
+    display: none;
+    background-color: #262626;
+    
+  }
+  
+  /* Optional: Style the caret down icon */
+  .fa-caret-down {
+    float: right;
+   
+  }
+
+  .sidenav-btn {
+    background-color: #5f5f5f;
+    /*background-image: linear-gradient(to left, #5f5f5f, rgb(46, 46, 46));*/
+    border: none;
+    /*font-family: 'Times New Roman', Times, serif;*/
+    transition-duration: 0.4s;
+    width: 200px;
+  }
+  
+  .sidenav-btn:hover {
+    background-color: rgb(150, 150, 150);
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.19), 0 17px 50px 0 rgba(0,0,0,0.24);
+  }
+
+  .split-btn{
+    background-color: #5f5f5f;
+    border: black solid 3px;
+    font-family: 'Times New Roman', Times, serif;
+    transition-duration: 0.4s;
+    width: 40px;
+    height: 40px;
+    text-align: cener;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 5px;
+    margin-bottom: 5px;
+  }
+
+  .split-btn:hover{
+    background-color: rgb(150, 150, 150);
+  }
+
+  .split-btn a{
+    color: rgb(179, 179, 179);
+    font-size: 25px;
+    font-weight: bolder;
+  }
+
+  .split-btn a:hover{
+    color: white;
+  }
+

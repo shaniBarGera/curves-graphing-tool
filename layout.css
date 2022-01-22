@@ -1,0 +1,62 @@
+html
+{ 
+    height: 100%; 
+    margin:0;
+    padding:0;
+} 
+
+body {
+   padding:0;
+   margin: 0;
+   height: 100%;
+   display: grid;
+   grid-template-rows: 70px auto 30px;
+}
+
+header{
+   height: 70px;
+   background-image: linear-gradient(rgb(102, 51, 153), rgb(56, 56, 56));
+   text-align: center;
+   padding-top: 10px;
+}
+
+footer{
+   height: 30px;
+   background-color: rgb(102, 51, 153);
+   text-align: center;
+   padding-top: 5px;
+}
+
+section {
+   height: 100%;
+   display: grid;
+   grid-template-columns: 200px auto 40px;
+}
+
+#right-nav{
+   width: 40px;
+   background-color: rgb(56, 56, 56);
+   text-align: center;
+   padding-top: 10px;
+}
+
+#left-nav{
+   width: 200px;
+   background-color: rgb(56, 56, 56);
+}
+
+main{
+   background-color: rgb(56, 56, 56);
+   width: 100%;
+}
+
+/*table{
+   margin: 20px 20px 20px 20px;
+}
+
+th, td{
+   border:10px solid #111;
+   width: 50%;
+   height: 50%;
+   background-color: black;
+}*/

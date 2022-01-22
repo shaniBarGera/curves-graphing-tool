@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <title>CG Curves</title>
+        <link rel="stylesheet" href="layout.css">
+        <link rel="stylesheet" href="texts.css">
+        <link rel="stylesheet" href="sidebar.css">
+        <link rel="stylesheet" href="windows.css">
+        <link rel="stylesheet" href="bezier/css/main.css">
+        
+    </head>
+
+
+	<body>
+        <header>
+            <a>Computer Graphics: Curves and Surfaces</a>
+        </header>
+        
+        <section>
+            <div id="left-nav">
+                <div class="sidenav">
+                    <button class="dropdown-btn">Parametric Curves
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-container">
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Monomial</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Lagrange</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Hermite Basis</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Splines</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Bezier</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">B-Splines</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Bernstien</a>
+                        </button>
+                    </div>
+    
+                    <button class="dropdown-btn">Surfaces
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-container">
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Bilinear</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Ruled</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Boolean Sum</a>
+                        </button>
+                        <button id="sidenav-btn" class="sidenav-btn">
+                            <a href="#">Revolution</a>
+                        </button>
+                    </div>
+                </div>       
+            </div>
+
+
+            <main>
+                <table id="myTable">
+                    <tr>
+                        <td id="t_0" ondrop="droppoint(event)" ondragover="allowDropOption(event)">
+                        </td>
+                    </tr>
+                </table>
+                <script type="text/javascript" src="canvas.js"></script>
+            </main>
+            <script type="text/javascript" src="drop.js"></script> 
+            <script type="text/javascript" src="sidebar.js"></script>
+ 
+                    
+            <div id="right-nav">
+                <button id="split-btn" class="split-btn" onclick="addCol()">
+                    <a>[|]</a>
+                </button>
+                <button id="split-btn" class="split-btn" onclick="delCol()">
+                    <a>[]</a>
+                </button>
+                <button id="split-btn" class="split-btn" onclick="addRow()">
+                    <a>+</a>
+                </button>
+                <button id="split-btn" class="split-btn" onclick="delRow()">
+                    <a>-</a>
+                </button>          
+            </div>
+            <script type="text/javascript" src="windows.js"></script>
+ 
+            
+        </section>
+        <footer>
+            <a>Made by: Shani Bar-Gera 2021</a>
+        </footer>
+	</body>
+</html>

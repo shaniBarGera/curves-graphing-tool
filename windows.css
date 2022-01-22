@@ -1,0 +1,53 @@
+
+
+.main-box{
+    border:10px solid #111; 
+    background-color: black;
+  
+    height: 85vh;
+    width: 85vw;
+    float: left;
+}
+
+.bonus-box{
+    border:10px solid #111; 
+    background-color: black; 
+    height: 85vh;
+    width: 85vw;
+    float: left;
+    display: none;
+}
+
+.bezier{
+    display: none;
+}
+  
+#myTable {
+    width: 97%;
+    margin: 20px 20px 20px 20px;
+    height: 89vh;
+    padding:0;
+    border-spacing: 5px;
+    table-layout: fixed;
+    position: relative;
+}
+
+tr{
+    width:100%;  
+    padding: 0;
+    margin: 0;
+}
+  
+td {
+    border: 5px solid rgb(36, 35, 35);
+    background-color: black;
+    vertical-align: top;
+}
+
+.dropbox {
+    width: 500px;
+    height: 500px;
+    background-color: yellow;
+}
+  
+  
