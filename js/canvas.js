@@ -39,20 +39,3 @@ function createCanvas(t){
     resizeCanvas(t, canvas);
     return canvas;
 }
-
-function fixCanvas(table){
-    var rnum = table.rows.length;
-    var cnum = table.rows[0].cells.length;
-    for(i = 0; i < rnum; i++){
-      for(var j=0; cell1 = table.rows[i].cells[j]; j++){
-        cell1.style.width = `${100 / cnum}%`;
-        cell1.style.height = `${89 / rnum}vh`;
-
-        var canvas = document.getElementById("c" + cell1.id);
-        if(canvas){
-          resizeCanvas(cell1, canvas);
-          drawCurve(cell1, canvas);
-        }
-      }
-    }
-}
