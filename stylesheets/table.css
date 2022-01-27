@@ -18,5 +18,10 @@ td {
     border: 5px solid rgb(36, 35, 35);
     background-color: black;
     vertical-align: top;
+    
 }
   
+.td-wrapper{
+    
+    height: 100%;
+}

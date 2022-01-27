@@ -1,12 +1,25 @@
-function removeAllChildNodes(parent) {
+function clearWindow(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
+    
 }
 
-function createHeader(title){
+function createWindow(td, title){
+    /*var td_box = document.createElement("div");
+    td_box.id = td.id + "_wrapper";
+    td_box.className = "td-wrapper";
+    td.appendChild(td_box);*/
+    //var td_box = td;
+    
+    td.appendChild(createHeader(td.id, title));
+    td.appendChild(createControls(td.id));
+    td.appendChild(createCurve(td, title));
+}
+
+function createHeader(td_id, title){
     var header = document.createElement("div");
-    header.id = title;
+    header.id = td_id + "_header";
     header.className = "window-header";
     var text = document.createElement('a');
     text.innerText = title;
@@ -40,12 +53,13 @@ function createSlider(){
     div.className = "control-input";
 
     var label = document.createElement("label");
-    label.id = "tValue";
+    label.id = "tLable";
     label.innerHTML = "t = ";
     div.appendChild(label);
     var span = document.createElement("span");
-    span.id = "demo";
+    span.id = "tValue";
     span.innerHTML = "0";
+
     div.appendChild(span);
 
     var input = document.createElement("input");
@@ -56,15 +70,17 @@ function createSlider(){
     input.max = "100";
     input.value = "0";
     input.className = "slider";
+    input.oninput = function(){
+        span.innerHTML = this.value;
+    }
     div.appendChild(input);
     return div;
 }
 
-
-function createControls(){
+function createControls(td_id){
     // controls main box
     var controls = document.createElement("div");
-    controls.id = "controls";
+    controls.id = td_id + "_controls";
     controls.className = "controls";
 
     controls.appendChild(createNumInput("Order"));
@@ -74,8 +90,27 @@ function createControls(){
     return controls;
 }
 
-function drawCurve(title){
-    var c = createCanvas(t);
+function drawZoneHeight(td){
+    var td_controls = document.getElementById(td.id + "_controls");
+    var td_header = document.getElementById(td.id + "_header");
+    var header_height = td_header.offsetHeight;
+    var controls_height = td_controls.offsetHeight;
+    //var td_height = td.offsetHeight;
+    //var num = td_height - header_height - controls_height;
+    //var h = `${num}px`;
+    return header_height + controls_height;
+}
+
+function createCurve(td, title){
+    var box = document.createElement("canvas");
+    box.id = td.id + "_draw";
+    box.style.borderColor = "blue";
+    box.style.borderStyle = "solid";
+    box.style.width = "100%";
+    box.style.height = (td.offsetHeight - drawZoneHeight(td)) + "px";
+
+    /*
+    var c = createCanvas(td);
     var ctx = c.getContext("2d");
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.strokeStyle = "rgb(102, 51, 153)";
@@ -91,6 +126,6 @@ function drawCurve(title){
         default:
             drawLine(c, ctx);
             break;
-    }
-    return c;
+    }*/
+    return box;
 }
