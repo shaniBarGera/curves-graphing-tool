@@ -4,8 +4,6 @@ function setCell(cell1, i, j){
     cell1.id = "t_" + i + "_" + j;
 }
 
-
-
 function addCol(){
   var table = document.getElementById("myTable");
   
@@ -50,16 +48,24 @@ function delCol(){
 function fixTable(table){
   var rnum = table.rows.length;
   var cnum = table.rows[0].cells.length;
+  var row_h = 85 / rnum;
+  var col_w =  `${100 / cnum}%`;
   for(i = 0; i < rnum; i++){
-    for(var j=0; cell1 = table.rows[i].cells[j]; j++){
-      cell1.style.width = `${100 / cnum}%`;
-      cell1.style.height = `${85 / rnum}vh`;
+    for(var j=0; j < cnum; j++){
+      cell1 = table.rows[i].cells[j];
+      cell1.style.width = col_w;
+      cell1.style.height = `${row_h}vh`
+      ;
 
-      var canvas = document.getElementById("c" + cell1.id);
+      var box = document.getElementById(cell1.id + "_draw");
+      if(box){
+        box.style.height = (row_h - drawZoneHeight(td)) + "vh";;
+      }
+      /*var canvas = document.getElementById("c" + cell1.id);
       if(canvas){
         resizeCanvas(cell1, canvas);
         drawCurve(cell1, canvas);
-      }
+      }*/
     }
   }
 }
