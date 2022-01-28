@@ -1,4 +1,4 @@
-function drawLine(c, ctx){
+function myDrawLine(c, ctx){
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(c.width, c.height);
@@ -13,17 +13,25 @@ function drawRect(c, ctx){
     return false;
 }
 
-function drawBezier(c){
-    var ctx = c.getContext("2d");
-    ctx.clearRect(0, 0, c.width, c.height);
-    ctx.strokeStyle = "rgb(102, 51, 153)";
-    ctx.lineWidth = 5;
+function drawBezier(c, ctx){
+    ctx.beginPath();
     ctx.moveTo(20, 20);
     ctx.bezierCurveTo(20, 100, 200, 100, 200, 20);
     ctx.stroke();
-    //ctx.strokeRect(100, 100, c.width - 200, c.height -200);
     return false;
 }
+
+function drawBezierInteractive(box){
+    box.className = "centered";
+    box.width = "800";
+    box.height = "600";
+    box.id = "curves";
+    
+    window.onload = function () {
+        new App().run(this.window);
+    };
+}
+
 
 function resizeCanvas(t, canvas){
     canvas.width = t.offsetWidth - 20;

@@ -2,16 +2,9 @@ function clearWindow(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
-    
 }
 
 function createWindow(td, title){
-    /*var td_box = document.createElement("div");
-    td_box.id = td.id + "_wrapper";
-    td_box.className = "td-wrapper";
-    td.appendChild(td_box);*/
-    //var td_box = td;
-    
     td.appendChild(createHeader(td.id, title));
     td.appendChild(createControls(td.id));
     td.appendChild(createCurve(td, title));
@@ -30,7 +23,7 @@ function createHeader(td_id, title){
 
 function createNumInput(title){
     var div = document.createElement("div");
-    div.id = title + "_input";
+    div.id = title + "_input_wrapper";
     div.className = "control-input";
 
     var text = document.createTextNode(title + " ");
@@ -42,6 +35,7 @@ function createNumInput(title){
     input.value = "3";
     input.size = "1";
     input.className ="input-num";
+    input.id = title + "_input";
     div.appendChild(input);
 
     return div;
@@ -95,9 +89,6 @@ function drawZoneHeight(td){
     var td_header = document.getElementById(td.id + "_header");
     var header_height = td_header.offsetHeight;
     var controls_height = td_controls.offsetHeight;
-    //var td_height = td.offsetHeight;
-    //var num = td_height - header_height - controls_height;
-    //var h = `${num}px`;
     return header_height + controls_height;
 }
 
@@ -106,26 +97,29 @@ function createCurve(td, title){
     box.id = td.id + "_draw";
     box.style.borderColor = "blue";
     box.style.borderStyle = "solid";
-    box.style.width = "100%";
-    box.style.height = (td.offsetHeight - drawZoneHeight(td)) + "px";
+    var bw = (td.offsetWidth - 30);
+    var bh = (td.offsetHeight - drawZoneHeight(td));
+    box.width = bw;
+    box.height = bh;
 
-    /*
-    var c = createCanvas(td);
-    var ctx = c.getContext("2d");
-    ctx.clearRect(0, 0, c.width, c.height);
+    var ctx = box.getContext("2d");
+    ctx.clearRect(0, 0, box.width, box.height);
     ctx.strokeStyle = "rgb(102, 51, 153)";
     ctx.lineWidth = "5px";
-
+  
     switch(title){
         case "Bezier":
-            drawBezier(c, ctx);
+            drawBezier(box, ctx);
             break;
         case "Monomial":
-            drawRect(c, ctx);
+            drawRect(box, ctx);
             break;
+        //case "Lagrange":
+            //drawBezierInteractive(box);
+        //    break;
         default:
-            drawLine(c, ctx);
+            myDrawLine(box, ctx);
             break;
-    }*/
+    }
     return box;
 }
