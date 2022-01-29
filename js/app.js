@@ -5,15 +5,15 @@ function App() {
 
 App.prototype.constants = {
     colors: {
-        CURVE: 'rgba(200, 20, 0, 1.0)',
-        CURVE_POINTS: 'rgba(200, 0, 20, 0.3)',
-        CURVE_POINTS_CURRENT: 'rgba(200, 0, 20, 1.0)',
-        CURVE_POINTS_CURRENT_OUTLINE: 'rgba(0, 0, 0, 1.0)',
-        PRIMARY_CONTROL_LINE: 'rgba(0, 0, 0, 1.0)',
-        PRIMARY_CONTROL_POINTS: 'rgba(0, 0, 0, 1.0)',
-        PRIMARY_CONTROL_POINTS_OUTLINE: 'rgba(0, 0, 0, 1.0)',
-        SECONDARY_CONTROL_LINES: 'rgba(0, 200, 20, 1.0)',
-        BACKGROUND_COLOR: 'rgba(250, 250, 250, 1.0)'
+        CURVE: 'rgba(255, 255, 255, 1.0)',
+        CURVE_POINTS: 'rgba(255, 255, 255, 0.5)',
+        CURVE_POINTS_CURRENT: 'rgba(255, 255, 255, 1.0)',
+        CURVE_POINTS_CURRENT_OUTLINE: 'rgba(102, 51, 153, 1.0)',
+        PRIMARY_CONTROL_LINE: 'rgba(102, 51, 153, 1.0)',
+        PRIMARY_CONTROL_POINTS: 'rgba(102, 51, 153, 1.0)',
+        PRIMARY_CONTROL_POINTS_OUTLINE: 'rgba(102, 51, 153, 1.0)',
+        SECONDARY_CONTROL_LINES: 'rgba(155, 255, 246, 1.0)',
+        BACKGROUND_COLOR: 'rgba(0, 0, 0, 1.0)'
     },
     CONTROL_POINT_WIDTH_HEIGHT: 10,
     CURVE_POINT_RADIUS: 5,
@@ -31,7 +31,7 @@ App.prototype.init = function(window) {
     this.window = window;
     this.canvas = document.getElementById('curves');
     this.ctx = this.canvas.getContext('2d');
-    
+
     // Gather initial values from DOM controls
     this.gatherUserInput();
 
@@ -85,24 +85,13 @@ App.prototype.init = function(window) {
 
     // Add event listener to handle any of the control values changing
     var app = this;
-    document.getElementById('stepControl').addEventListener('input', function(evt) {
+    document.getElementById('Steps_input').addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.update();
     }.bind(this));
 
-    // Add a mouse-click listener to the group of curve order radio buttons
-    var orderOptions = document.getElementsByName('order-group');
-    for (var optionIndex = 0; optionIndex < orderOptions.length; optionIndex++) {
-        var option = orderOptions[optionIndex];
-        option.addEventListener('click', function(evt) {
-            app.gatherUserInput();
-            app.generateControlPoints();
-            app.update();
-        });
-    }
-
     // Add an input listener to the custom curve order value input control
-    document.getElementById('custom-order').addEventListener('input', function(evt) {
+    document.getElementById('Order_input').addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.generateControlPoints();
         app.update();
@@ -230,36 +219,15 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
 /**
  * Refreshes the stored user-inputted values to match what is currently in the UI
  */
-App.prototype.gatherUserInputX = function() {
-    // Step control component
-    this.numSteps = parseInt(document.getElementById('stepControl').value);
-
-    // Order radio button group
-    this.orderSelection = document.querySelector('input[name="order-group"]:checked').value;
-    if (this.orderSelection === 'custom')
-        this.orderSelection = parseInt(document.getElementById('custom-order').value) + 1;
-    else
-        this.orderSelection = parseInt(this.orderSelection);
-
-    // Custom-order slider value
-    this.tSliderValue = document.getElementById('tSlider').value;
-    this.tValue = (this.tSliderValue / this.numSteps);
-};
-
-/**
- * Refreshes the stored user-inputted values to match what is currently in the UI
- */
- App.prototype.gatherUserInput = function() {
-    
+App.prototype.gatherUserInput = function() {
     // Step control component
     this.numSteps = parseInt(document.getElementById('Steps_input').value);
 
-    alert(this.numSteps);
     // Order radio button group
-    this.orderSelection = parseInt(document.getElementById('Order_input').value);
+    this.orderSelection = parseInt(document.getElementById('Order_input').value) + 1;
 
-    // Custom-order slider value
-    this.tSliderValue = document.getElementById('myRange').value;
+    // Order_input slider value
+    this.tSliderValue = document.getElementById('tSlider').value;
     this.tValue = (this.tSliderValue / this.numSteps);
 };
 

@@ -70,7 +70,8 @@
 
 #tValue{
     display: inline-block;
-    width: 25px;
+    width: 100px;
     text-align: left;
     margin-top: 10px;
+    overflow: hidden;
 }

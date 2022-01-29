@@ -22,14 +22,17 @@ function drawBezier(c, ctx){
 }
 
 function drawBezierInteractive(box){
-    box.className = "centered";
-    box.width = "800";
-    box.height = "600";
-    box.id = "curves";
     
+    box.className = "centered";
+    //box.width = "800";
+    //box.height = "600";
+    box.id = "curves";
+    var a = new App();
+    a.run(this.window);
+    /*
     window.onload = function () {
         new App().run(this.window);
-    };
+    };*/
 }
 
 

@@ -9,12 +9,14 @@ function drag(ev) {
 function drop(ev) {  
     ev.preventDefault();
     
-    clearWindow(ev.target);
+    //clearWindow(ev.target);
     
     var data = ev.dataTransfer.getData("text");
     var btn = document.getElementById(data);
     var title = btn.firstElementChild.innerHTML;
     
-    createWindow(ev.target, title);
+    //createWindow(ev.target, title);
+    changeHeader(title);
+    //alert(title);
     
 }
