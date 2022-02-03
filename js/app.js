@@ -26,10 +26,11 @@ App.prototype.constants = {
  * Sets the starting values for the app, both environmental references and starting curve data
  * @param window - the browser window object
  */
-App.prototype.init = function(window, td_id) {
+App.prototype.init = function(window, td_id, title) {
     // Capture the window and canvas elements
     this.window = window;
     this.td_id = td_id;
+    this.title = title;
     this.canvas = document.getElementById(this.td_id + '_canvas');
     this.ctx = this.canvas.getContext('2d');
 
@@ -260,7 +261,7 @@ App.prototype.buildCurves = function() {
     // Generate the set of curves for each order
     for (var step = 0, t = 0; step < this.numSteps; step++, t = step/(this.numSteps - 1)) {
         curves.push(
-            new Curve(controlPoints, t)
+            new Curve(controlPoints, t, this.title)
         );
     }
     return curves;
@@ -309,7 +310,7 @@ App.prototype.checkPointHover = function(point, padding) {
  * initial 'update'. Subsequent updates will be performed in response to user-driven events
  * @param window - The browser window object
  */
-App.prototype.run = function(window, td_id) {
+App.prototype.run = function(window, td_id, title) {
     this.init(window, td_id);
     this.update();
 };

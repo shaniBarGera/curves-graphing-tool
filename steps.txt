@@ -1,0 +1,2 @@
+add more functions
+fix window sizes when split window (maybe add initial content?)

@@ -14,7 +14,7 @@ function Point(x, y) {
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
-function Curve(controlPoints, t) {
+function Curve(controlPoints, t, title) {
     if (controlPoints.length === 1) {
         this.point = controlPoints[0];
         this.controlPoints = null;
@@ -23,7 +23,8 @@ function Curve(controlPoints, t) {
     else {
         this.point = null;
         this.controlPoints = controlPoints;
-        this.curve = new Curve(bezier(controlPoints, t), t);
+        
+        this.curve = new Curve(bezier(controlPoints, t), t, title);
     }
 }
 

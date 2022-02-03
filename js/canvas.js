@@ -36,7 +36,7 @@ function drawBezierInteractive(box){
 }
 
 
-function resizeCanvas(t, canvas){
+/*function resizeCanvas(t, canvas){
     canvas.width = t.offsetWidth - 20;
     canvas.height = t.offsetHeight;
 }
@@ -49,4 +49,4 @@ function createCanvas(t){
     canvas.style.display = "inline-block";
     resizeCanvas(t, canvas);
     return canvas;
-}
+}*/
