@@ -26,10 +26,11 @@ App.prototype.constants = {
  * Sets the starting values for the app, both environmental references and starting curve data
  * @param window - the browser window object
  */
-App.prototype.init = function(window) {
+App.prototype.init = function(window, td_id) {
     // Capture the window and canvas elements
     this.window = window;
-    this.canvas = document.getElementById('curves');
+    this.td_id = td_id;
+    this.canvas = document.getElementById(this.td_id + '_canvas');
     this.ctx = this.canvas.getContext('2d');
 
     // Gather initial values from DOM controls
@@ -85,20 +86,20 @@ App.prototype.init = function(window) {
 
     // Add event listener to handle any of the control values changing
     var app = this;
-    document.getElementById('Steps_input').addEventListener('input', function(evt) {
+    document.getElementById('Steps_input_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.update();
     }.bind(this));
 
     // Add an input listener to the custom curve order value input control
-    document.getElementById('Order_input').addEventListener('input', function(evt) {
+    document.getElementById('Order_input_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.generateControlPoints();
         app.update();
     });
 
     // Add an input listener to the slider control
-    document.getElementById('tSlider').addEventListener('input', function(evt) {
+    document.getElementById('tSlider_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.update();
     });
@@ -109,8 +110,8 @@ App.prototype.init = function(window) {
  */
 App.prototype.update = function() {
     this.curves = this.buildCurves();
-    document.getElementById('tValue').innerHTML = 't = ' + this.tValue;
-    document.getElementById('tSlider').setAttribute('max', this.numSteps);
+    document.getElementById('tValue_' + this.td_id).innerHTML = 't = ' + this.tValue;
+    document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
     this.draw();
 };
 
@@ -221,13 +222,13 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
  */
 App.prototype.gatherUserInput = function() {
     // Step control component
-    this.numSteps = parseInt(document.getElementById('Steps_input').value);
+    this.numSteps = parseInt(document.getElementById('Steps_input_' + this.td_id).value);
 
     // Order radio button group
-    this.orderSelection = parseInt(document.getElementById('Order_input').value) + 1;
+    this.orderSelection = parseInt(document.getElementById('Order_input_' + this.td_id).value) + 1;
 
     // Order_input slider value
-    this.tSliderValue = document.getElementById('tSlider').value;
+    this.tSliderValue = document.getElementById('tSlider_' + this.td_id).value;
     this.tValue = (this.tSliderValue / this.numSteps);
 };
 
@@ -308,7 +309,7 @@ App.prototype.checkPointHover = function(point, padding) {
  * initial 'update'. Subsequent updates will be performed in response to user-driven events
  * @param window - The browser window object
  */
-App.prototype.run = function(window) {
-    this.init(window);
+App.prototype.run = function(window, td_id) {
+    this.init(window, td_id);
     this.update();
 };
