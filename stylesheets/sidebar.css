@@ -1,8 +1,9 @@
 /* Fixed sidenav, full height */
 .sidenav {
-    background-image: linear-gradient(to left, #535353, rgb(29, 29, 29));
+    /*background-image: linear-gradient(to left, #535353, rgb(29, 29, 29));*/
+    background-color:  #535353;
     height: 100%;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.19), 0 17px 50px 0 rgba(0,0,0,0.24);
   }
   
@@ -19,7 +20,7 @@
     text-align: left;
     cursor: pointer;
     outline: none;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     
   }
   
@@ -30,12 +31,13 @@
     color: #dbd8d8;
     display: block;
     border: none;
+    border-bottom:  rgb(65, 65, 65) solid 2px;
     background: none;
     width: 100%;
     text-align: left;
     cursor: pointer;
     outline: none;
-    border-radius: 10px;
+    /*-radius: 10px;*/
     font-weight: bold;
   }
 
@@ -71,13 +73,15 @@
     background-color: #5f5f5f;
     /*background-image: linear-gradient(to left, #5f5f5f, rgb(46, 46, 46));*/
     border: none;
+    border-bottom:  rgb(65, 65, 65) solid 2px;
     /*font-family: 'Times New Roman', Times, serif;*/
     transition-duration: 0.4s;
-    width: 200px;
+    width: 100%;
   }
   
   .sidenav-btn:hover {
     background-color: rgb(150, 150, 150);
+    border-radius: 10px;
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.19), 0 17px 50px 0 rgba(0,0,0,0.24);
   }

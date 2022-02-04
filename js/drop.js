@@ -28,6 +28,7 @@ window.addEventListener("drop", function(event){
     //changeHeader(title);
     td.appendChild(createHeader(td_id, title), td.firstChild);
     td.appendChild(createControls(td_id));
+    td.appendChild(createFormula(td_id, title));
     td.appendChild(createCanvas(td));
     new App().run(this.window, td_id, title);
 });

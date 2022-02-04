@@ -78,12 +78,39 @@ function createControls(td_id){
     return controls;
 }
 
+function createFormula(td_id, title){
+    var formula = document.createElement("div");
+    formula.id = td_id + "_formula";
+    formula.className = "formula";
+    var text = document.createElement('a');
+    switch(title){
+        case "Monomial":
+            text.innerText = "L(t) = t^2 + t + 1";
+            break;
+        case "Lagrange":
+            text.innerText = "L(t) = t";
+            break;
+        case "Bezier":
+            text.innerText = "B(t) = P0 + t(P1-P0)";
+            break;
+        default:
+            text.innerText = title;
+            break;
+    }
+    formula.appendChild(text);
+    return formula;
+
+}
+
 function drawZoneHeight(td){
     var td_controls = document.getElementById(td.id + "_controls");
     var td_header = document.getElementById(td.id + "_header");
+    //var td_formula = document.getElementById(td.id + "_formula");
     var header_height = td_header.offsetHeight;
     var controls_height = td_controls.offsetHeight;
-    return header_height + controls_height;
+    //var formula_height = td_formula.offsetHeight;
+    var formula_height = 0;
+    return header_height + controls_height + formula_height;
 }
 
 function resizeCanvas(box, td){

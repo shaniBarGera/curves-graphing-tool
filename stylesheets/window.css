@@ -75,3 +75,21 @@
     margin-top: 10px;
     overflow: hidden;
 }
+
+.formula{
+    background-color: rgb(82, 82, 82);
+    display : inline-block;
+    vertical-align : top;
+    width : 100%;
+    height: fit-content;
+    text-align : center;
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.formula a{
+    color :  rgb(200, 200, 200);
+    font : 10px 'Cambria Math';
+    text-decoration : none;
+}

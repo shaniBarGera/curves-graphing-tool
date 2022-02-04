@@ -19,7 +19,8 @@ App.prototype.constants = {
     CURVE_POINT_RADIUS: 5,
     RANDOM_POINT_PADDING: 20,
     RANDOM_POINT_SPACING: 50,
-    LINE_WIDTH: 3
+    LINE_WIDTH: 3,
+    orders: ['Linear', 'Quadratic', 'Cubic', 'Quartic']
 };
 
 /**
@@ -111,6 +112,16 @@ App.prototype.init = function(window, td_id, title) {
  */
 App.prototype.update = function() {
     this.curves = this.buildCurves();
+    var order_num = this.controlPoints.length - 1;
+    var order = '';
+    if(order_num < 5){
+        var order = this.constants.orders[order_num - 1];
+        document.getElementById(this.td_id + '_header').firstChild.innerText = order + ' ' + this.title;
+    }
+    else{
+        document.getElementById(this.td_id + '_header').firstChild.innerText = this.title + ' (Order ' + order_num + ')';
+    }
+
     document.getElementById('tValue_' + this.td_id).innerHTML = 't = ' + this.tValue;
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
     this.draw();
@@ -311,6 +322,6 @@ App.prototype.checkPointHover = function(point, padding) {
  * @param window - The browser window object
  */
 App.prototype.run = function(window, td_id, title) {
-    this.init(window, td_id);
+    this.init(window, td_id, title);
     this.update();
 };
