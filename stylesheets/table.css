@@ -1,8 +1,9 @@
 #myTable {
-    width: 97%;
-    margin: 20px 20px 20px 20px;
-    height: 85vh;
+    width: 100%;
+    margin: 5px 5px 5px 5px;
+    height: 90vh;
     padding:0;
+    padding-right: 5px;
     border-spacing: 5px;
     table-layout: fixed;
     position: relative;
@@ -15,13 +16,11 @@ tr{
 }
   
 td {
-    border: 5px solid rgb(36, 35, 35);
+    border: 2px solid rgb(36, 35, 35);
     background-color: black;
     vertical-align: top;
-    
 }
   
-.td-wrapper{
-    
+.td-wrapper{    
     height: 100%;
 }

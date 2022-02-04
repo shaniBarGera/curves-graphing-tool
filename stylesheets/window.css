@@ -1,5 +1,5 @@
 .window-header{
-    background-image: linear-gradient(rgb(36, 35, 35), rgb(56, 55, 55), rgb(46, 45, 45));
+    /*background-image: linear-gradient(rgb(36, 35, 35), rgb(56, 55, 55), rgb(46, 45, 45));*/
     background-color: rgb(46, 45, 45);
     display : inline-block;
     vertical-align : top;
