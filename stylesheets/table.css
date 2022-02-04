@@ -3,8 +3,8 @@
     margin: 5px 5px 5px 5px;
     height: 90vh;
     padding:0;
-    padding-right: 5px;
-    border-spacing: 5px;
+    padding-right: 10px;
+    border-spacing: 2px;
     table-layout: fixed;
     position: relative;
 }

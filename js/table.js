@@ -54,13 +54,13 @@ function fixTable(table){
     for(var j=0; j < cnum; j++){
       cell1 = table.rows[i].cells[j];
       cell1.style.width = col_w;
-      cell1.style.height = `${row_h}vh`
-      ;
+      cell1.style.height = `${row_h}vh`;
 
-      var box = document.getElementById(cell1.id + "_draw");
+      /*var box = document.getElementById(cell1.id + "_canvas");
       if(box){
-        box.style.height = (row_h - drawZoneHeight(td)) + "vh";;
-      }
+        box.height = (row_h - drawZoneHeight(td)) + "vh";
+        box.width = col_w;
+      }*/
       /*var canvas = document.getElementById("c" + cell1.id);
       if(canvas){
         resizeCanvas(cell1, canvas);

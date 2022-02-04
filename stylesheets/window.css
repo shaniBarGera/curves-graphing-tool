@@ -13,7 +13,7 @@
 
 .window-header a{
     color : rgb(184, 184, 184);
-    font :bold 20px Arial, sans-serif;
+    font : bold 15px Arial, sans-serif;
     text-decoration : none;
 }
 
@@ -27,11 +27,10 @@
     padding: 10px;
     align-items: center;
     text-align: center;
-
 }
 
 .control-input{
-    display: inline-block;
+    display: inline-flex;
     margin-left: 10px;
     margin-right: 10px;
 }

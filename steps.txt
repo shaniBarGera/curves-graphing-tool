@@ -10,3 +10,4 @@ make table fixd height
 remove header white line on top
 change left side bar to hover and drop 
 make main box bigger and sidebars smaller
+switch between dark  mode and light mode

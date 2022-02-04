@@ -48,8 +48,14 @@ function createSlider(td_id){
 
     var label = document.createElement("label");
     label.id = "tValue_" + td_id;
+    label.style.width = "60px";
+    label.style.height = "20px";
+    label.style.display = "inline-block";
+    label.style.overflow = "hidden";
+    label.style.textAlign = "left";
+    label.style.marginLeft = "2px";
     label.innerHTML = "t = 0.0";
-    div.appendChild(label);
+    
 
     var input = document.createElement("input");
     input.type = "range";
@@ -59,9 +65,10 @@ function createSlider(td_id){
     input.value = "0";
     input.className = "slider";
     input.oninput = function(){
-        label.innerHTML = "t = " + this.value.toFixed(2);
+        label.innerHTML = "t = " + this.value.toFixed(3);
     }
     div.appendChild(input);
+    div.appendChild(label);
     return div;
 }
 
@@ -85,14 +92,14 @@ function createFormula(td_id, title){
     var text = document.createElement('a');
     switch(title){
         case "Monomial":
-            text.innerText = "L(t) = t^2 + t + 1";
+            text.innerText = "B(t) = P0 + t(P1-P0)";
             break;
         case "Lagrange":
             text.innerText = "L(t) = t";
             break;
-        case "Bezier":
-            text.innerText = "B(t) = P0 + t(P1-P0)";
-            break;
+        /*case "Bezier":
+            formula.innerHTML = '<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4aead49f2dc6a80c8f4018274355e8f48c38573a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -6.005ex; width:96.275ex; height:13.176ex;" alt="{\displaystyle {\begin{aligned}\mathbf {B} (t)&amp;=\sum _{i=0}^{n}{n \choose i}(1-t)^{n-i}t^{i}\mathbf {P} _{i}\\&amp;=(1-t)^{n}\mathbf {P} _{0}+{n \choose 1}(1-t)^{n-1}t\mathbf {P} _{1}+\cdots +{n \choose n-1}(1-t)t^{n-1}\mathbf {P} _{n-1}+t^{n}\mathbf {P} _{n},&amp;&amp;0\leqslant t\leqslant 1\end{aligned}}}">';
+            break;*/
         default:
             text.innerText = title;
             break;

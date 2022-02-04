@@ -1,3 +1,19 @@
+.hamburger{
+  cursor: pointer;
+  color: #ddd;
+  font-size: 20px;
+  margin-right: 20px;
+  background-color: #2a2a2a;
+  border: none;
+  width: fit-content;
+}
+
+.hamburger:hover{
+  color: white;
+  background-color: rgb(71, 71, 71);
+  border-radius: 100%;
+}
+
 /* Fixed sidenav, full height */
 .sidenav {
     /*background-image: linear-gradient(to left, #535353, rgb(29, 29, 29));*/
@@ -8,12 +24,12 @@
   box-shadow: 20px 0px 0px rgba(255, 255, 255, 0.247);
     /*border-radius: 10px;*/
   }
-  
+
   /* Style the sidenav links and the dropdown button */
   .sidenav a, .dropdown-btn {
     padding: 6px 8px 6px 16px;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 18px;
     color: #dbd8d8;
     display: block;
     border: none;

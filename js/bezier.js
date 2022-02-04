@@ -23,8 +23,13 @@ function Curve(controlPoints, t, title) {
     else {
         this.point = null;
         this.controlPoints = controlPoints;
-        
-        this.curve = new Curve(bezier(controlPoints, t), t, title);
+        switch(title){
+            case "Bezier":
+                this.curve = new Curve(bezier(controlPoints, t), t, title);
+                break;
+            default:
+                break;
+        }
     }
 }
 

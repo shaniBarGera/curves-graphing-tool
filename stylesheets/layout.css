@@ -15,21 +15,21 @@ body {
 
 header{
    height: fit-content;
-   /*background-image: linear-gradient(rgb(102, 51, 153), rgb(56, 56, 56));*/
    background-color: #2a2a2a;
-   text-align: left;
-   padding-top: 10px;
-   padding-bottom: 10px;
-   padding-left: 20px;
+   padding: 10px;
    margin: 0px;
+   text-align: center;
    box-shadow: 3px 1px 6px rgb(0 0 0 / 20%);
    border-bottom: 1px solid #000;
+   display: grid;
+   grid-template-columns: 50px auto;
+
 }
 
 header a{
    color: #ddd;
    font-size: 20px;
-   font-family: Arial, sans-serif;
+   font-family: bold Arial, sans-serif;
    letter-spacing: 0.43px;
 }
 
@@ -50,8 +50,7 @@ footer a{
 
 section {
    height: 100%;
-   display: grid;
-   grid-template-columns: 170px auto 40px;
+   display: flex;
 }
 
 #right-nav{
@@ -63,7 +62,8 @@ section {
 }
 
 #left-nav{
-   width: fit-content;
+   display: none;
+   width: 180px;
    /*background-color: rgb(56, 56, 56);*/
    background-color: #000000;
    border-right: 1px solid rgba(0,0,0,0.2);
