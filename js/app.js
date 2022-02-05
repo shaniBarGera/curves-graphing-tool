@@ -122,53 +122,34 @@ App.prototype.update = function() {
     document.getElementById('tValue_' + this.td_id).innerHTML = 't = ' + this.tValue;
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
 
-    this.buildCurves();
+    this.curves = this.buildCurves();
     this.draw();
 };
 
-App.prototype.buildCurves = function(){
-    switch(this.title){
-        case "Bezier":
-            this.curves = this.buildBezierCurves();
-            break;
-        default:
-            this.curves = this.buildLinearCurves();
-            break;
-    }
-}
-
 /**
  * Method called to recalculate the curve data from the currently stored user-inputted values. This should be called
  * every time any curve-related value is changed
  * @returns {Array}
  */
-App.prototype.buildBezierCurves = function() {
-    var controlPoints = this.controlPoints;
-    var curves = [];
-
-    // Generate the set of curves for each order
-    for (var step = 0, t = 0; step < this.numSteps; step++, t = step/(this.numSteps - 1)) {
-        curves.push(
-            new BezierCurve(controlPoints, t)
-        );
-    }
-    return curves;
-};
-
-/**
- * Method called to recalculate the curve data from the currently stored user-inputted values. This should be called
- * every time any curve-related value is changed
- * @returns {Array}
- */
- App.prototype.buildLinearCurves = function() {
+App.prototype.buildCurves = function() {
     var controlPoints = this.controlPoints;
     var curves = [];
 
     // Generate the set of curves for each order
     for (var step = 0; step < this.numSteps; step++) {
-        curves.push(
-            new LinearCurve(controlPoints, step, this.numSteps)
-        );
+        switch(this.title){
+            case "Bezier":
+                var t = step/(this.numSteps - 1);
+                var curve = new BezierCurve(controlPoints, t);
+                break;
+            case "Splines":
+                var curve = new CSPL(controlPoints, step, this.numSteps);
+                break;
+            default:
+                var curve = new LinearCurve(controlPoints, step, this.numSteps);
+                break;
+        }
+        curves.push(curve);
     }
     console.log(curves);
     return curves;
@@ -205,7 +186,6 @@ App.prototype.draw = function() {
         
         var curve = this.curves[step];
         
-
         if(this.title == "Bezier"){
             this.drawSubCurve(step);
 

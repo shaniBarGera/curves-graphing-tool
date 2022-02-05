@@ -79,7 +79,7 @@ function createControls(td_id){
     controls.className = "controls";
 
     controls.appendChild(createNumInput(td_id, "Order", 2));
-    controls.appendChild(createNumInput(td_id, "Steps", 7));
+    controls.appendChild(createNumInput(td_id, "Steps", 4));
     controls.appendChild(createSlider(td_id));
 
     return controls;
