@@ -1,20 +1,10 @@
-/**
- * Creates a new 2-D Point object
- * @param x - The value of the point in the first dimension
- * @param y - The value of the point in the second dimension
- * @constructor
- */
-function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
 
 /**
  * Creates a curve object
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
-function Curve(controlPoints, t, title) {
+function BezierCurve(controlPoints, t) {
     if (controlPoints.length === 1) {
         this.point = controlPoints[0];
         this.controlPoints = null;
@@ -23,13 +13,7 @@ function Curve(controlPoints, t, title) {
     else {
         this.point = null;
         this.controlPoints = controlPoints;
-        switch(title){
-            case "Bezier":
-                this.curve = new Curve(bezier(controlPoints, t), t, title);
-                break;
-            default:
-                break;
-        }
+        this.curve = new BezierCurve(bezier(controlPoints, t), t);
     }
 }
 
