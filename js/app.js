@@ -1,4 +1,5 @@
 function App() {
+    
 }
 
 App.prototype.constants = {
@@ -163,7 +164,7 @@ App.prototype.buildCurves = function() {
         }
         curves.push(curve);
     }
-    console.log(curves);
+    
     return curves;
 };
 

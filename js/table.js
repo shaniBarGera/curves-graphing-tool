@@ -56,8 +56,15 @@ function fixTable(table){
       cell1.style.width = col_w;
       cell1.style.height = `${row_h}vh`;
 
-      /*var box = document.getElementById(cell1.id + "_canvas");
-      if(box){
+      console.log(i, j);
+      var box = document.getElementById(cell1.id + "_canvas");
+      /*var header = document.getElementById(cell1.id + "_header");
+      var text = header.firstChild;
+      var title = text.innerText;
+      cell1.removeChild(box);
+      createCanvas(cell1);
+      new App().run(this.window, cell1.id, title);*/
+      /*if(box){
         box.height = (row_h - drawZoneHeight(td)) + "vh";
         box.width = col_w;
       }*/
