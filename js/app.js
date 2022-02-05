@@ -142,11 +142,14 @@ App.prototype.buildCurves = function() {
                 var t = step/(this.numSteps - 1);
                 var curve = new BezierCurve(controlPoints, t);
                 break;
-            case "Splines":
+            case "Cubic Spline":
                 var curve = new CSPL(controlPoints, step, this.numSteps);
                 break;
             case "Lagrange":
                 var curve = new LagrangeCurve(controlPoints, step, this.numSteps);
+                break;
+            case "B-Spline":
+                var curve = new BSpline(controlPoints, step, this.numSteps);
                 break;
             default:
                 var curve = new LinearCurve(controlPoints, step, this.numSteps);
@@ -300,27 +303,6 @@ App.prototype.generateControlPoints = function() {
             )
         );
     }
-};
-
-
-
-
-/**
- * Method called to recalculate the curve data from the currently stored user-inputted values. This should be called
- * every time any curve-related value is changed
- * @returns {Array}
- */
- App.prototype.buildSplinesCurves = function() {
-    var controlPoints = this.controlPoints;
-    var curves = [];
-
-    // Generate the set of curves for each order
-    for (var step = 0, t = 0; step < this.numSteps; step++, t = step/(this.numSteps - 1)) {
-        curves.push(
-            new SplinesCurve(controlPoints, t)
-        );
-    }
-    return curves;
 };
 
 
