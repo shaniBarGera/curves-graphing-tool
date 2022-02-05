@@ -151,6 +151,12 @@ App.prototype.buildCurves = function() {
             case "B-Spline":
                 var curve = new BSpline(controlPoints, step, this.numSteps);
                 break;
+            case "Cubic Hermite Spline":
+                var curve = new CHSPL(controlPoints, step, this.numSteps);
+                break;
+            case "Monomial Basis":
+                var curve = new MonomialCurve(controlPoints, step, this.numSteps);
+                break;
             default:
                 var curve = new LinearCurve(controlPoints, step, this.numSteps);
                 break;

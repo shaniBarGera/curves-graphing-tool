@@ -3,7 +3,7 @@
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
- function CSPL(controlPoints, step, num_steps) {
+ function CHSPL(controlPoints, step, num_steps) {
     this.cp = controlPoints;
     this.step_n = num_steps;
     this.cp_n = controlPoints.length;  
@@ -15,28 +15,33 @@
         return;
     }
 
-    this.Arr = CSPL._gaussJ.zerosMat(this.cp_n, this.cp_n);
-    CSPL.fillMatrix(this.Arr);
+    this.Arr = CHSPL._gaussJ.zerosMat(this.cp_n, this.cp_n);
+    CHSPL.fillMatrix(this.Arr);
 
     this.xs = [];
     this.ys = [];
-    CSPL.fillXY(this.xs, this.ys, controlPoints);
+    CHSPL.fillXY(this.xs, this.ys, controlPoints);
 
     this.x_RHS = [];
     buildKnotsRHS(this.cp_n, this.xs, this.x_RHS);
     this.y_RHS = [];
     buildKnotsRHS(this.cp_n, this.ys, this.y_RHS);
 
-    this.Arr_temp = CSPL._gaussJ.zerosMat(this.cp_n, this.cp_n + 1);
+    // CHANGE: get xks,xky by input
+    // by default use gauss solve
+    // use inputs dx, dy for control point i as xks[i], yks[i]
+    // dx,dy will be inputed by tangents(mashik) to control points that user could rotate and stretch
+    this.Arr_temp = CHSPL._gaussJ.zerosMat(this.cp_n, this.cp_n + 1);
     copy_arr(this.Arr, this.Arr_temp, this.x_RHS, this.cp_n);
     this.xks = [];
-    CSPL._gaussJ.solve(this.Arr_temp, this.xks);
+    CHSPL._gaussJ.solve(this.Arr_temp, this.xks);
     
     copy_arr(this.Arr, this.Arr_temp, this.y_RHS, this.cp_n);
     this.yks = [];
-    CSPL._gaussJ.solve(this.Arr_temp, this.yks);
-    console.log(this.xks, this.yks);
+    CHSPL._gaussJ.solve(this.Arr_temp, this.yks);
 
+    this.xks[2] *= 5;
+    this.yks[2] *= 5;
 
     var relative_pos = findRelativePos(this.cp_n, num_steps, step);
     var i = relative_pos[0];
@@ -44,7 +49,6 @@
     
     this.point = interpolateXY(i, t, this.xs, this.ys, this.xks, this.yks);
    
-    
     console.log(this);
 }
 
@@ -68,45 +72,9 @@ function interpolateXY(i, t, xs, ys, xks, yks){
     console.log(x,y);
     return new Point(x,y);
 }
-
-/**
- * Find relative position of step
- * @param n - control points num
- * @param step
- * @param num_steps
- * @returns interval index, position in interval
- */
- function findRelativePos(n, num_steps, step){
-    // console.log("begin");
-    //console.log(n, num_steps, step);
-    var global_relative_pos = (step / (num_steps -1)) * (n-1);
-    var interval_index = Math.floor(global_relative_pos);
-    var t = global_relative_pos - interval_index;
-    //console.log(global_relative_pos, interval_index, t);
-    return [interval_index, t];
- }
-
-
-/**
- * Calculate right hand side of equations for xs or ys
- * @param n - size of cs vector
- * @param cs - vector of control points cooridnates (xs or ys)
- * @returns vector of right hand side of equations
- */
-function buildKnotsRHS(n, cs, RHS){
-    for(var i; i < n; ++i){
-        RHS[i] = 0;
-    }
-    var cn = 6;
-    RHS[0] = cn * (cs[1] - cs[0]);
-    RHS[n-1] = cn * (cs[n-1] - cs[n-2]);
-    for(var i = 1; i < n-1; ++i){
-        RHS[i] = cn * (cs[i+1] - cs[i-1]);
-    }
-}
 	
-CSPL._gaussJ = {};
-CSPL._gaussJ.solve = function(A, x)	// in Matrix, out solutions
+CHSPL._gaussJ = {};
+CHSPL._gaussJ.solve = function(A, x)	// in Matrix, out solutions
 {
     var m = A.length;
     for(var k=0; k<m; k++)	// column
@@ -114,7 +82,7 @@ CSPL._gaussJ.solve = function(A, x)	// in Matrix, out solutions
         // pivot for column
         var i_max = 0; var vali = Number.NEGATIVE_INFINITY;
         for(var i=k; i<m; i++) if(Math.abs(A[i][k])>vali) { i_max = i; vali = Math.abs(A[i][k]);}
-        CSPL._gaussJ.swapRows(A, k, i_max);
+        CHSPL._gaussJ.swapRows(A, k, i_max);
         
         //if(A[k][k] == 0) console.log("matrix is singular!");
         
@@ -137,15 +105,15 @@ CSPL._gaussJ.solve = function(A, x)	// in Matrix, out solutions
         }
     }
 }
-CSPL._gaussJ.zerosMat = function(r,c) {var A = []; for(var i=0; i<r; i++) {A.push([]); for(var j=0; j<c; j++) A[i].push(0);} return A;}
-CSPL._gaussJ.printMat = function(A){ for(var i=0; i<A.length; i++) console.log(A[i]); }
-CSPL._gaussJ.swapRows = function(m, k, l) {var p = m[k]; m[k] = m[l]; m[l] = p;}
+CHSPL._gaussJ.zerosMat = function(r,c) {var A = []; for(var i=0; i<r; i++) {A.push([]); for(var j=0; j<c; j++) A[i].push(0);} return A;}
+CHSPL._gaussJ.printMat = function(A){ for(var i=0; i<A.length; i++) console.log(A[i]); }
+CHSPL._gaussJ.swapRows = function(m, k, l) {var p = m[k]; m[k] = m[l]; m[l] = p;}
     
     
-CSPL.getNaturalKs = function(xs, ys, ks)	// in x values, in y values, out k values
+CHSPL.getNaturalKs = function(xs, ys, ks)	// in x values, in y values, out k values
 {
     var n = xs.length-1;
-    var A = CSPL._gaussJ.zerosMat(n+1, n+2);
+    var A = CHSPL._gaussJ.zerosMat(n+1, n+2);
         
     for(var i=1; i<n; i++)	// rows
     {
@@ -166,7 +134,7 @@ CSPL.getNaturalKs = function(xs, ys, ks)	// in x values, in y values, out k valu
     A[n][n  ] = 2/(xs[n] - xs[n-1]);
     A[n][n+1] = 3 * (ys[n] - ys[n-1]) / ((xs[n]-xs[n-1])*(xs[n]-xs[n-1]));
         
-    CSPL._gaussJ.solve(A, ks);		
+    CHSPL._gaussJ.solve(A, ks);		
 }
    
 
@@ -176,7 +144,7 @@ CSPL.getNaturalKs = function(xs, ys, ks)	// in x values, in y values, out k valu
  * @param xs array of sorted
  * @returns y for a specific x
  */
-CSPL.evalSpline = function(x, xs, ys, ks)
+CHSPL.evalSpline = function(x, xs, ys, ks)
 {
     var i = 1;
     while(xs[i]<x) i++;
@@ -200,7 +168,7 @@ function copy_arr(arr, newArray, RHS, n){
         
 }
 
-CSPL.fillXY = function(xs, ys, controlPoints){
+CHSPL.fillXY = function(xs, ys, controlPoints){
     for(var i = 0; i < controlPoints.length; ++i){
         xs[i] = controlPoints[i].x;
         ys[i] = controlPoints[i].y;
@@ -212,7 +180,7 @@ CSPL.fillXY = function(xs, ys, controlPoints){
  * @param n - control points num
  * @returns matrix the will calc the knots
  */
- CSPL.fillMatrix = function(Arr){
+ CHSPL.fillMatrix = function(Arr){
     var n = Arr.length;
     for(var i = 0; i < n; ++i){
         Arr[i][i] = 8; // fill diagonal with 8s
