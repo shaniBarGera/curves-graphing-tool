@@ -4,7 +4,7 @@ function App() {
 App.prototype.constants = {
     colors: {
         CURVE: 'rgba(255, 255, 255, 1.0)',
-        CURVE_POINTS: 'rgba(255, 255, 255, 0.5)',
+        CURVE_POINTS: 'rgba(255, 255, 255, 0.35)',
         CURVE_POINTS_CURRENT: 'rgba(255, 255, 255, 1.0)',
         CURVE_POINTS_CURRENT_OUTLINE: 'rgba(102, 51, 153, 1.0)',
         PRIMARY_CONTROL_LINE: 'rgba(102, 51, 153, 1.0)',
@@ -144,6 +144,9 @@ App.prototype.buildCurves = function() {
                 break;
             case "Splines":
                 var curve = new CSPL(controlPoints, step, this.numSteps);
+                break;
+            case "Lagrange":
+                var curve = new LagrangeCurve(controlPoints, step, this.numSteps);
                 break;
             default:
                 var curve = new LinearCurve(controlPoints, step, this.numSteps);

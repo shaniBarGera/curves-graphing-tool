@@ -40,8 +40,6 @@
     var i = relative_pos[0];
     var t = relative_pos[1];
     
-    
-
     this.point = interpolateXY(i, t, this.xs, this.ys, this.xks, this.yks);
    
     console.log(this);
@@ -225,51 +223,3 @@ CSPL.fillXY = function(xs, ys, controlPoints){
     Arr[0][0] = 4;
     Arr[n-1][n-1] = 4;
 }
-
-CSPL.calc_point = function(){
-    CSPL.fillMatrix(this.Arr);
-    /*var xs = new Array(n), ys = new Array(n);
-    for(var i = 0; i < n; ++i){
-        xs[i] = controlPoints[i].x;
-        ys[i] = controlPoints[i].y;
-    }
-    console.log(Arr);
-    console.log(xs);
-    console.log(ys);
-    var x_RHS = buildKnotsRHS(n, xs);
-    var y_RHS = buildKnotsRHS(n, ys);
-    
-    console.log(x_RHS);
-    console.log(y_RHS);
-
-    var newArray1 = copy_arr(Arr);
-    var newArray2 = copy_arr(Arr);
-    var xks = this._gaussJ.solve(newArray1, x_RHS);
-    var yks = this._gaussJ.solve(newArray2, y_RHS);
-
-    console.log(xks);
-    console.log(yks);
-
-    var relative_pos = findRelativePos(n, num_steps, step);
-    var i = relative_pos[0];
-    var t = relative_pos[1];
-    var prev_x = xs[i];
-    var next_x = xs[i + 1];
-    var prev_xk = xks[i];
-    var next_xk = xks[i + 1];
-    var prev_c_w = 1-3*Math.pow(t,2)+2*Math.pow(t,3);
-    var next_c_w = 3*Math.pow(t,2)-2*Math.pow(t,3);
-    var prev_k_w = t*Math.pow(1-t,2);
-    var next_k_w = Math.pow(t,2)*(t-1);
-
-    var prev_y = ys[i];
-    var next_y = ys[i + 1];
-    var prev_yk = yks[i];
-    var next_yk = yks[i + 1];
-
-    var x = prev_x * prev_c_w + next_x * next_c_w + prev_xk * prev_k_w + next_xk * new_k_w;
-    var y = prev_y * prev_c_w + next_y * next_c_w + prev_yk * prev_k_w + next_yk * new_k_w;*/
-    var x =0, y=0;
-    return new Point(x,y);
-}
-
