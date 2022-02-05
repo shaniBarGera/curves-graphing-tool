@@ -10,12 +10,6 @@
     this.cp_n = controlPoints.length;  
     this.step = step;
 
-    /*if(step >= num_steps -1){
-        this.point = controlPoints[this.cp_n - 1];
-        console.log(this);
-        return;
-    }*/
-
     this.Arr = MonomialCurve._gaussJ.zerosMat(this.cp_n, k);
     MonomialCurve.fillMatrix(this.Arr, this.cp_n, k);
     this.tArr = MonomialCurve._gaussJ.zerosMat(k, this.cp_n);
@@ -53,8 +47,6 @@
   
     this.point = new Point(x,y);
    
-    
-    console.log(this);
 }
 
  function transpose(a, n, k, at){

@@ -32,15 +32,9 @@
         this.L[i]= numerator / denominator;
         x += this.xs[i] * this.L[i];
         y += this.ys[i] * this.L[i];
-        console.log(i, numerator, denominator, x, y);
     }
     
-
-    //this.point = new Point(100+step, 200-100*this.L[1]);
     this.point = new Point(x, y);
-   
-    //this.point = new Point(0,0);
-    console.log(this);
 }
 
 LagrangeCurve.fillXY = function(xs, ys, controlPoints){

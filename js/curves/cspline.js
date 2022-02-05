@@ -11,7 +11,7 @@
 
     if(step >= num_steps -1){
         this.point = controlPoints[this.cp_n - 1];
-        console.log(this);
+ 
         return;
     }
 
@@ -35,7 +35,6 @@
     copy_arr(this.Arr, this.Arr_temp, this.y_RHS, this.cp_n);
     this.yks = [];
     CSPL._gaussJ.solve(this.Arr_temp, this.yks);
-    console.log(this.xks, this.yks);
 
 
     var relative_pos = findRelativePos(this.cp_n, num_steps, step);
@@ -44,8 +43,6 @@
     
     this.point = interpolateXY(i, t, this.xs, this.ys, this.xks, this.yks);
    
-    
-    console.log(this);
 }
 
 function interpolateXY(i, t, xs, ys, xks, yks){
@@ -65,7 +62,6 @@ function interpolateXY(i, t, xs, ys, xks, yks){
 
     var x = prev_x * prev_c_w + next_x * next_c_w + prev_xk * prev_k_w + next_xk * next_k_w;
     var y = prev_y * prev_c_w + next_y * next_c_w + prev_yk * prev_k_w + next_yk * next_k_w;
-    console.log(x,y);
     return new Point(x,y);
 }
 

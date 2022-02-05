@@ -1,6 +1,6 @@
 .window-header{
     /*background-image: linear-gradient(rgb(36, 35, 35), rgb(56, 55, 55), rgb(46, 45, 45));*/
-    background-color: rgb(46, 45, 45);
+    background-color: #2d2d2d;
     display : inline-block;
     vertical-align : top;
     width : 100%;
@@ -76,7 +76,7 @@
 }
 
 .formula{
-    background-color: black;
+    background-color: #1e1e1e;
     display : inline-block;
     vertical-align : top;
     width : 100%;

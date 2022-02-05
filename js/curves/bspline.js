@@ -35,11 +35,8 @@
         y += this.ys[i] * this.N[i];
         
     }
-    console.log(i, this.N, this.sumN, x, y, t);
+  
     this.point = new Point(x, y);
-   
-    //this.point = new Point(0,0);
-    console.log(this);
 }
 
 BSpline.fillXY = function(xs, ys, controlPoints, k, n, nk2){

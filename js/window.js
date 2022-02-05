@@ -125,26 +125,26 @@ function createFormula(td_id, title){
 function drawZoneHeight(td){
     var td_controls = document.getElementById(td.id + "_controls");
     var td_header = document.getElementById(td.id + "_header");
-    //var td_formula = document.getElementById(td.id + "_formula");
+    var td_formula = document.getElementById(td.id + "_formula");
     var header_height = td_header.offsetHeight;
     var controls_height = td_controls.offsetHeight;
-    //var formula_height = td_formula.offsetHeight;
-    var formula_height = 0;
+    var formula_height = td_formula.offsetHeight;
+    //var formula_height = 0;
     return header_height + controls_height + formula_height;
 }
 
 function resizeCanvas(box, td){
-    var bw = (td.offsetWidth - 30);
+    var bw = (td.offsetWidth - 10);
     var bh = (td.offsetHeight - drawZoneHeight(td));
+    console.log(bw, bh, box.width, box.height);
     box.width = bw;
     box.height = bh
+    console.log(bw, bh, box.width, box.height);
 }
 
 function createCanvas(td){
     var box = document.createElement("canvas");
     box.id = td.id + "_canvas";
-    box.style.border = "blue";
-    box.style.backgroundColor = "#1e1e1e";
     resizeCanvas(box, td);
     return box;
 }
