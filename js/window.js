@@ -89,22 +89,35 @@ function createFormula(td_id, title){
     var formula = document.createElement("div");
     formula.id = td_id + "_formula";
     formula.className = "formula";
-    var text = document.createElement('a');
-    switch(title){
+    //var text = document.createElement('a');
+    var img = document.createElement("img");
+   
+    img.src="imgs/bezier-formula.png";
+    img.height = "60";
+    formula.appendChild(img);
+    /*img.src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4aead49f2dc6a80c8f4018274355e8f48c38573a" 
+    img.class="mwe-math-fallback-image-inline" 
+    img.ariaHidden="true" ;
+    img.style.verticalAlign = '-6.005ex'; 
+    img.width = '96.275ex';     
+    img.height = '13.176ex'; 
+    img.alt="{\displaystyle {\begin{aligned}\mathbf {B} (t)&amp;=\sum _{i=0}^{n}{n \choose i}(1-t)^{n-i}t^{i}\mathbf {P} _{i}\\&amp;=(1-t)^{n}\mathbf {P} _{0}+{n \choose 1}(1-t)^{n-1}t\mathbf {P} _{1}+\cdots +{n \choose n-1}(1-t)t^{n-1}\mathbf {P} _{n-1}+t^{n}\mathbf {P} _{n},&amp;&amp;0\leqslant t\leqslant 1\end{aligned}}}";
+    formula.appendChild(img);*/
+    /*switch(title){
         case "Monomial":
             text.innerText = "B(t) = P0 + t(P1-P0)";
             break;
         case "Lagrange":
             text.innerText = "L(t) = t";
             break;
-        /*case "Bezier":
+        case "Bezier":
             formula.innerHTML = '<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4aead49f2dc6a80c8f4018274355e8f48c38573a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -6.005ex; width:96.275ex; height:13.176ex;" alt="{\displaystyle {\begin{aligned}\mathbf {B} (t)&amp;=\sum _{i=0}^{n}{n \choose i}(1-t)^{n-i}t^{i}\mathbf {P} _{i}\\&amp;=(1-t)^{n}\mathbf {P} _{0}+{n \choose 1}(1-t)^{n-1}t\mathbf {P} _{1}+\cdots +{n \choose n-1}(1-t)t^{n-1}\mathbf {P} _{n-1}+t^{n}\mathbf {P} _{n},&amp;&amp;0\leqslant t\leqslant 1\end{aligned}}}">';
-            break;*/
+            break;
         default:
             text.innerText = title;
             break;
     }
-    formula.appendChild(text);
+    formula.appendChild(text);*/
     return formula;
 
 }

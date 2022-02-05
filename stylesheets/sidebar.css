@@ -49,7 +49,7 @@
 
   .sidenav-btn {
     /*background-color: #5f5f5f;*/
-    background-color: #000000;;
+    background: linear-gradient(to right, #131313, #0a0a0a);
     /*background-image: linear-gradient(to left, #5f5f5f, rgb(46, 46, 46));*/
     border: none;
     border-bottom:  rgb(65, 65, 65) solid 2px;
@@ -59,31 +59,31 @@
   }
   
   .sidenav-btn:hover {
-    background-color: rgb(43, 43, 43);
+    background: rgb(43, 43, 43);
     border-radius: 10px;
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.19), 0 17px 50px 0 rgba(0,0,0,0.24);
   }
 
   .split-btn{
-    background-color: #5f5f5f;
-    border: black solid 3px;
+    background: linear-gradient(to right, #131313, #0a0a0a);
+    border: 1px solid rgb(109, 109, 109, 0.5);
     font-family: 'Times New Roman', Times, serif;
     transition-duration: 0.4s;
     width: 40px;
     height: 40px;
     text-align: cener;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 0px 5px 0 rgba(255, 255, 255, 0.19);
     border-radius: 5px;
     margin-bottom: 5px;
   }
 
   .split-btn:hover{
-    background-color: rgb(150, 150, 150);
+    background: rgb(43, 43, 43);
   }
 
   .split-btn a{
-    color: rgb(179, 179, 179);
+    color: #dbd8d8;
     font-size: 25px;
     font-weight: bolder;
   }

@@ -76,7 +76,7 @@
 }
 
 .formula{
-    background-color: rgb(82, 82, 82);
+    background-color: black;
     display : inline-block;
     vertical-align : top;
     width : 100%;
@@ -85,6 +85,7 @@
     margin: 0;
     padding-top: 5px;
     padding-bottom: 5px;
+    border-bottom: rgb(65, 65, 65) solid 2px; 
 }
 
 .formula a{

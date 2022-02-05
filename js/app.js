@@ -111,7 +111,6 @@ App.prototype.init = function(window, td_id, title) {
  * Recalculates the curve values and updates the slider based on the other UI values
  */
 App.prototype.update = function() {
-    this.curves = this.buildCurves();
     var order_num = this.controlPoints.length - 1;
     var order = '';
     if(order_num < 5){
@@ -124,23 +123,61 @@ App.prototype.update = function() {
 
     document.getElementById('tValue_' + this.td_id).innerHTML = 't = ' + this.tValue;
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
+
+    this.buildCurves();
     this.draw();
 };
 
+App.prototype.buildCurves = function(){
+    switch(this.title){
+        case "Bezier":
+            this.curves = this.buildBezierCurves();
+            break;
+        default:
+            this.curves = this.buildLinearCurves();
+            break;
+    }
+}
+
 /**
- * Renders the curve and all curve-related graphical elements in the app
+ * Method called to recalculate the curve data from the currently stored user-inputted values. This should be called
+ * every time any curve-related value is changed
+ * @returns {Array}
  */
-App.prototype.draw = function() {
+App.prototype.buildBezierCurves = function() {
+    var controlPoints = this.controlPoints;
+    var curves = [];
 
-    // Clear the render area
-    clearCanvas(this.ctx, this.canvas.width, this.canvas.height, this.constants.colors.BACKGROUND_COLOR);
+    // Generate the set of curves for each order
+    for (var step = 0, t = 0; step < this.numSteps; step++, t = step/(this.numSteps - 1)) {
+        curves.push(
+            new BezierCurve(controlPoints, t)
+        );
+    }
+    return curves;
+};
 
-    // Draw the curve and all of the control points
-    var prevPoint = null;
-    for (var step = 0, t = 0, point = null; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
+/**
+ * Method called to recalculate the curve data from the currently stored user-inputted values. This should be called
+ * every time any curve-related value is changed
+ * @returns {Array}
+ */
+ App.prototype.buildLinearCurves = function() {
+    var controlPoints = this.controlPoints;
+    var curves = [];
 
-        // If the current step matches the current slider value
-        if (step === parseInt(this.tSliderValue)) {
+    // Generate the set of curves for each order
+    for (var step = 0, t = 0; step < this.numSteps; step++, t = step/(this.numSteps - 1)) {
+        curves.push(
+            new LinearCurve(controlPoints, t)
+        );
+    }
+    return curves;
+};
+
+App.prototype.drawSubCurve = function(step) {
+           // If the current step matches the current slider value
+           if (step === parseInt(this.tSliderValue)) {
 
             // Draw all of the control points for the control curve at the current point
             var subCurve = this.curves[step];
@@ -153,13 +190,30 @@ App.prototype.draw = function() {
                 subCurve = subCurve.curve;
             }
         }
+}
+
+/**
+ * Renders the curve and all curve-related graphical elements in the app
+ */
+App.prototype.draw = function() {
+
+    // Clear the render area
+    clearCanvas(this.ctx, this.canvas.width, this.canvas.height, this.constants.colors.BACKGROUND_COLOR);
+
+    // Draw the curve and all of the control points
+    var prevPoint = null;
+    for (var step = 0, t = 0, point = null; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
+        
+        if(this.title == "Bezier"){
+            this.drawSubCurve(step);
+        }
 
         // Find the point for the current t
         var curve = this.curves[step];
         for (var curveNum = 0; curveNum < this.orderSelection - 1; ++curveNum) {
             curve = curve.curve;
         }
-
+        
         // Draw the curve segments
         prevPoint = point;
         point = curve.point;
@@ -167,6 +221,7 @@ App.prototype.draw = function() {
             drawLine(this.ctx, prevPoint.x, prevPoint.y, point.x, point.y, this.constants.LINE_WIDTH, this.constants.colors.CURVE);
         }
 
+        
         // Draw the curve points
         if (step === parseInt(this.tSliderValue)) {
             drawCircle(
@@ -190,10 +245,13 @@ App.prototype.draw = function() {
                 this.constants.colors.CURVE_POINTS
             )
         }
+        
     }
 
     // Draw the primary curve control points with connecting lines
     this.drawControlPoints(this.curves[0].controlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
+    
+
 };
 
 /**
@@ -260,23 +318,27 @@ App.prototype.generateControlPoints = function() {
     }
 };
 
+
+
+
 /**
  * Method called to recalculate the curve data from the currently stored user-inputted values. This should be called
  * every time any curve-related value is changed
  * @returns {Array}
  */
-App.prototype.buildCurves = function() {
+ App.prototype.buildSplinesCurves = function() {
     var controlPoints = this.controlPoints;
     var curves = [];
 
     // Generate the set of curves for each order
     for (var step = 0, t = 0; step < this.numSteps; step++, t = step/(this.numSteps - 1)) {
         curves.push(
-            new Curve(controlPoints, t, this.title)
+            new SplinesCurve(controlPoints, t)
         );
     }
     return curves;
 };
+
 
 /**
  * Utility method that returns a random int between min (inclusive) and max (exclusive)
