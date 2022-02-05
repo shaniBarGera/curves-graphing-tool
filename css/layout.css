@@ -16,12 +16,10 @@ body {
 
 header{
    height: fit-content;
-   background-color: #2a2a2a;
+   background-color: #2d2d2d;
    padding: 10px;
    margin: 0px;
    text-align: center;
-   box-shadow: 3px 1px 6px rgb(0 0 0 / 20%);
-   border-bottom: 1px solid #000;
    display: grid;
    grid-template-columns: 50px auto;
 
@@ -37,7 +35,7 @@ header a{
 
 footer{
    height: fit-content;
-   background-color: rgb(14, 14, 14);
+   background-color: #2d2d2d;
    text-align: center;
    padding-top: 5px;
    padding-bottom: 5px;
@@ -57,20 +55,19 @@ section {
 
 #right-nav{
    width: 40px;
-   background-color: #0a0a0a;
+   background-color: #1e1e1e;
    text-align: center;
    padding-top: 10px;
 }
 
 #left-nav{
    display: none;
-   width: 180px;
-   background-color: #0a0a0a;
-   border-right: 2px solid rgba(0,0,0,0.2);
-   border-bottom: 2px solid transparent;
+   width: 200px;
+   background-color: rgb(37,37,38);
+   border-right:  rgb(65, 65, 65) solid 2px;
 }
 
 main{
-   background-color: #0a0a0a;
+   background-color: #1e1e1e;
    width: 100%;
 }

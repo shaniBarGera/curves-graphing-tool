@@ -1,11 +1,9 @@
-allow to add more functions
-add monomial: allow user to define M(t)s (order 3 we will have 4 M(t))
+
 add formula
-add bezier animation
 clear window between drops
-make t_slider label fixed width
+fix t value display for all functions
 fix canvas when window size changes
-fix windows sizes when split window (maybe add initial content?)
+fix canvas when split window (maybe add initial content?)
 make table fixd height
 remove header white line on top
 change left side bar to hover and drop 

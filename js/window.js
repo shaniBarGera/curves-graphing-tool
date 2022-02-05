@@ -143,38 +143,8 @@ function resizeCanvas(box, td){
 function createCanvas(td){
     var box = document.createElement("canvas");
     box.id = td.id + "_canvas";
+    box.style.border = "blue";
+    box.style.backgroundColor = "#1e1e1e";
     resizeCanvas(box, td);
-    return box;
-}
-
-function createCurve(td, title){
-    var box = document.createElement("canvas");
-    box.id = td.id + "_draw";
-    box.style.borderColor = "blue";
-    box.style.borderStyle = "solid";
-    var bw = (td.offsetWidth - 30);
-    var bh = (td.offsetHeight - drawZoneHeight(td));
-    box.width = bw;
-    box.height = bh;
-
-    var ctx = box.getContext("2d");
-    ctx.clearRect(0, 0, box.width, box.height);
-    ctx.strokeStyle = "rgb(102, 51, 153)";
-    ctx.lineWidth = "5px";
-  
-    switch(title){
-        case "Bezier":
-            drawBezier(box, ctx);
-            break;
-        case "Monomial":
-            drawRect(box, ctx);
-            break;
-        case "Lagrange":
-            drawBezierInteractive(box);
-            break;
-        default:
-            myDrawLine(box, ctx);
-            break;
-    }
     return box;
 }

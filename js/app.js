@@ -11,7 +11,7 @@ App.prototype.constants = {
         PRIMARY_CONTROL_POINTS: 'rgba(102, 51, 153, 1.0)',
         PRIMARY_CONTROL_POINTS_OUTLINE: 'rgba(102, 51, 153, 1.0)',
         SECONDARY_CONTROL_LINES: 'rgba(155, 255, 246, 1.0)',
-        BACKGROUND_COLOR: 'rgba(0, 0, 0, 1.0)'
+        BACKGROUND_COLOR: 'rgba(30, 30, 30, 1.0)'
     },
     CONTROL_POINT_WIDTH_HEIGHT: 10,
     CURVE_POINT_RADIUS: 5,

@@ -3,7 +3,7 @@
   color: #ddd;
   font-size: 20px;
   margin-right: 20px;
-  background-color: #2a2a2a;
+  background-color: #2d2d2d;
   border: none;
   width: fit-content;
 }
@@ -16,13 +16,8 @@
 
 /* Fixed sidenav, full height */
 .sidenav {
-    /*background-image: linear-gradient(to left, #535353, rgb(29, 29, 29));*/
-    /*background-color:  #535353;*/
-  height: 100%;
-  border: 1px solid;
-  padding-right: 5px;
-  box-shadow: 20px 0px 0px rgba(255, 255, 255, 0.247);
-    /*border-radius: 10px;*/
+    height: 100%;
+    padding-right: 10px;
   }
 
   /* Style the sidenav links and the dropdown button */
@@ -38,8 +33,6 @@
     text-align: left;
     cursor: pointer;
     outline: none;
-    /*border-radius: 10px;*/
-    
   }
   
   /* On mouse-over */
@@ -49,7 +42,7 @@
 
   .sidenav-btn {
     /*background-color: #5f5f5f;*/
-    background: linear-gradient(to right, #131313, #0a0a0a);
+    background: linear-gradient(to right, #1e1e1e, rgb(37,37,38));
     /*background-image: linear-gradient(to left, #5f5f5f, rgb(46, 46, 46));*/
     border: none;
     border-bottom:  rgb(65, 65, 65) solid 2px;
@@ -59,26 +52,26 @@
   }
   
   .sidenav-btn:hover {
-    background: rgb(43, 43, 43);
+    background: rgb(55,55,61);
     border-radius: 10px;
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.19), 0 17px 50px 0 rgba(0,0,0,0.24);
   }
 
   .split-btn{
-    background: linear-gradient(to right, #131313, #0a0a0a);
+    background: linear-gradient(to right, rgb(37,37,38), #1e1e1e);
     border: 2px solid rgb(109, 109, 109, 0.5);
     font-family: 'Times New Roman', Times, serif;
     width: 40px;
     height: 40px;
     text-align: cener;
-    box-shadow: 0 0px 5px 0 rgba(255, 255, 255, 0.19);
+    box-shadow: 0 0px 2px 0 rgba(255, 255, 255, 0.19);
     border-radius: 5px;
     margin-bottom: 5px;
   }
 
   .split-btn:hover{
-    background: rgb(43, 43, 43);
+    background: rgb(55,55,61);
   }
 
   .split-btn a{
