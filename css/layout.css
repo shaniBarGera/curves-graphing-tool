@@ -11,6 +11,7 @@ body {
    height: 100%;
    display: grid;
    grid-template-rows: auto auto auto;
+   
 }
 
 header{
@@ -51,12 +52,12 @@ footer a{
 section {
    height: 100%;
    display: flex;
+   
 }
 
 #right-nav{
    width: 40px;
-   /*background-color: rgb(56, 56, 56);*/
-   background-color: #000000;
+   background-color: #0a0a0a;
    text-align: center;
    padding-top: 10px;
 }
@@ -64,14 +65,12 @@ section {
 #left-nav{
    display: none;
    width: 180px;
-   /*background-color: rgb(56, 56, 56);*/
    background-color: #0a0a0a;
-   border-right: 1px solid rgba(0,0,0,0.2);
-   border-bottom: 1px solid transparent;
+   border-right: 2px solid rgba(0,0,0,0.2);
+   border-bottom: 2px solid transparent;
 }
 
 main{
-   /*background-color: rgb(56, 56, 56);*/
-   background-color: #000000;;
+   background-color: #0a0a0a;
    width: 100%;
 }

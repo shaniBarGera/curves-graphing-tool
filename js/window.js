@@ -65,7 +65,7 @@ function createSlider(td_id){
     input.value = "0";
     input.className = "slider";
     input.oninput = function(){
-        label.innerHTML = "t = " + this.value.toFixed(3);
+        label.innerHTML = "t = " + this.value;
     }
     div.appendChild(input);
     div.appendChild(label);
@@ -78,8 +78,8 @@ function createControls(td_id){
     controls.id = td_id + "_controls";
     controls.className = "controls";
 
-    controls.appendChild(createNumInput(td_id, "Order", 3));
-    controls.appendChild(createNumInput(td_id, "Steps", 16));
+    controls.appendChild(createNumInput(td_id, "Order", 2));
+    controls.appendChild(createNumInput(td_id, "Steps", 7));
     controls.appendChild(createSlider(td_id));
 
     return controls;

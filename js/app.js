@@ -1,5 +1,3 @@
-// Requires bezier.js and drawing.js
-
 function App() {
 }
 
@@ -55,10 +53,10 @@ App.prototype.init = function(window, td_id, title) {
         // Otherwise listen for hovering over the primary control points
         else {
             this.hovering = false;
-            for (var point in this.curves[0].controlPoints) {
-                if (this.checkPointHover(this.curves[0].controlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
+            for (var point in this.controlPoints) {
+                if (this.checkPointHover(this.controlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
                     this.hovering = true;
-                    this.hoveringPoint = this.curves[0].controlPoints[point];
+                    this.hoveringPoint = this.controlPoints[point];
                 }
             }
             if (this.hovering === true) {
@@ -167,11 +165,12 @@ App.prototype.buildBezierCurves = function() {
     var curves = [];
 
     // Generate the set of curves for each order
-    for (var step = 0, t = 0; step < this.numSteps; step++, t = step/(this.numSteps - 1)) {
+    for (var step = 0; step < this.numSteps; step++) {
         curves.push(
-            new LinearCurve(controlPoints, t)
+            new LinearCurve(controlPoints, step, this.numSteps)
         );
     }
+    console.log(curves);
     return curves;
 };
 
@@ -204,19 +203,21 @@ App.prototype.draw = function() {
     var prevPoint = null;
     for (var step = 0, t = 0, point = null; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
         
+        var curve = this.curves[step];
+        
+
         if(this.title == "Bezier"){
             this.drawSubCurve(step);
-        }
 
-        // Find the point for the current t
-        var curve = this.curves[step];
-        for (var curveNum = 0; curveNum < this.orderSelection - 1; ++curveNum) {
-            curve = curve.curve;
-        }
-        
-        // Draw the curve segments
+            // Find the point for the current t
+            for (var curveNum = 0; curveNum < this.orderSelection - 1; ++curveNum) {
+                curve = curve.curve;
+            }
+        } 
+
         prevPoint = point;
         point = curve.point;
+        // Draw the curve segments
         if (step > 0) {
             drawLine(this.ctx, prevPoint.x, prevPoint.y, point.x, point.y, this.constants.LINE_WIDTH, this.constants.colors.CURVE);
         }
@@ -249,7 +250,7 @@ App.prototype.draw = function() {
     }
 
     // Draw the primary curve control points with connecting lines
-    this.drawControlPoints(this.curves[0].controlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
+    this.drawControlPoints(this.controlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
     
 
 };
