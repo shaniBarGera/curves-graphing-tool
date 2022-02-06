@@ -1,6 +1,6 @@
 .window-header{
     /*background-image: linear-gradient(rgb(36, 35, 35), rgb(56, 55, 55), rgb(46, 45, 45));*/
-    background-color: #2d2d2d;
+    background-color: #3f3f3f;
     display : inline-block;
     vertical-align : top;
     width : 100%;
@@ -9,6 +9,7 @@
     margin: 0;
     padding-top: 5px;
     padding-bottom: 5px;
+    /*border-bottom: rgb(44, 44, 44) solid 2px; */
 }
 
 .window-header a{
@@ -18,33 +19,43 @@
 }
 
 .controls{
-    background-color : rgb(56, 55, 55);
+    background-color: #474747;
     color : rgb(184, 184, 184);
     font :15px Arial;
 
     width : auto;
     height: fit-content;
-    padding: 10px;
     align-items: center;
     text-align: center;
+    padding-bottom: 5px;;
+    border-bottom: rgb(65, 65, 65) solid 2px; 
 }
 
 .control-input{
     display: inline-flex;
     margin-left: 10px;
     margin-right: 10px;
+    margin-top:10px;
 }
 
 .input-num{
-    background-color : black;
+    background-color : #1e1e1e;
     color : rgb(184, 184, 184);
-    width: 50px;
+    width: 45px;
     margin-left: 5px;
+    border:rgb(44, 44, 44) solid 2px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.input-num:hover{
+    background-color: black;
+    border: rgb(223, 223, 223) solid 2px;
 }
 
 .slider {
     -webkit-appearance: none;
-    background: black;
+    background: #1e1e1e;
     width: 100px;
     height: 10px;
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
@@ -52,6 +63,10 @@
     transition: opacity .2s;
     border-radius: 7.5px;
   }
+
+.slider:hover{
+    background: black;
+}
 
   
 .slider::-webkit-slider-thumb {
@@ -65,7 +80,7 @@
 }
 
 .slider::-webkit-slider-thumb:hover {
-    background-color: rgb(201, 200, 200);
+    background-color: rgb(223, 223, 223);
 }
 
 #tValue{

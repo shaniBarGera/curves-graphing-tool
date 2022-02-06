@@ -5,14 +5,6 @@ function allowDrop(ev) {
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
-  
-function drop(ev) {  
-    
-    
-    //alert(title);
-    
-}
-
 
 
 window.addEventListener("drop", function(event){
@@ -27,9 +19,26 @@ window.addEventListener("drop", function(event){
     var btn = document.getElementById(data);
     var title = btn.firstElementChild.innerHTML;
     
-    td.appendChild(createHeader(td_id, title), td.firstChild);
-    td.appendChild(createControls(td_id, title));
-    td.appendChild(createFormula(td_id, title));
-    td.appendChild(createCanvas(td));
-    addApp(td, title);
+    createWindow(td, title);
 });
+
+function test(){
+    addCol();
+    addCol();
+    addRow();
+
+    var td00 = document.getElementById("t_0_0");
+    createWindow(td00, "Monomial Basis");
+    var td01 = document.getElementById("t_0_1");
+    createWindow(td01, "Lagrange");
+    var td02 = document.getElementById("t_0_2");
+    createWindow(td02, "Cubic Hermite Spline");
+    var td10 = document.getElementById("t_1_0");
+    createWindow(td10, "Cubic Spline");
+    var td11 = document.getElementById("t_1_1");
+    createWindow(td11, "Bezier");
+    var td12 = document.getElementById("t_1_2");
+    createWindow(td12, "B-Spline");
+}
+
+test();

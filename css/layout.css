@@ -16,7 +16,8 @@ body {
 
 header{
    height: fit-content;
-   background-color: #3c3c3c;
+   background-color: #2d2d2d;
+   background: linear-gradient(#222222, #2d2d2d);
    padding: 10px;
    margin: 0px;
    text-align: center;

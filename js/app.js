@@ -116,7 +116,7 @@ App.prototype.init = function(window, td_id, title) {
 
 App.prototype.fixTitle = function(){
     var order_num = 0;
-    var new_title = this.title;
+    
     if(this.title == "Lagrange" || this.title == "Bezier"){
         order_num = this.orderSelection;
     } else if(this.title == "Monomial Basis" || this.title == "B-Spline"){
@@ -124,6 +124,7 @@ App.prototype.fixTitle = function(){
     }
     
     var order = '';
+    var new_title = this.title;
     if(order_num < 6 && order_num > 1){
         var order = this.constants.orders[order_num - 2];
         new_title = order + ' ' + this.title;

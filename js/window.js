@@ -28,9 +28,11 @@ function clearWindow(parent) {
 }
 
 function createWindow(td, title){
-    td.appendChild(createHeader(td.id, title));
+    td.appendChild(createHeader(td.id, title), td.firstChild);
     td.appendChild(createControls(td.id, title));
-    td.appendChild(createCurve(td, title));
+    td.appendChild(createFormula(td.id, title));
+    td.appendChild(createCanvas(td));
+    addApp(td, title);
 }
 
 function createHeader(td_id, title){
@@ -102,10 +104,10 @@ function createControls(td_id, title){
     controls.className = "controls";
 
     if(title == "Monomial Basis" || title == "B-Spline"){
-        controls.appendChild(createNumInput(td_id, "k", 4));
+        controls.appendChild(createNumInput(td_id, "k", 3));
     }
     controls.appendChild(createNumInput(td_id, "n", 4));
-    controls.appendChild(createNumInput(td_id, "Steps", 11));
+    controls.appendChild(createNumInput(td_id, "Steps", 20));
     controls.appendChild(createSlider(td_id));
 
     return controls;
@@ -172,5 +174,7 @@ function createCanvas(td){
     resizeCanvas(box, td);
     return box;
 }
+
+
 
 

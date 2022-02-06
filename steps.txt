@@ -1,11 +1,18 @@
 
-add formula
+need to do:
+add formulas
+add L(t)s to Lagrange input and B-Spline input (another canvas)
+add controls for ks in hermite basis
+
+bugs:
 clear window between drops
 fix t value display for all functions
 fix canvas when window size changes
-fix canvas when split window (maybe add initial content?)
-make table fixd height
-remove header white line on top
-change left side bar to hover and drop 
-make main box bigger and sidebars smaller
-switch between dark  mode and light mode
+fix canvas when split window
+make table fixed height
+
+bonus:
+change icons on split screen
+add instructions to buttons
+switch between dark mode and light mode
+add match option to all windows onption (make all control points and steps same in all windows)

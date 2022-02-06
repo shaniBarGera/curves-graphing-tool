@@ -4,7 +4,7 @@ function setCell(cell1, i, j){
     cell1.id = "t_" + i + "_" + j;
 }
 
-function addCol(){
+function addCol(){;
   var table = document.getElementById("myTable");
   
   for(var i = 0; row = table.rows[i]; i++){
@@ -56,23 +56,7 @@ function fixTable(table){
       cell1.style.width = col_w;
       cell1.style.height = `${row_h}vh`;
 
-      console.log(i, j);
-      
-      /*var header = document.getElementById(cell1.id + "_header");
-      var text = header.firstChild;
-      var title = text.innerText;
-      cell1.removeChild(box);
-      createCanvas(cell1);
-      new App().run(this.window, cell1.id, title);*/
-      /*if(box){
-        box.height = (row_h - drawZoneHeight(td)) + "vh";
-        box.width = col_w;
-      }*/
-      /*var canvas = document.getElementById("c" + cell1.id);
-      if(canvas){
-        resizeCanvas(cell1, canvas);
-        drawCurve(cell1, canvas);
-      }*/
+      //fix canvas too
     }
   }
 }
