@@ -47,8 +47,9 @@
             </main>
 
             <div id="right-nav">
-                <button id="split-btn" class="split-btn" onclick="addCol()">
+                <button id="split-btn" class="split-btn" onclick="addCol()" onmousehover="instruct('Split Screen Vertically')">
                     <a>[|]</a>
+                    <span class="popuptext" id="myPopup"></span>
                 </button>
                 <button id="split-btn" class="split-btn" onclick="delCol()">
                     <a>[]</a>
@@ -58,8 +59,14 @@
                 </button>
                 <button id="split-btn" class="split-btn" onclick="delRow()">
                     <a>-</a>
-                </button>        
-                <button id="split-btn" class="split-btn" onclick="clearWindow()">
+                </button>
+                <button id="split-btn" class="split-btn" onclick="changeColors()">
+                    <a>O</a>
+                </button>  
+                <button id="split-btn" class="split-btn">
+                    <a>i</a>
+                </button>      
+                <button id="split-btn" class="split-btn" onclick="clearWindow('t_0_0')">
                     <a>X</a>
                 </button>    
             </div>
@@ -79,6 +86,7 @@
         <script src="js/table.js"></script>
         <script src="js/sidebar.js"></script>
         <script src="js/drop.js"></script>
+        <script src="js/popups.js"></script>
 
         
 

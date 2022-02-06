@@ -7,16 +7,25 @@ function drag(ev) {
 }
 
 function drop(ev){
+    
+}
 
+function findtd(td){
+    var curr = td;
+    while(curr.parentElement){
+        if(curr.id.match('^t_[0-9]_[0-9]$')){
+            return curr.id;
+        }
+        curr = curr.parentElement;
+    }
 }
 
 window.addEventListener("drop", function(event){
-    var td_id = event.target.id;
-    var td = document.getElementById(td_id);
     event.preventDefault();
-
-    //clearWindow(event.target);
     
+    var td_id = findtd(event.target);
+    var td = document.getElementById(td_id);
+    clearWindow(td_id);
     
     var data = event.dataTransfer.getData("text");
     var btn = document.getElementById(data);

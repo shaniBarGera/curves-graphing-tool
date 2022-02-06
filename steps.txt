@@ -1,19 +1,17 @@
 
 need to do:
-add formulas for cspline and hermite
+add popups for instructions, general info, addition formula data
 add L(t)s to Lagrange input and B-Spline input (another canvas)
 add controls for ks in hermite basis
+fix t value display for all functions
 
 
 bugs:
-clear window between drops
-fix t value display for all functions
 fix canvas when window size changes
-fix canvas when split window
+fix canvas when split/merge windows
 make table fixed height
 
 bonus:
 change icons on split screen
-add instructions to buttons
 switch between dark mode and light mode
 add match option to all windows onption (make all control points and steps same in all windows)
