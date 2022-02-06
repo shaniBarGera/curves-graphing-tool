@@ -1,4 +1,27 @@
+var apps = [];
+var apps_num = -1;
+
+function addApp(td, title){
+    apps_num++;
+    apps[apps_num] = new App().run(this.window, td.id, title);
+    td.setAttribute("app", apps_num);
+    
+}
+
+function findApp(td){
+    for(var i = 0; i < apps_num; ++i){
+
+    }
+}
+
+function removeApp(td){
+    delete apps[apps_num];
+    apps = [];
+    apps_num--;
+}
+
 function clearWindow(parent) {
+    removeApp(parent);
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
@@ -6,7 +29,7 @@ function clearWindow(parent) {
 
 function createWindow(td, title){
     td.appendChild(createHeader(td.id, title));
-    td.appendChild(createControls(td.id));
+    td.appendChild(createControls(td.id, title));
     td.appendChild(createCurve(td, title));
 }
 
@@ -72,13 +95,16 @@ function createSlider(td_id){
     return div;
 }
 
-function createControls(td_id){
+function createControls(td_id, title){
     // controls main box
     var controls = document.createElement("div");
     controls.id = td_id + "_controls";
     controls.className = "controls";
 
-    controls.appendChild(createNumInput(td_id, "Order", 4));
+    if(title == "Monomial Basis" || title == "B-Spline"){
+        controls.appendChild(createNumInput(td_id, "k", 4));
+    }
+    controls.appendChild(createNumInput(td_id, "n", 4));
     controls.appendChild(createNumInput(td_id, "Steps", 11));
     controls.appendChild(createSlider(td_id));
 
@@ -136,10 +162,8 @@ function drawZoneHeight(td){
 function resizeCanvas(box, td){
     var bw = (td.offsetWidth - 10);
     var bh = (td.offsetHeight - drawZoneHeight(td));
-    console.log(bw, bh, box.width, box.height);
     box.width = bw;
-    box.height = bh
-    console.log(bw, bh, box.width, box.height);
+    box.height = bh;
 }
 
 function createCanvas(td){
@@ -148,3 +172,5 @@ function createCanvas(td){
     resizeCanvas(box, td);
     return box;
 }
+
+

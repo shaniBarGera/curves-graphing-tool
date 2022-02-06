@@ -3,8 +3,9 @@
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
- function MonomialCurve(controlPoints, step, num_steps) {
-    var k = 5; // k <= n !!!
+ function MonomialCurve(controlPoints, step, num_steps, k) {
+    //var k = 5; // k <= n !!!
+    this.k = k;
     this.cp = controlPoints;
     this.step_n = num_steps;
     this.cp_n = controlPoints.length;  
@@ -46,6 +47,7 @@
     }
   
     this.point = new Point(x,y);
+    console.log(this);
    
 }
 

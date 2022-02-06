@@ -93,11 +93,19 @@ App.prototype.init = function(window, td_id, title) {
     }.bind(this));
 
     // Add an input listener to the custom curve order value input control
-    document.getElementById('Order_input_' + this.td_id).addEventListener('input', function(evt) {
+    document.getElementById('n_input_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.generateControlPoints();
         app.update();
     });
+
+    // Add an input listener to the custom curve order value input control
+    if(title == "Monomial Basis" || title == "B-Spline"){
+        document.getElementById('k_input_' + this.td_id).addEventListener('input', function(evt) {
+            app.gatherUserInput();
+            app.update();
+        });
+    }
 
     // Add an input listener to the slider control
     document.getElementById('tSlider_' + this.td_id).addEventListener('input', function(evt) {
@@ -106,19 +114,32 @@ App.prototype.init = function(window, td_id, title) {
     });
 };
 
+App.prototype.fixTitle = function(){
+    var order_num = 0;
+    var new_title = this.title;
+    if(this.title == "Lagrange" || this.title == "Bezier"){
+        order_num = this.orderSelection;
+    } else if(this.title == "Monomial Basis" || this.title == "B-Spline"){
+        order_num = this.kValue;
+    }
+    
+    var order = '';
+    if(order_num < 6 && order_num > 1){
+        var order = this.constants.orders[order_num - 2];
+        new_title = order + ' ' + this.title;
+    }
+    else if(order_num >= 6){
+        new_title = this.title + ' (Order ' + order_num + ')';
+    }
+    document.getElementById(this.td_id + '_header').firstChild.innerText = new_title;
+}
+
 /**
  * Recalculates the curve values and updates the slider based on the other UI values
  */
 App.prototype.update = function() {
-    var order_num = this.controlPoints.length - 1;
-    var order = '';
-    if(order_num < 5){
-        var order = this.constants.orders[order_num - 1];
-        document.getElementById(this.td_id + '_header').firstChild.innerText = order + ' ' + this.title;
-    }
-    else{
-        document.getElementById(this.td_id + '_header').firstChild.innerText = this.title + ' (Order ' + order_num + ')';
-    }
+    
+    this.fixTitle();
 
     document.getElementById('tValue_' + this.td_id).innerHTML = 't = ' + this.tValue;
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
@@ -150,13 +171,13 @@ App.prototype.buildCurves = function() {
                 var curve = new LagrangeCurve(controlPoints, step, this.numSteps);
                 break;
             case "B-Spline":
-                var curve = new BSpline(controlPoints, step, this.numSteps);
+                var curve = new BSpline(controlPoints, step, this.numSteps, this.kValue);
                 break;
             case "Cubic Hermite Spline":
                 var curve = new CHSPL(controlPoints, step, this.numSteps);
                 break;
             case "Monomial Basis":
-                var curve = new MonomialCurve(controlPoints, step, this.numSteps);
+                var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue);
                 break;
             default:
                 var curve = new LinearCurve(controlPoints, step, this.numSteps);
@@ -289,7 +310,11 @@ App.prototype.gatherUserInput = function() {
     this.numSteps = parseInt(document.getElementById('Steps_input_' + this.td_id).value);
 
     // Order radio button group
-    this.orderSelection = parseInt(document.getElementById('Order_input_' + this.td_id).value) + 1;
+    this.orderSelection = parseInt(document.getElementById('n_input_' + this.td_id).value);
+
+    if(this.title == "Monomial Basis" || this.title == "B-Spline"){
+        this.kValue = parseInt(document.getElementById('k_input_' + this.td_id).value);
+    }
 
     // Order_input slider value
     this.tSliderValue = document.getElementById('tSlider_' + this.td_id).value;

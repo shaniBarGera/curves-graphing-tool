@@ -3,8 +3,8 @@
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
- function BSpline(controlPoints, step, num_steps) {
-    var k = 4; // CHANGE: user should input this
+ function BSpline(controlPoints, step, num_steps, k) {
+    //var k = 4; // CHANGE: user should input this
     this.cp = controlPoints;
     this.step_n = num_steps;
     this.cp_n = controlPoints.length;  
