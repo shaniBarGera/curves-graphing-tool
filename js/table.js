@@ -57,7 +57,7 @@ function fixTable(table){
       cell1.style.height = `${row_h}vh`;
 
       console.log(i, j);
-      var box = document.getElementById(cell1.id + "_canvas");
+      
       /*var header = document.getElementById(cell1.id + "_header");
       var text = header.firstChild;
       var title = text.innerText;
