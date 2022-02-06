@@ -47,8 +47,6 @@
     }
   
     this.point = new Point(x,y);
-    console.log(this);
-   
 }
 
  function transpose(a, n, k, at){

@@ -6,13 +6,16 @@ function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
+function drop(ev){
+
+}
 
 window.addEventListener("drop", function(event){
     var td_id = event.target.id;
     var td = document.getElementById(td_id);
     event.preventDefault();
 
-    clearWindow(event.target);
+    //clearWindow(event.target);
     
     
     var data = event.dataTransfer.getData("text");
@@ -41,4 +44,4 @@ function test(){
     createWindow(td12, "B-Spline");
 }
 
-test();
+//test();

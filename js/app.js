@@ -135,14 +135,24 @@ App.prototype.fixTitle = function(){
     document.getElementById(this.td_id + '_header').firstChild.innerText = new_title;
 }
 
+App.prototype.displayStep = function(){
+    var t = 't = 0.0';
+    if(this.title == "Bezier")
+        t = 't = ' + this.tValue;
+    else
+        t = 'step = ' + this.tSliderValue;
+    document.getElementById('tValue_' + this.td_id).innerHTML = t;
+}
+
 /**
  * Recalculates the curve values and updates the slider based on the other UI values
  */
 App.prototype.update = function() {
     
     this.fixTitle();
+    this.displayStep();
 
-    document.getElementById('tValue_' + this.td_id).innerHTML = 't = ' + this.tValue;
+    
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
 
     this.curves = this.buildCurves();

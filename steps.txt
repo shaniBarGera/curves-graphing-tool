@@ -1,8 +1,9 @@
 
 need to do:
-add formulas
+add formulas for cspline and hermite
 add L(t)s to Lagrange input and B-Spline input (another canvas)
 add controls for ks in hermite basis
+
 
 bugs:
 clear window between drops
