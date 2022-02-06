@@ -190,6 +190,9 @@ App.prototype.buildCurves = function() {
             case "Monomial Basis":
                 var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue);
                 break;
+            case "hello world":
+                    var curve = new CSPL2(controlPoints, step, this.numSteps, this.kValue);
+                    break;
             default:
                 var curve = new LinearCurve(controlPoints, step, this.numSteps);
                 break;

@@ -65,10 +65,10 @@ function fixTable(table){
   }
 }
 
-function outputsize() {
+/*function outputsize() {
   width.value = textbox.offsetWidth
   height.value = textbox.offsetHeight
 }
 
 outputsize()
-new ResizeObserver(outputsize).observe(textbox)
+new ResizeObserver(outputsize).observe(textbox)*/

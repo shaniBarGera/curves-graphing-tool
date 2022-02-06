@@ -30,6 +30,8 @@ window.addEventListener("drop", function(event){
     var data = event.dataTransfer.getData("text");
     var btn = document.getElementById(data);
     var title = btn.firstElementChild.innerHTML;
+
+    console.log(td);
     
     createWindow(td, title);
 });
