@@ -56,7 +56,19 @@ function fixTable(table){
       cell1.style.width = col_w;
       cell1.style.height = `${row_h}vh`;
 
-      //fix canvas too
+      var title = cell1.getAttribute("curvename");
+      if(title){
+        clearWindow(cell1.id);
+        createWindow(cell1, title);
+      }
     }
   }
 }
+
+function outputsize() {
+  width.value = textbox.offsetWidth
+  height.value = textbox.offsetHeight
+}
+
+outputsize()
+new ResizeObserver(outputsize).observe(textbox)
