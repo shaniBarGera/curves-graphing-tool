@@ -4,6 +4,7 @@ add popups for instructions, general info, addition formula data
 add L(t)s to Lagrange input and B-Spline input (another canvas)
 add controls for ks in hermite basis
 fix t value display for all functions
+make uniform parametarization
 
 
 bugs:
