@@ -15,22 +15,26 @@ function findApp(td){
 }
 
 function removeApp(td){
-    delete apps[apps_num];
-    apps = [];
-    apps_num--;
+    
 }
 
 function clearWindow(parent) {
-    removeApp(parent);
+    /*var canvas = document.getElementById(parent.id + "_canvas");
+    var ctx = canvas.getContext('2d');
+    console.log(ctx);
+    clearCanvas(ctx, canvas.width, canvas.height, apps[apps_num].constants.colors.BACKGROUND_COLOR);
+    delete apps[apps_num];
+    apps = [];
+    apps_num--;
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
-    }
+    }*/
 }
 
 function createWindow(td, title){
     td.appendChild(createHeader(td.id, title), td.firstChild);
     td.appendChild(createControls(td.id, title));
-    td.appendChild(createFormula(td.id, title));
+    td.appendChild(createFormula(td, title));
     td.appendChild(createCanvas(td));
     addApp(td, title);
 }
@@ -73,7 +77,7 @@ function createSlider(td_id){
 
     var label = document.createElement("label");
     label.id = "tValue_" + td_id;
-    label.style.width = "60px";
+    label.style.width = "70px";
     label.style.height = "20px";
     label.style.display = "inline-block";
     label.style.overflow = "hidden";
@@ -113,15 +117,21 @@ function createControls(td_id, title){
     return controls;
 }
 
-function createFormula(td_id, title){
+function createFormula(td, title){
     var formula = document.createElement("div");
-    formula.id = td_id + "_formula";
+    formula.id = td.id + "_formula";
     formula.className = "formula";
     //var text = document.createElement('a');
     var img = document.createElement("img");
-   
-    img.src="imgs/bezier-formula.png";
-    img.height = "60";
+    if(title == "Monomial Basis"){
+        img.src = "imgs/Monomial-formula.png";
+    } else{
+        img.src="imgs/"+title+"-formula.png";
+    }
+    
+    img.height = "70";
+    img.style.width = "100%";
+    img.style.objectFit = "scale-down";
     formula.appendChild(img);
     /*img.src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4aead49f2dc6a80c8f4018274355e8f48c38573a" 
     img.class="mwe-math-fallback-image-inline" 
