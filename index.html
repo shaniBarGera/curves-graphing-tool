@@ -4,7 +4,10 @@
         <link rel="stylesheet" href="css/layout.css">
         <link rel="stylesheet" href="css/sidebar.css">
         <link rel="stylesheet" href="css/table.css">   
-        <link rel="stylesheet" href="css/window.css">   
+        <link rel="stylesheet" href="css/window.css">  
+        <link rel="stylesheet" href="css/popups.css"> 
+        <link rel="stylesheet" href="css/tooltip.css">  
+        <link rel="stylesheet" href="css/tooltip-right.css">  
     </head>
 
 
@@ -17,24 +20,47 @@
         <section>
             <div id="left-nav">
                 <div class="sidenav">
-                    <button id="Monomial-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
-                        <a>Monomial Basis</a>
-                    </button>
-                    <button id="Lagrange-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
-                        <a>Lagrange</a>
-                    </button>
-                    <button id="HB-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
-                        <a>Cubic Hermite Spline</a>
-                    </button>
-                    <button id="Splines-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
-                        <a>Cubic Spline</a>
-                    </button>
-                    <button id="Bezier-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
-                        <a>Bezier</a>
-                    </button>
-                    <button id="BSpline-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
-                        <a>B-Spline</a>
-                    </button>
+                    <div class="tooltip-right">
+                        <button id="Monomial-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Monomial Basis</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+                    
+                    <div class="tooltip-right">
+                        <button id="Lagrange-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Lagrange</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+
+                    <div class="tooltip-right">
+                        <button id="HB-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Cubic Hermite Spline</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+
+                    <div class="tooltip-right">
+                        <button id="Splines-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Cubic Spline</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+
+                    <div class="tooltip-right">
+                        <button id="Bezier-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Bezier</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+
+                    <div class="tooltip-right">
+                        <button id="BSpline-btn" class="sidenav-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>B-Spline</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
                 </div>       
             </div>
 
@@ -47,29 +73,52 @@
             </main>
 
             <div id="right-nav">
-                <button id="split-btn" class="split-btn" onclick="addCol()" onmousehover="instruct('Split Screen Vertically')">
-                    <a>&#x2637;</a>
-                    <span class="popuptext" id="myPopup"></span>
-                </button>
-                <button id="split-btn" class="split-btn" onclick="delCol()">
-                    <a>&#x2630;</a>
-                </button>
-                <button id="split-btn" class="split-btn" onclick="delRow()">
-                    <a>-</a>
-                </button>
-                <button id="split-btn" class="split-btn" onclick="addRow()">
-                    <a>+</a>
-                </button>
-               
-                <button id="split-btn" class="split-btn" onclick="changeColors()">
-                    <a>O</a>
-                </button>  
-                <button id="split-btn" class="split-btn">
-                    <a>&#x2148;</a>
-                </button>      
-                <button id="split-btn" class="split-btn" onclick="clearWindow('t_0_0')">
-                    <a>&#x2715;</a>
-                </button>    
+                <div class="tooltip">
+                    <button id="split-btn" class="split-btn" onclick="addCol()">
+                        <a>&#x268F;</a>
+                    </button>
+                    <span class="tooltiptext">Split Window Vertically</span>
+                </div>
+
+                <div class="tooltip">
+                    <button id="split-btn" class="split-btn" onclick="delCol()">
+                        <a>&#x268C;</a>
+                    </button>
+                    <span class="tooltiptext">Merge Window Vertically</span>
+                </div>
+
+                <div class="tooltip">
+                    <button id="split-btn" class="split-btn" onclick="addRow()">
+                        <a>+</a>
+                    </button>
+                    <span class="tooltiptext">Split Window Horizontally</span>
+                </div>
+                
+                <div class="tooltip">
+                    <button id="split-btn" class="split-btn" onclick="delRow()">
+                        <a>-</a>
+                    </button>
+                    <span class="tooltiptext">Merge Window Horizontally</span>
+                </div>
+
+                <div class="tooltip">
+                    <button id="split-btn" class="split-btn" onclick="changeColors()">
+                        <a>&#x263C;</a>
+                    </button>
+                    <span class="tooltiptext">Invert Colors</span>
+                </div>
+              
+                <div class="tooltip">
+                    <button class="split-btn"><a>&#x2148;</a></button>
+                    <span class="tooltiptext">General Info</span>
+                </div> 
+                
+                <div class="tooltip">
+                    <button class="split-btn" onclick="clearWindow('t_0_0')">
+                        <a>&#x2715;</a>
+                    </button>
+                    <span class="tooltiptext">Clear All Windows</span>
+                </div>     
             </div>
        
         </section>

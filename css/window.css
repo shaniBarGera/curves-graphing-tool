@@ -14,14 +14,14 @@
 
 .window-header a{
     color : white;
-    font : bold 15px Arial, sans-serif;
+    font : 25px Arial, sans-serif;
     text-decoration : none;
 }
 
 .controls{
     background-color: #474747;
     color : white;
-    font :15px Arial;
+    font :20px Arial;
 
     width : auto;
     height: fit-content;
@@ -40,7 +40,8 @@
 .input-num{
     background-color : #1e1e1e;
     color : white;
-    width: 45px;
+    font-size: large;
+    width: 55px;
     margin-left: 5px;
     border:rgb(100, 100, 100) solid 3px;
     border-radius: 5px;
@@ -56,7 +57,7 @@
     -webkit-appearance: none;
     background: #1e1e1e;
     width: 90px;
-    height: 10px;
+    height: 15px;
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
     transition: opacity .2s;
@@ -65,7 +66,7 @@
 
 .slider:hover{
     background: black;
-    border: rgb(223, 223, 223) solid 2px;
+    border: white solid 3px;
 
 }
 
@@ -73,11 +74,11 @@
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     background: grey;
     cursor: pointer;
-    border-radius: 7.5px;    
+    border-radius: 10px;    
 }
 
 .slider::-webkit-slider-thumb:hover {

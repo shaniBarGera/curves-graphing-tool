@@ -87,7 +87,7 @@ App.prototype.init = function(window, td_id, title) {
 
     // Add event listener to handle any of the control values changing
     var app = this;
-    document.getElementById('Steps_input_' + this.td_id).addEventListener('input', function(evt) {
+    document.getElementById('steps_input_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.update();
     }.bind(this));
@@ -136,11 +136,7 @@ App.prototype.fixTitle = function(){
 }
 
 App.prototype.displayStep = function(){
-    var t = 't = 0.0';
-    if(this.title == "Bezier")
-        t = 't = ' + this.tValue;
-    else
-        t = 'step = ' + this.tSliderValue;
+    t = 't = ' + this.tValue;
     document.getElementById('tValue_' + this.td_id).innerHTML = t;
 }
 
@@ -318,7 +314,7 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
  */
 App.prototype.gatherUserInput = function() {
     // Step control component
-    this.numSteps = parseInt(document.getElementById('Steps_input_' + this.td_id).value);
+    this.numSteps = parseInt(document.getElementById('steps_input_' + this.td_id).value);
 
     // Order radio button group
     this.orderSelection = parseInt(document.getElementById('n_input_' + this.td_id).value);

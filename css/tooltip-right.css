@@ -1,0 +1,26 @@
+.tooltip-right {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip-right .tooltiptext-right {
+    visibility: hidden;
+
+    background-color: rgba(255, 255, 255, 0.7);
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 25%;
+    left: 105%;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    width: 150px;
+  }
+
+  .tooltip-right:hover .tooltiptext-right {
+    visibility: visible;
+  }
