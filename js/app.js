@@ -176,7 +176,7 @@ App.prototype.buildCurves = function() {
                 var curve = new BezierCurve(controlPoints, t);
                 break;
             case "Cubic Spline":
-                var curve = new CSPL(controlPoints, step, this.numSteps);
+                var curve = new CSPL2(controlPoints, step, this.numSteps);
                 break;
             case "Lagrange":
                 var curve = new LagrangeCurve(controlPoints, step, this.numSteps);
@@ -190,9 +190,6 @@ App.prototype.buildCurves = function() {
             case "Monomial Basis":
                 var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue);
                 break;
-            case "hello world":
-                    var curve = new CSPL2(controlPoints, step, this.numSteps, this.kValue);
-                    break;
             default:
                 var curve = new LinearCurve(controlPoints, step, this.numSteps);
                 break;

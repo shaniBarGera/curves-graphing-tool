@@ -22,8 +22,8 @@
     }
 
     // let user change ts. for example:
-    this.ts[1] = 0.1;
-    this.ts[2] = 0.9;
+    //this.ts[1] = 0.1;
+    //this.ts[2] = 0.9;
 
     this.tsdiff = [];
     for(var i = 0; i < n-1; ++i){

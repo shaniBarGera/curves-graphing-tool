@@ -1,7 +1,7 @@
 #myTable {
     width: 100%;
     margin: 5px 5px 5px 5px;
-    height: 91vh;
+    height: 93vh;
     padding:0;
     padding-right: 10px;
     border-spacing: 2px;
@@ -16,7 +16,7 @@ tr{
 }
   
 td {
-    border: 2px solid rgb(61, 60, 60);
+    border: 3px solid rgb(97, 96, 96);
     background-color: #1e1e1e;
     vertical-align: top;
 }

@@ -15,31 +15,31 @@ body {
 }
 
 header{
-   height: fit-content;
-   background-color: #2d2d2d;
-   background: linear-gradient(#222222, #2d2d2d);
-   padding: 10px;
+   background: linear-gradient(#2e2e2e, #424242);
    margin: 0px;
    text-align: center;
    display: grid;
-   grid-template-columns: 50px auto;
+   grid-template-columns: 60px auto;
+   height: fit-content;
+   padding-bottom: 10px;
 
 }
 
 header a{
-   color: #ddd;
-   font-size: 20px;
-   font-family: bold Arial, sans-serif;
+   color: white;
+   font-size: 22px;
+   font-family: bolder Arial, sans-serif;
    letter-spacing: 0.43px;
+   margin-top: 10px;
 }
 
 
 footer{
-   height: fit-content;
    background-color: #2d2d2d;
    text-align: center;
    padding-top: 5px;
-   padding-bottom: 5px;
+   padding-bottom: 1px;
+   height: fit-content;
 }
 
 
@@ -65,7 +65,7 @@ section {
    display: none;
    width: 200px;
    background-color: rgb(37,37,38);
-   border-right:  rgb(65, 65, 65) solid 2px;
+   border-right:  rgb(97, 96, 96) solid 3px;
 }
 
 main{

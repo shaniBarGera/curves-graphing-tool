@@ -126,7 +126,7 @@ function createFormula(td, title){
     var img = document.createElement("img");
     if(title == "Monomial Basis"){
         img.src = "imgs/Monomial-formula.png";
-    } else if(title == "Cubic Spline" || title == "Cubic Hermite Spline" || title == "hello world"){
+    } else if(title == "Cubic Spline" || title == "Cubic Hermite Spline"){
         img.src = "imgs/C-Spline-formula.png"
      } else{
         img.src="imgs/"+title+"-formula.png";

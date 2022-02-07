@@ -13,22 +13,21 @@
 }
 
 .window-header a{
-    color : rgb(184, 184, 184);
+    color : white;
     font : bold 15px Arial, sans-serif;
     text-decoration : none;
 }
 
 .controls{
     background-color: #474747;
-    color : rgb(184, 184, 184);
+    color : white;
     font :15px Arial;
 
     width : auto;
     height: fit-content;
     align-items: center;
     text-align: center;
-    padding-bottom: 5px;;
-    border-bottom: rgb(65, 65, 65) solid 2px; 
+    padding-bottom: 5px;
 }
 
 .control-input{
@@ -40,17 +39,17 @@
 
 .input-num{
     background-color : #1e1e1e;
-    color : rgb(184, 184, 184);
+    color : white;
     width: 45px;
     margin-left: 5px;
-    border:rgb(44, 44, 44) solid 2px;
+    border:rgb(100, 100, 100) solid 3px;
     border-radius: 5px;
     text-align: center;
 }
 
 .input-num:hover{
     background-color: black;
-    border: rgb(223, 223, 223) solid 2px;
+    border: rgb(223, 223, 223) solid 3px;
 }
 
 .slider {
@@ -82,7 +81,7 @@
 }
 
 .slider::-webkit-slider-thumb:hover {
-    background-color: rgb(223, 223, 223);
+    background-color: white;
 }
 
 #tValue{
@@ -103,11 +102,7 @@
     margin: 0;
     padding-top: 5px;
     padding-bottom: 5px;
-    border-bottom: rgb(65, 65, 65) solid 2px; 
+    border-bottom: rgb(85, 85, 85) solid 3px; 
 }
 
-.formula a{
-    color :  rgb(200, 200, 200);
-    font : 10px 'Cambria Math';
-    text-decoration : none;
-}
+
