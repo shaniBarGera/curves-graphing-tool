@@ -118,11 +118,7 @@ function createControls(td_id, title){
     return controls;
 }
 
-function createFormula(td, title){
-    var formula = document.createElement("div");
-    formula.id = td.id + "_formula";
-    formula.className = "formula";
-    //var text = document.createElement('a');
+function addFormualImg(title){
     var img = document.createElement("img");
     if(title == "Monomial Basis"){
         img.src = "imgs/Monomial-formula.png";
@@ -135,32 +131,69 @@ function createFormula(td, title){
     img.height = "50";
     img.style.width = "100%";
     img.style.objectFit = "scale-down";
-    formula.appendChild(img);
-    /*img.src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4aead49f2dc6a80c8f4018274355e8f48c38573a" 
-    img.class="mwe-math-fallback-image-inline" 
-    img.ariaHidden="true" ;
-    img.style.verticalAlign = '-6.005ex'; 
-    img.width = '96.275ex';     
-    img.height = '13.176ex'; 
-    img.alt="{\displaystyle {\begin{aligned}\mathbf {B} (t)&amp;=\sum _{i=0}^{n}{n \choose i}(1-t)^{n-i}t^{i}\mathbf {P} _{i}\\&amp;=(1-t)^{n}\mathbf {P} _{0}+{n \choose 1}(1-t)^{n-1}t\mathbf {P} _{1}+\cdots +{n \choose n-1}(1-t)t^{n-1}\mathbf {P} _{n-1}+t^{n}\mathbf {P} _{n},&amp;&amp;0\leqslant t\leqslant 1\end{aligned}}}";
-    formula.appendChild(img);*/
-    /*switch(title){
-        case "Monomial":
-            text.innerText = "B(t) = P0 + t(P1-P0)";
-            break;
-        case "Lagrange":
-            text.innerText = "L(t) = t";
-            break;
-        case "Bezier":
-            formula.innerHTML = '<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4aead49f2dc6a80c8f4018274355e8f48c38573a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -6.005ex; width:96.275ex; height:13.176ex;" alt="{\displaystyle {\begin{aligned}\mathbf {B} (t)&amp;=\sum _{i=0}^{n}{n \choose i}(1-t)^{n-i}t^{i}\mathbf {P} _{i}\\&amp;=(1-t)^{n}\mathbf {P} _{0}+{n \choose 1}(1-t)^{n-1}t\mathbf {P} _{1}+\cdots +{n \choose n-1}(1-t)t^{n-1}\mathbf {P} _{n-1}+t^{n}\mathbf {P} _{n},&amp;&amp;0\leqslant t\leqslant 1\end{aligned}}}">';
-            break;
-        default:
-            text.innerText = title;
-            break;
-    }
-    formula.appendChild(text);*/
-    return formula;
+    return img;
+}
 
+function createToolTip(title, modal){
+    var info_tooltip = document.createElement("div");
+    info_tooltip.className = "tooltip-top";
+    var info_btn = document.createElement("button");
+    info_btn.className = "info-btn";
+    info_btn.id = title + "_info";
+    info_btn.onclick = function(){
+        modal.style.display = "block";
+    };
+    var text = document.createElement('a');
+    text.innerText = '\u{2148}';
+    info_btn.appendChild(text);
+   
+    var tooltip = document.createElement("span");
+    tooltip.className = "tooltiptext-top";
+    tooltip.innerHTML = "more info about equation";
+    
+    info_tooltip.appendChild(info_btn);
+    info_tooltip.appendChild(tooltip);
+
+    return info_tooltip;
+}
+
+function createModal(title){
+    var modal = document.createElement("div");
+    modal.className = "modal";
+    modal.id = "myModal";
+
+    var modal_content = document.createElement("div");
+    modal_content.className = "modal-content";
+
+    var close = document.createElement("span");
+    close.className = "close";
+    close.innerHTML = "&times;";
+    modal_content.appendChild(close);
+
+    var info_text = document.createElement("p");
+    info_text.innerText = "hello world";
+    modal_content.appendChild(info_text);
+
+    modal.appendChild(modal_content);
+
+    return modal;
+}
+
+function createFormula(td, title){
+    var formula = document.createElement("div");
+    formula.id = td.id + "_formula";
+    formula.className = "formula";
+
+    var modal = createModal(title);
+    var info_tooltip = createToolTip(title, modal);
+    info_tooltip.appendChild(modal);
+
+    var img = addFormualImg(title);
+   
+    formula.appendChild(img); 
+    formula.appendChild(info_tooltip);
+
+    return formula;
 }
 
 function drawZoneHeight(td){

@@ -3,7 +3,3 @@ function changeColors(){
     main.style.backgroundColor = "white"
 }
 
-function instruct(){
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
-}

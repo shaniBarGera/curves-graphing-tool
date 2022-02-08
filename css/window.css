@@ -56,7 +56,7 @@
 .slider {
     -webkit-appearance: none;
     background: #1e1e1e;
-    width: 90px;
+    width: 100px;
     height: 15px;
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
@@ -95,7 +95,8 @@
 
 .formula{
     background-color: #1e1e1e;
-    display : inline-block;
+    display : grid;
+    grid-template-columns: auto 40px;
     vertical-align : top;
     width : 100%;
     height: fit-content;
@@ -104,6 +105,21 @@
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: rgb(85, 85, 85) solid 3px; 
+}
+
+.info-btn{
+    background: none;
+    border: rgb(200, 199, 199) 1px solid;
+    color: rgb(200, 199, 199);
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+    width: 25px;
+    height: 25px;
+    border-radius: 12.5px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 

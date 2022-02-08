@@ -55,4 +55,4 @@ function test(){
     createWindow(td12, "B-Spline");
 }
 
-//test();
+test();
