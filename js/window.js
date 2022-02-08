@@ -123,26 +123,26 @@ function addFormualImg(title){
     if(title == "Monomial Basis"){
         img.src = "imgs/Monomial-formula.png";
     } else if(title == "Cubic Spline" || title == "Cubic Hermite Spline"){
-        img.src = "imgs/C-Spline-formula.png"
-     } else{
+        img.src = "imgs/C-Spline-formula.png";
+    } else{
         img.src="imgs/"+title+"-formula.png";
     }
     
-    img.height = "50";
+    img.height = "60";
     img.style.width = "100%";
     img.style.objectFit = "scale-down";
     return img;
 }
 
-function createToolTip(title, modal){
+function createToolTip(title){
     var info_tooltip = document.createElement("div");
     info_tooltip.className = "tooltip-top";
     var info_btn = document.createElement("button");
     info_btn.className = "info-btn";
     info_btn.id = title + "_info";
-    info_btn.onclick = function(){
-        modal.style.display = "block";
-    };
+    /*info_btn.onclick = function(){
+        //modal.style.display = "block";
+    };*/
     var text = document.createElement('a');
     text.innerText = '\u{2148}';
     info_btn.appendChild(text);
@@ -179,19 +179,59 @@ function createModal(title){
     return modal;
 }
 
+function getFormulaInfoImg(title){
+    var img = document.createElement("img");
+    if(title == "Monomial Basis"){
+        img.src = "imgs/Monomial-info.png";
+    } else if(title == "Cubic Spline"){
+        img.src = "imgs/C-Spline-info.png";
+     } else if(title == "Cubic Hermite Spline"){
+        img.src = "imgs/Hermite-info.png";
+    } else if (title == "B-Spline"){
+        img.src="imgs/B-Spline-info.png";
+    }
+    
+    img.style.width = "650px";
+    //img.style.width = "100%";
+    //img.style.objectFit = "contain";
+    return img;
+}
+
+function createPopUp(title){
+
+    
+    var container = document.createElement("div");
+    container.className = "popup";
+    container.onclick = function(){
+        var popup = document.getElementById(title + "_popup");
+        popup.classList.toggle("show");
+    };
+
+    var content = document.createElement("span");
+    content.className = "popuptext";
+    content.id = title + "_popup";
+    var info_img = getFormulaInfoImg(title);
+    content.appendChild(info_img);
+
+    container.appendChild(content);
+    return container;
+}
+
 function createFormula(td, title){
     var formula = document.createElement("div");
     formula.id = td.id + "_formula";
     formula.className = "formula";
-
-    var modal = createModal(title);
-    var info_tooltip = createToolTip(title, modal);
-    info_tooltip.appendChild(modal);
-
+    
+    var info_tooltip = createToolTip(title);
+    var popup = createPopUp(title);
+    popup.appendChild(info_tooltip);
     var img = addFormualImg(title);
    
     formula.appendChild(img); 
-    formula.appendChild(info_tooltip);
+    if(title == "Bezier" || title == "Lagrange"){
+        return formula;
+    }
+    formula.appendChild(popup);
 
     return formula;
 }
@@ -222,6 +262,33 @@ function createCanvas(td){
 }
 
 
+function clearAllWindows(){
+    var table = document.getElementById("myTable");
+    for(i = 0; i < table.rows.length; i++){
+        for(j = 0; j < table.rows[0].cells.length; j++){
+            var td = table.rows[i].cells[j];
+            clearWindow(td.id)
+        }
+    }
+}
 
+function openAllCurves(){
+    clearAllWindows();
 
+    addCol();
+    addCol();
+    addRow();
 
+    var td00 = document.getElementById("t_0_0");
+    createWindow(td00, "Monomial Basis");
+    var td01 = document.getElementById("t_0_1");
+    createWindow(td01, "Lagrange");
+    var td02 = document.getElementById("t_0_2");
+    createWindow(td02, "Cubic Hermite Spline");
+    var td10 = document.getElementById("t_1_0");
+    createWindow(td10, "Cubic Spline");
+    var td11 = document.getElementById("t_1_1");
+    createWindow(td11, "Bezier");
+    var td12 = document.getElementById("t_1_2");
+    createWindow(td12, "B-Spline");
+}

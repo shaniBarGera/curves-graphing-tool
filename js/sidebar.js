@@ -11,3 +11,8 @@ function openNav() {
     clickCounter--;
   }
 }
+
+function showGenInfo(){
+  var modal = document.getElementById("gen_info_modal");
+  modal.style.display = "block";
+}

@@ -97,10 +97,12 @@
     background-color: #1e1e1e;
     display : grid;
     grid-template-columns: auto 40px;
+    
     vertical-align : top;
     width : 100%;
     height: fit-content;
     text-align : center;
+    align-items: center;
     margin: 0;
     padding-top: 5px;
     padding-bottom: 5px;

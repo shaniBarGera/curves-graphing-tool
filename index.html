@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="css/table.css">   
         <link rel="stylesheet" href="css/window.css">  
         <link rel="stylesheet" href="css/modal.css"> 
+        <link rel="stylesheet" href="css/popup.css"> 
         <link rel="stylesheet" href="css/tooltip.css">  
         <link rel="stylesheet" href="css/tooltip-right.css"> 
         <link rel="stylesheet" href="css/tooltip-top.css"> 
@@ -76,14 +77,15 @@
             <div id="right-nav">
                 <div class="tooltip">
                     <button id="split-btn" class="split-btn" onclick="addCol()">
-                        <a>&#x268F;</a>
+                        <a>&#x2637;</a>
+                        
                     </button>
                     <span class="tooltiptext">Split Window Vertically</span>
                 </div>
 
                 <div class="tooltip">
                     <button id="split-btn" class="split-btn" onclick="delCol()">
-                        <a>&#x268C;</a>
+                        <a>&#x2610;</a>
                     </button>
                     <span class="tooltiptext">Merge Window Vertically</span>
                 </div>
@@ -103,6 +105,20 @@
                 </div>
 
                 <div class="tooltip">
+                    <button class="split-btn" onclick="openAllCurves()">
+                        <a>&#x268F;</a>
+                    </button>
+                    <span class="tooltiptext">Open All Curves</span>
+                </div> 
+
+                <div class="tooltip">
+                    <button class="split-btn" onclick="clearAllWindows()">
+                        <a>&#x2715;</a>
+                    </button>
+                    <span class="tooltiptext">Clear All Windows</span>
+                </div> 
+
+                <div class="tooltip">
                     <button id="split-btn" class="split-btn" onclick="changeColors()">
                         <a>&#x263C;</a>
                     </button>
@@ -110,15 +126,14 @@
                 </div>
               
                 <div class="tooltip">
-                    <button class="split-btn"><a>&#x2148;</a></button>
+                    <button class="split-btn" onclick="showGenInfo()"><a>&#x2148;</a></button>
+                    <div id="gen_info_modal" class="modal">
+                        <div class="modal-content">
+                          <span class="close">&times;</span>
+                          <p>General Info</p>
+                        </div> 
+                    </div>
                     <span class="tooltiptext">General Info</span>
-                </div> 
-                
-                <div class="tooltip">
-                    <button class="split-btn" onclick="clearWindow('t_0_0')">
-                        <a>&#x2715;</a>
-                    </button>
-                    <span class="tooltiptext">Clear All Windows</span>
                 </div>     
             </div>
        
