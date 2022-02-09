@@ -9,6 +9,37 @@
     this.y = y;
 }
 
+function distance(p1, p2){
+    let y = p2.x - p1.x;
+    let x = p2.y - p1.y;
+    
+    return Math.sqrt(x * x + y * y);
+}
+
+function tangent(p1, p2){
+    if(p2.x == p1.x) return 1;
+    return (p2.y - p1.y) / (p2.x - p1.x);
+}
+
+function KControlLine(p1, p2){
+    this.p1 = p1;
+    this.p2 = p2;
+    this.tan = tangent(p1, p2);
+    this.dist = distance(p1, p2);
+}
+
+KControlLine.changePoint = function (p, index){
+    if(index % 2 == 0)
+        this.p1 = p;
+    else
+        this.p2 = p;
+
+    var p1 = this.p1;
+    var p2 = this.p2;
+    this.tan = tangent(p1, p2);
+    this.dist = distance(p1, p2);
+}
+
 /**
  * Clear and fill a canvas with the specified color
  * @param ctx - The drawing context

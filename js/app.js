@@ -33,12 +33,15 @@ App.prototype.init = function(window, td_id, title) {
     this.title = title;
     this.canvas = document.getElementById(this.td_id + '_canvas');
     this.ctx = this.canvas.getContext('2d');
+    this.KControlPoint = null;
 
     // Gather initial values from DOM controls
     this.gatherUserInput();
 
     // Generate the initial control points
     this.generateControlPoints();
+
+    this.generateKControlPoints();
 
     // Add event listener for handling mouse movement
     this.canvas.addEventListener('mousemove', function(evt) {
@@ -48,7 +51,9 @@ App.prototype.init = function(window, td_id, title) {
         if (this.dragging === true) {
             this.hoveringPoint.x = this.mousePosition.x;
             this.hoveringPoint.y = this.mousePosition.y;
+            //this.fixKControlPoints();
             this.update();
+    
         }
 
         // Otherwise listen for hovering over the primary control points
@@ -58,6 +63,14 @@ App.prototype.init = function(window, td_id, title) {
                 if (this.checkPointHover(this.controlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
                     this.hovering = true;
                     this.hoveringPoint = this.controlPoints[point];
+                    this.KControlPoint = null;
+                }
+            }
+            for (var point in this.KControlPoints) {
+                if (this.checkPointHover(this.KControlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
+                    this.hovering = true;
+                    this.KControlPoint = point;
+                    this.hoveringPoint = this.KControlPoints[point];
                 }
             }
             if (this.hovering === true) {
@@ -96,6 +109,7 @@ App.prototype.init = function(window, td_id, title) {
     document.getElementById('n_input_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
         app.generateControlPoints();
+        app.generateKControlPoints();
         app.update();
     });
 
@@ -113,6 +127,20 @@ App.prototype.init = function(window, td_id, title) {
         app.update();
     });
 };
+
+App.prototype.fixKControlPoints = function(){
+    var curr_k_index = this.KControlPoint;
+    var dx = this.KControlPoints[curr_k_index].x - this.mousePosition.x;
+    var dy = this.KControlPoints[curr_k_index].y - this.mousePosition.y;
+    console.log(this);
+    if(curr_k_index % 2 == 0){
+        this.KControlPoints[curr_k_index + 1].x -= dx;
+        this.KControlPoints[curr_k_index + 1].y -= dy;
+    } else {
+        this.KControlPoints[curr_k_index - 1].x -= dx;
+        this.KControlPoints[curr_k_index - 1].y -= dy;
+    }
+}
 
 App.prototype.fixTitle = function(){
     var order_num = 0;
@@ -144,10 +172,9 @@ App.prototype.displayStep = function(){
  * Recalculates the curve values and updates the slider based on the other UI values
  */
 App.prototype.update = function() {
-    
+
     this.fixTitle();
     this.displayStep();
-
     
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
 
@@ -270,8 +297,13 @@ App.prototype.draw = function() {
         
     }
 
+
+    this.drawKControlPoints(this.KControlPoints, this.constants.colors.SECONDARY_CONTROL_LINES);
+
     // Draw the primary curve control points with connecting lines
     this.drawControlPoints(this.controlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
+
+    
     
 
 };
@@ -310,6 +342,40 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
 };
 
 /**
+ * Renders a set of control points connected by a line that runs from each control point to the next control point
+ * @param controlPoints - The control points to render
+ * @param color - The color of the control points
+ * @param primaryPoints - True if the given set of control points are the primary control points for the curve
+ */
+ App.prototype.drawKControlPoints = function(controlPoints, color, primaryPoints)
+ {
+     if(controlPoints.length <= 0) return;
+     // Iterate through every control point in the given set
+     for (var ctrlPoint = 0; ctrlPoint < controlPoints.length; ctrlPoint++) {
+         var pt = controlPoints[ctrlPoint];
+ 
+         // Draw a line segment from the previous point to the current point
+         if (ctrlPoint % 2 == 1) {
+             var prevPt = controlPoints[ctrlPoint-1];
+             drawLine(this.ctx, pt.x, pt.y, prevPt.x, prevPt.y, this.constants.LINE_WIDTH, color);
+         }
+ 
+         // Draw a circle representing the current control point
+         var fillColor = primaryPoints ? this.constants.colors.SECONDARY_CONTROL_LINES : this.constants.colors.BACKGROUND_COLOR;
+         drawCircle(
+             this.ctx,
+             pt.x,
+             pt.y,
+             this.constants.CONTROL_POINT_WIDTH_HEIGHT * 0.4,
+             this.constants.CONTROL_POINT_WIDTH_HEIGHT * 0.4,
+             this.constants.LINE_WIDTH,
+             this.constants.colors.SECONDARY_CONTROL_LINES,
+             fillColor
+         );
+     }
+ };
+
+/**
  * Refreshes the stored user-inputted values to match what is currently in the UI
  */
 App.prototype.gatherUserInput = function() {
@@ -343,6 +409,30 @@ App.prototype.generateControlPoints = function() {
         );
     }
 };
+
+App.prototype.generateKControlPoints = function() {
+    this.KControlPoints = [];
+    this.KControlLines = [];
+    if(this.title != "Cubic Hermite Spline") return;
+    var spacePerPoint = (this.canvas.width / this.orderSelection);
+    for (var i = 0; i < this.orderSelection; i++) {
+            this.KControlPoints.push(
+                new Point(
+                    this.controlPoints[i].x + (spacePerPoint / 4),
+                    this.controlPoints[i].y
+                )
+            );
+            this.KControlPoints.push(
+                new Point(
+                    this.controlPoints[i].x - (spacePerPoint / 4),
+                    this.controlPoints[i].y
+                )
+            );
+    }
+    for (var i = 0; i < this.KControlPoints.length - 1; i+=2) {
+        this.KControlLines.push(new KControlLine(this.KControlPoints[i], this.KControlPoints[i + 1]));
+    }
+}
 
 
 /**

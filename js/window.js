@@ -149,7 +149,7 @@ function createToolTip(title){
    
     var tooltip = document.createElement("span");
     tooltip.className = "tooltiptext-top";
-    tooltip.innerHTML = "more info about equation";
+    tooltip.innerHTML = "click to show/hide more info";
     
     info_tooltip.appendChild(info_btn);
     info_tooltip.appendChild(tooltip);
