@@ -33,7 +33,8 @@ App.prototype.init = function(window, td_id, title) {
     this.title = title;
     this.canvas = document.getElementById(this.td_id + '_canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.KControlPoint = null;
+    this.controlPointIndex = null;
+    this.KControlPointIndex = null;
 
     // Gather initial values from DOM controls
     this.gatherUserInput();
@@ -49,11 +50,10 @@ App.prototype.init = function(window, td_id, title) {
 
         // Handle dragging-and-dropping the control points
         if (this.dragging === true) {
+            this.fixKControlPoints();
             this.hoveringPoint.x = this.mousePosition.x;
             this.hoveringPoint.y = this.mousePosition.y;
-            //this.fixKControlPoints();
             this.update();
-    
         }
 
         // Otherwise listen for hovering over the primary control points
@@ -63,13 +63,14 @@ App.prototype.init = function(window, td_id, title) {
                 if (this.checkPointHover(this.controlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
                     this.hovering = true;
                     this.hoveringPoint = this.controlPoints[point];
-                    this.KControlPoint = null;
+                    this.KControlPointIndex = null;
+                    this.controlPointIndex = point;
                 }
             }
             for (var point in this.KControlPoints) {
                 if (this.checkPointHover(this.KControlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
                     this.hovering = true;
-                    this.KControlPoint = point;
+                    this.KControlPointIndex = point;
                     this.hoveringPoint = this.KControlPoints[point];
                 }
             }
@@ -129,13 +130,22 @@ App.prototype.init = function(window, td_id, title) {
 };
 
 App.prototype.fixKControlPoints = function(){
-    var curr_k_index = this.KControlPoint;
-    var dx = this.KControlPoints[curr_k_index].x - this.mousePosition.x;
-    var dy = this.KControlPoints[curr_k_index].y - this.mousePosition.y;
-    console.log(this);
-    if(curr_k_index % 2 == 0){
-        this.KControlPoints[curr_k_index + 1].x -= dx;
-        this.KControlPoints[curr_k_index + 1].y -= dy;
+    if(this.title != "Cubic Hermite Spline") return;
+
+    var dx = this.mousePosition.x - this.hoveringPoint.x;
+    var dy = this.mousePosition.y - this.hoveringPoint.y;
+    
+    var curr_k_index = this.KControlPointIndex;
+    if(curr_k_index == null){
+        var i = Math.floor(this.controlPointIndex * 2);
+        this.KControlPoints[i].x += dx;
+        this.KControlPoints[i].y += dy;
+        this.KControlPoints[i + 1].x += dx;
+        this.KControlPoints[i + 1].y += dy;
+    } else if(curr_k_index % 2 == 0){
+        var j = parseInt(curr_k_index) + 1;
+        this.KControlPoints[j].x -= dx;
+        this.KControlPoints[j].y -= dy;
     } else {
         this.KControlPoints[curr_k_index - 1].x -= dx;
         this.KControlPoints[curr_k_index - 1].y -= dy;
