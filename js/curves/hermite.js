@@ -3,44 +3,53 @@
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
- function CHSPL(controlPoints, step, num_steps) {
+ function CHSPL(controlPoints, step, num_steps, kControlPoints) {
     this.cp = controlPoints;
     this.step_n = num_steps;
     this.cp_n = controlPoints.length;  
     this.step = step;
+    this.kControlPoints = kControlPoints;
 
     if(step >= num_steps -1){
         this.point = controlPoints[this.cp_n - 1];
         return;
     }
 
-    this.Arr = CHSPL._gaussJ.zerosMat(this.cp_n, this.cp_n);
-    CHSPL.fillMatrix(this.Arr);
+    //this.Arr = CHSPL._gaussJ.zerosMat(this.cp_n, this.cp_n);
+    //CHSPL.fillMatrix(this.Arr);
 
     this.xs = [];
     this.ys = [];
     CHSPL.fillXY(this.xs, this.ys, controlPoints);
 
-    this.x_RHS = [];
-    buildKnotsRHS(this.cp_n, this.xs, this.x_RHS);
-    this.y_RHS = [];
-    buildKnotsRHS(this.cp_n, this.ys, this.y_RHS);
+    //this.x_RHS = [];
+    //buildKnotsRHS(this.cp_n, this.xs, this.x_RHS);
+    //this.y_RHS = [];
+    //buildKnotsRHS(this.cp_n, this.ys, this.y_RHS);
 
     // CHANGE: get xks,xky by input
     // by default use gauss solve
     // use inputs dx, dy for control point i as xks[i], yks[i]
     // dx,dy will be inputed by tangents(mashik) to control points that user could rotate and stretch
-    this.Arr_temp = CHSPL._gaussJ.zerosMat(this.cp_n, this.cp_n + 1);
-    copy_arr(this.Arr, this.Arr_temp, this.x_RHS, this.cp_n);
+    //this.Arr_temp = CHSPL._gaussJ.zerosMat(this.cp_n, this.cp_n + 1);
+    //copy_arr(this.Arr, this.Arr_temp, this.x_RHS, this.cp_n);
     this.xks = [];
-    CHSPL._gaussJ.solve(this.Arr_temp, this.xks);
+    //CHSPL._gaussJ.solve(this.Arr_temp, this.xks);
     
-    copy_arr(this.Arr, this.Arr_temp, this.y_RHS, this.cp_n);
+    //copy_arr(this.Arr, this.Arr_temp, this.y_RHS, this.cp_n);
     this.yks = [];
-    CHSPL._gaussJ.solve(this.Arr_temp, this.yks);
+    //CHSPL._gaussJ.solve(this.Arr_temp, this.yks);
 
-    this.xks[2] *= 5;
-    this.yks[2] *= 5;
+    //this.xks[2] *= 5;
+    //this.yks[2] *= 5;
+
+    var const_num = 2;
+    for(var i = 0; i < this.cp_n; i++){
+        var j = i * 2;
+        
+        this.xks[i] = const_num * (this.kControlPoints[j + 1].x - this.kControlPoints[j].x);
+        this.yks[i] = const_num * (this.kControlPoints[j + 1].y - this.kControlPoints[j].y);
+    }
 
     var relative_pos = findRelativePos(this.cp_n, num_steps, step);
     var i = relative_pos[0];

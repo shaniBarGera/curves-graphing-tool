@@ -28,25 +28,7 @@ function KControlLine(p1, p2){
     this.dist = distance(p1, p2);
 }
 
-KControlLine.changePoint = function (p, index){
-    if(index % 2 == 0)
-        this.p1 = p;
-    else
-        this.p2 = p;
 
-    var p1 = this.p1;
-    var p2 = this.p2;
-    this.tan = tangent(p1, p2);
-    this.dist = distance(p1, p2);
-}
-
-KControlLines(points){
-    this.points = points;
-    this.lines = [];
-    for(var i = 0; i < points.length; i++){
-        this.lines.push(new KControlLine(points[i], points[i+1]);
-    }
-}
 
 /**
  * Clear and fill a canvas with the specified color

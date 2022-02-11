@@ -134,22 +134,42 @@ App.prototype.fixKControlPoints = function(){
 
     var dx = this.mousePosition.x - this.hoveringPoint.x;
     var dy = this.mousePosition.y - this.hoveringPoint.y;
-    
+
     var curr_k_index = this.KControlPointIndex;
+    var i = curr_k_index, j = curr_k_index;
     if(curr_k_index == null){
-        var i = Math.floor(this.controlPointIndex * 2);
+        i = this.controlPointIndex * 2;
+        j = parseInt(i) + 1;
         this.KControlPoints[i].x += dx;
         this.KControlPoints[i].y += dy;
-        this.KControlPoints[i + 1].x += dx;
-        this.KControlPoints[i + 1].y += dy;
+        this.KControlPoints[j].x += dx;
+        this.KControlPoints[j].y += dy;
     } else if(curr_k_index % 2 == 0){
-        var j = parseInt(curr_k_index) + 1;
+        i = parseInt(curr_k_index);
+        j = i + 1;
         this.KControlPoints[j].x -= dx;
         this.KControlPoints[j].y -= dy;
     } else {
-        this.KControlPoints[curr_k_index - 1].x -= dx;
-        this.KControlPoints[curr_k_index - 1].y -= dy;
+        i = curr_k_index - 1;
+        j = parseInt(i) + 1;
+        this.KControlPoints[i].x -= dx;
+        this.KControlPoints[i].y -= dy;
     }
+
+    //var line_index = Math.floor(curr_k_index / 2);
+
+    //this.changeKPoint(i, j, line_index);
+    console.log(this);
+}
+
+App.prototype.changeKPoint = function (p1_index, p2_index, line_index){
+    this.KControlLines[line_index].p1 = this.KControlPoints[p1_index];
+    this.KControlLines[line_index].p2 = this.KControlPoints[p2_index];
+
+    var p1 = this.KControlLines[line_index].p1;
+    var p2 = this.KControlLines[line_index].p2;
+    this.KControlLines[line_index].tan = tangent(p1, p2);
+    this.KControlLines[line_index].dist = distance(p1, p2);
 }
 
 App.prototype.fixTitle = function(){
@@ -218,7 +238,7 @@ App.prototype.buildCurves = function() {
                 var curve = new BSpline(controlPoints, step, this.numSteps, this.kValue);
                 break;
             case "Cubic Hermite Spline":
-                var curve = new CHSPL(controlPoints, step, this.numSteps);
+                var curve = new CHSPL(controlPoints, step, this.numSteps, this.KControlPoints);
                 break;
             case "Monomial Basis":
                 var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue);
@@ -439,9 +459,9 @@ App.prototype.generateKControlPoints = function() {
                 )
             );
     }
-    for (var i = 0; i < this.KControlPoints.length - 1; i+=2) {
+    /*for (var i = 0; i < this.KControlPoints.length - 1; i+=2) {
         this.KControlLines.push(new KControlLine(this.KControlPoints[i], this.KControlPoints[i + 1]));
-    }
+    }*/
 }
 
 
