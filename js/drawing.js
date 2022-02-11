@@ -40,6 +40,14 @@ KControlLine.changePoint = function (p, index){
     this.dist = distance(p1, p2);
 }
 
+KControlLines(points){
+    this.points = points;
+    this.lines = [];
+    for(var i = 0; i < points.length; i++){
+        this.lines.push(new KControlLine(points[i], points[i+1]);
+    }
+}
+
 /**
  * Clear and fill a canvas with the specified color
  * @param ctx - The drawing context
