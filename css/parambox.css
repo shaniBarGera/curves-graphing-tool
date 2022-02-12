@@ -1,0 +1,24 @@
+.param-box{
+    height: 300px;
+    width: 100%;
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: rgb(85, 85, 85) solid 3px; 
+    border-radius: 5px;
+    text-align: center;
+}
+
+.parambox-header{
+    vertical-align : top;
+    width : 100%;
+    height: fit-content;
+    text-align : center;
+    align-items: center;
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: rgb(128, 128, 128) solid 1px;
+    color: white;
+    font :20px Arial;
+}

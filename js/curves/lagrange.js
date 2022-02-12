@@ -3,25 +3,25 @@
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
- function LagrangeCurve(controlPoints, step, num_steps) {
-      
-
+ function LagrangeCurve(controlPoints, step, num_steps, ts) {
+    var n = controlPoints.length;
     this.xs = [];
     this.ys = [];
     Matrix.fillXY(this.xs, this.ys, controlPoints);
 
-    this.ts = [];
-    var n = controlPoints.length;
+    /*this.ts = [];
     for(var i=0; i < n; ++i){
         this.ts[i] = i;
-    }
-    var t = (step / (num_steps -1)) * (n-1);
+    }*/
+    var t = (step / (num_steps -1)) ;
+    //var t = (step / (num_steps -1)) * (n-1);
 
-    this.point = LagrangeCurve.interpolateXY(n, t, this.ts, this.xs, this.ys);
+    this.base = [];
+
+    this.point = LagrangeCurve.interpolateXY(n, t, ts, this.xs, this.ys, this.base);
 }
 
-LagrangeCurve.interpolateXY = function(n, t, ts, xs, ys){
-    var L = [];
+LagrangeCurve.interpolateXY = function(n, t, ts, xs, ys, L){
     var x = 0, y = 0;
     for(var i = 0; i < n; ++i){
         var numerator = 1, denominator = 1;

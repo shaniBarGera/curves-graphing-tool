@@ -3,22 +3,26 @@
  * @param controlPoints - The set of control points for the bezier curve
  * @constructor
  */
- function CSPL(controlPoints, step, num_steps) {
+ function CSPL(controlPoints, step, num_steps, ts) {
     var n = controlPoints.length;  
+
+    this.draw = [true];
 
     if(step >= num_steps -1){
         this.point = controlPoints[n - 1];
+        this.base = [];
+        CSPL.calcBase(1, this.base);
         return;
     }
 
-    this.ts = [];
+    /*this.ts = [];
     for(var i = 0; i < n; ++i){
         this.ts[i] = i / (n-1);
-    }
+    }*/
 
     this.tsdiff = [];
     for(var i = 0; i < n-1; ++i){
-        this.tsdiff[i] = this.ts[i+1] - this.ts[i];
+        this.tsdiff[i] = ts[i+1] - ts[i];
     }
 
     this.Arr = Matrix.zerosMat(n, n);
@@ -42,78 +46,51 @@
     this.yks = [];
     Matrix.solve(this.Arr_temp, this.yks);
     
-    this.point = CSPL.interpolateXY(n, num_steps, step, this.ts, this.xs, this.ys, this.xks, this.yks, this.tsdiff);
-}
-
-function CSPL(controlPoints, step, num_steps, xks, yks){
-    var n = controlPoints.length;  
-
-    if(step >= num_steps -1){
-        this.point = controlPoints[n - 1];
-        return;
-    }
-
-    this.ts = [];
-    for(var i = 0; i < n; ++i){
-        this.ts[i] = i / (n-1);
-    }
-
-    this.tsdiff = [];
-    for(var i = 0; i < n-1; ++i){
-        this.tsdiff[i] = this.ts[i+1] - this.ts[i];
-    }
-
-    this.Arr = Matrix.zerosMat(n, n);
-    CSPL.fillMatrix(this.Arr, this.tsdiff);
-
-    this.xs = [];
-    this.ys = [];
-    Matrix.fillXY(this.xs, this.ys, controlPoints);
-
-    this.x_RHS = [];
-    CSPL.buildKnotsRHS(n, this.xs, this.x_RHS, this.tsdiff);
-    this.y_RHS = [];
-    CSPL.buildKnotsRHS(n, this.ys, this.y_RHS, this.tsdiff);
-
-    this.Arr_temp = Matrix.zerosMat(n, n + 1);
-    Matrix.copyArr(this.Arr, this.Arr_temp, this.x_RHS, n);
-    this.xks = [];
-    Matrix.solve(this.Arr_temp, this.xks);
+    this.base = [];
     
-    Matrix.copyArr(this.Arr, this.Arr_temp, this.y_RHS, n);
-    this.yks = [];
-    Matrix.solve(this.Arr_temp, this.yks);
     
-    this.point = CSPL.interpolateXY(n, num_steps, step, this.ts, this.xs, this.ys, this.xks, this.yks, this.tsdiff);
+    this.point = CSPL.interpolateXY(n, num_steps, step, ts, this.xs, this.ys, this.xks, this.yks, this.tsdiff, this.base, this.draw);
+    console.log(this);
+    
 }
 
 CSPL.calcKWeights = function(t){
-    var prev_k_w = t*Math.pow(1-t,2);
-    var next_k_w = Math.pow(t,2)*(t-1);
+    var prev_k_w = t*Math.pow(1-t,2); //H10
+    var next_k_w = Math.pow(t,2)*(t-1); //H11
     return new Matrix.Pair(prev_k_w, next_k_w);
 }
 
 CSPL.calcCWeights = function(t){
-    var prev_c_w = 1-3*Math.pow(t,2)+2*Math.pow(t,3);
-    var next_c_w = 3*Math.pow(t,2)-2*Math.pow(t,3);
+    var prev_c_w = 1-3*Math.pow(t,2)+2*Math.pow(t,3); // H00
+    var next_c_w = 3*Math.pow(t,2)-2*Math.pow(t,3); //H01
     return new Matrix.Pair(prev_c_w, next_c_w);
 }
 
-CSPL.interpolate = function(cs, ks, t, tsdiff, i){
-    var c_w = CSPL.calcCWeights(t);
-    var k_w = CSPL.calcKWeights(t);
-    var c = new Matrix.Pair(cs[i] * c_w.prev, cs[i+1] * c_w.next);
-    var k = new Matrix.Pair(ks[i] * k_w.prev, ks[i+1] * k_w.next);
+CSPL.calcBase = function(t, base){
+    base[0] =  1-3*Math.pow(t,2)+2*Math.pow(t,3); // H00
+    base[1] = 3*Math.pow(t,2)-2*Math.pow(t,3); //H01
+    base[2] =  t*Math.pow(1-t,2); //H10
+    base[3] = Math.pow(t,2)*(t-1); //H11
+}
+
+CSPL.interpolate = function(cs, ks, base, tsdiff, i){
+    //var c_w = CSPL.calcCWeights(t);
+    //var k_w = CSPL.calcKWeights(t);
+
+    var c = new Matrix.Pair(cs[i] * base[0], cs[i+1] * base[1]);
+    var k = new Matrix.Pair(ks[i] * base[2], ks[i+1] * base[3]);
     return c.prev + c.next + (k.prev + k.next) * tsdiff[i];
 }
 
-CSPL.interpolateXY = function(n, num_steps, step, ts,  xs, ys, xks, yks, tsdiff){
-    var relative_pos = CSPL.findRelativePos(n, num_steps, step, ts);
+CSPL.interpolateXY = function(n, num_steps, step, ts,  xs, ys, xks, yks, tsdiff, base, draw){
+    var relative_pos = CSPL.findRelativePos(n, num_steps, step, ts, draw);
     var i = relative_pos[0];
     var t = relative_pos[1];
 
-    var x = CSPL.interpolate(xs, xks, t, tsdiff, i);
-    var y = CSPL.interpolate(ys, yks, t, tsdiff, i);
+    CSPL.calcBase(t, base);
+
+    var x = CSPL.interpolate(xs, xks, base, tsdiff, i);
+    var y = CSPL.interpolate(ys, yks, base, tsdiff, i);
     return new Point(x,y);
 }
 
@@ -124,13 +101,18 @@ CSPL.interpolateXY = function(n, num_steps, step, ts,  xs, ys, xks, yks, tsdiff)
  * @param num_steps
  * @returns interval index, position in interval
  */
-CSPL.findRelativePos = function(n, num_steps, step, ts){
+CSPL.findRelativePos = function(n, num_steps, step, ts, draw){
     if(step == 0) return [0,0];
     var global_relative_pos = step / (num_steps -1);
     var i = 0;
     for(;i < n-1, global_relative_pos > ts[i]; ++i);
     i--;
     var t = (global_relative_pos - ts[i])/(ts[i+1] - ts[i]);
+
+    var prev_global_relative_pos = (step -1) / (num_steps - 1);
+
+    if(prev_global_relative_pos <= ts[i]) draw[0] = false;
+        
     return [i, t];
  }
 

@@ -1,8 +1,8 @@
-function App() {
+function SubApp() {
     
 }
 
-App.prototype.constants = {
+SubApp.prototype.constants = {
     colors: {
         CURVE: 'rgba(255, 255, 255, 1.0)',
         CURVE_POINTS: 'rgba(255, 255, 255, 0.35)',
@@ -17,28 +17,22 @@ App.prototype.constants = {
     RANDOM_POINT_PADDING: 20,
     RANDOM_POINT_SPACING: 50,
     LINE_WIDTH: 3,
-    ORDERS: ['Linear', 'Quadratic', 'Cubic', 'Quartic'],
-    PARAM_COLORS: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'orange', 'blue']
+    ORDERS: ['Linear', 'Quadratic', 'Cubic', 'Quartic']
 };
 
 /**
  * Sets the starting values for the app, both environmental references and starting curve data
  * @param window - the browser window object
  */
-App.prototype.init = function(window, td_id, title, subapp_num) {
+SubApp.prototype.init = function(window, td_id, title) {
     // Capture the window and canvas elements
     this.window = window;
     this.td_id = td_id;
     this.title = title;
-    this.canvas = document.getElementById(this.td_id + '_canvas');
+    this.canvas = document.getElementById(this.td_id + '_parambox_canvas');
     this.ctx = this.canvas.getContext('2d');
     this.controlPointIndex = null;
     this.KControlPointIndex = null;
-    this.paramControlPointIndex = null;
-    
-
-    this.param_canvas = document.getElementById(this.td_id + '_parambox_canvas');
-    this.param_ctx = this.param_canvas.getContext('2d');
     this.ts = [];
 
     // Gather initial values from DOM controls
@@ -47,21 +41,20 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
     // Generate the initial control points
     this.generateControlPoints();
 
-    this.generateKControlPoints();
-
-    this.generateParamControlPoints();
     this.calc_ts();
+
+    //this.generateKControlPoints();
 
     // Add event listener for handling mouse movement
     this.canvas.addEventListener('mousemove', function(evt) {
         this.mousePosition = this.getMousePos(this.canvas, evt);
-        
+
         // Handle dragging-and-dropping the control points
         if (this.dragging === true) {
-            this.fixKControlPoints();
+            //this.fixKControlPoints();
             this.hoveringPoint.x = this.mousePosition.x;
-            this.hoveringPoint.y = this.mousePosition.y;
-           
+            this.calc_ts();
+            //this.hoveringPoint.y = this.mousePosition.y;
             this.update();
         }
 
@@ -69,6 +62,10 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
         else {
             this.hovering = false;
             for (var point in this.controlPoints) {
+                //console.log(point);
+                if(point == 0 || point == this.controlPoints.length - 1){
+                    continue;
+                } 
                 if (this.checkPointHover(this.controlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
                     this.hovering = true;
                     this.hoveringPoint = this.controlPoints[point];
@@ -83,7 +80,6 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
                     this.hoveringPoint = this.KControlPoints[point];
                 }
             }
-         
             if (this.hovering === true) {
                 document.body.style.cursor = 'pointer';
             }
@@ -109,78 +105,6 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
         document.body.classList.remove('unselectable')
     }.bind(this));
 
-
-    var last_point = this.paramControlPoints[this.paramControlPoints.length - 1];
-    var first_point = this.paramControlPoints[0];
-    //this.next_param_point = last_point;
-    //this.prev_param_point = first_point;
-
-    // Add event listener for handling mouse movement
-    this.param_canvas.addEventListener('mousemove', function(evt) {
-            this.param_mousePosition = this.getMousePos(this.param_canvas, evt);
-          
-            //console.log(this.next_param_point, this.prev_param_point);
-            // Handle dragging-and-dropping the control points
-            //
-            if (this.param_dragging === true && 
-                this.param_mousePosition.x > first_point.x && this.param_mousePosition.x < last_point.x){
-                    if(this.paramControlPointIndex){
-                        var j = parseInt(this.paramControlPointIndex) + 1;
-                        var next = this.paramControlPoints[j];
-                        var prev = this.paramControlPoints[this.paramControlPointIndex - 1];
-                        //console.log(this.paramControlPointIndex, prev, next);
-                        if(this.param_mousePosition.x > prev.x && this.param_mousePosition.x < next.x){
-                            this.param_hoveringPoint.x = this.param_mousePosition.x;
-                            this.calc_ts();
-                            this.update();
-                        }
-                    }
-                    
-                //this.param_mousePosition.x <= this.next_param_point.x && 
-                //this.param_mousePosition.x >= this.prev_param_point.x ) {
-                        
-            }
-    
-            // Otherwise listen for hovering over the primary control points
-            else {
-                this.param_hovering = false;
-                for (var point in this.paramControlPoints) {
-                    if(point == 0 || point == this.paramControlPoints.length - 1) continue;
-                    if (this.checkParamPointHover(this.paramControlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
-                        this.param_hovering = true;
-                        this.param_hoveringPoint = this.paramControlPoints[point];
-                        this.paramControlPointIndex = point;
-                        //this.next_param_point = this.paramControlPoints[point + 1];
-                        //this.prev_param_point = this.paramControlPoints[point - 1];
-                    }
-                }
-                if (this.param_hovering === true) {
-                    document.body.style.cursor = 'pointer';
-                }
-                else {
-                    document.body.style.cursor = 'auto';
-                    this.param_hovering = false;
-                    this.param_hoveringPoint = null;
-                }
-            }
-        }.bind(this), false);
-
-
-    // Add event listener for clicking the mouse down
-    this.param_canvas.addEventListener('mousedown', function(evt) {
-        if (this.param_hovering === true) {
-            this.param_dragging = true;
-            document.body.classList.add('unselectable');
-        }
-    }.bind(this));
-
-    // Add event listener for unclicking the mouse
-    this.param_canvas.addEventListener('mouseup', function(evt) {
-        this.param_dragging = false;
-        document.body.classList.remove('unselectable')
-    }.bind(this));
-
-
     // Add event listener to handle any of the control values changing
     var app = this;
     document.getElementById('steps_input_' + this.td_id).addEventListener('input', function(evt) {
@@ -193,7 +117,6 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
         app.gatherUserInput();
         app.generateControlPoints();
         app.generateKControlPoints();
-        app.generateParamControlPoints();
         app.update();
     });
 
@@ -212,14 +135,14 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
     });
 };
 
-App.prototype.calc_ts = function(){
-    var n = this.paramControlPoints.length;
+SubApp.prototype.calc_ts = function(){
+    var n = this.controlPoints.length;
     if(n < 2) return;
-    var dist = this.paramControlPoints[n - 1].x - this.paramControlPoints[0].x;
+    var dist = this.controlPoints[n - 1].x - this.controlPoints[0].x;
     this.ts[0] = 0;
     this.ts[n-1] = 1;
     for(var i = 1; i < n - 1; i++){
-        var dx = this.paramControlPoints[i].x - this.paramControlPoints[0].x;
+        var dx = this.controlPoints[i].x - this.controlPoints[0].x;
         this.ts[i] = dx / dist;
     }
 
@@ -229,7 +152,7 @@ App.prototype.calc_ts = function(){
     }
 }
 
-App.prototype.fixKControlPoints = function(){
+SubApp.prototype.fixKControlPoints = function(){
     if(this.title != "Cubic Hermite Spline") return;
 
     var dx = this.mousePosition.x - this.hoveringPoint.x;
@@ -262,7 +185,7 @@ App.prototype.fixKControlPoints = function(){
     console.log(this);
 }
 
-App.prototype.changeKPoint = function (p1_index, p2_index, line_index){
+SubApp.prototype.changeKPoint = function (p1_index, p2_index, line_index){
     this.KControlLines[line_index].p1 = this.KControlPoints[p1_index];
     this.KControlLines[line_index].p2 = this.KControlPoints[p2_index];
 
@@ -272,7 +195,7 @@ App.prototype.changeKPoint = function (p1_index, p2_index, line_index){
     this.KControlLines[line_index].dist = distance(p1, p2);
 }
 
-App.prototype.fixTitle = function(){
+SubApp.prototype.fixTitle = function(){
     var order_num = 0;
     
     if(this.title == "Lagrange" || this.title == "Bezier"){
@@ -293,7 +216,7 @@ App.prototype.fixTitle = function(){
     document.getElementById(this.td_id + '_header').firstChild.innerText = new_title;
 }
 
-App.prototype.displayStep = function(){
+SubApp.prototype.displayStep = function(){
     t = 't = ' + this.tValue;
     document.getElementById('tValue_' + this.td_id).innerHTML = t;
 }
@@ -301,16 +224,15 @@ App.prototype.displayStep = function(){
 /**
  * Recalculates the curve values and updates the slider based on the other UI values
  */
-App.prototype.update = function() {
+SubApp.prototype.update = function() {
 
-    this.fixTitle();
-    this.displayStep();
+    //this.fixTitle();
+    //this.displayStep();
     
-    document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
+    //document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
 
     this.curves = this.buildCurves();
     this.draw();
-    this.drawParamLagrange();
 };
 
 /**
@@ -318,7 +240,7 @@ App.prototype.update = function() {
  * every time any curve-related value is changed
  * @returns {Array}
  */
-App.prototype.buildCurves = function() {
+SubApp.prototype.buildCurves = function() {
     var controlPoints = this.controlPoints;
     var curves = [];
 
@@ -330,19 +252,19 @@ App.prototype.buildCurves = function() {
                 var curve = new BezierCurve(controlPoints, t);
                 break;
             case "Cubic Spline":
-                var curve = new CSPL(controlPoints, step, this.numSteps, this.ts);
+                var curve = new CSPL(controlPoints, step, this.numSteps);
                 break;
             case "Lagrange":
-                var curve = new LagrangeCurve(controlPoints, step, this.numSteps, this.ts);
+                var curve = new LagrangeCurve(controlPoints, step, this.numSteps);
                 break;
             case "B-Spline":
-                var curve = new BSpline(controlPoints, step, this.numSteps, this.kValue, this.ts);
+                var curve = new BSpline(controlPoints, step, this.numSteps, this.kValue);
                 break;
             case "Cubic Hermite Spline":
-                var curve = new CHSPL(controlPoints, step, this.numSteps, this.KControlPoints, this.ts);
+                var curve = new CHSPL(controlPoints, step, this.numSteps, this.KControlPoints);
                 break;
             case "Monomial Basis":
-                var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue, this.ts);
+                var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue);
                 break;
             default:
                 var curve = new LinearCurve(controlPoints, step, this.numSteps);
@@ -354,7 +276,7 @@ App.prototype.buildCurves = function() {
     return curves;
 };
 
-App.prototype.drawSubCurve = function(step) {
+SubApp.prototype.drawSubCurve = function(step) {
            // If the current step matches the current slider value
            if (step === parseInt(this.tSliderValue)) {
 
@@ -374,11 +296,10 @@ App.prototype.drawSubCurve = function(step) {
 /**
  * Renders the curve and all curve-related graphical elements in the app
  */
-App.prototype.draw = function() {
+SubApp.prototype.draw = function() {
 
     // Clear the render area
     clearCanvas(this.ctx, this.canvas.width, this.canvas.height, this.constants.colors.BACKGROUND_COLOR);
-    //clearCanvas(this.param_ctx, this.param_canvas.width, this.param_canvas.height, this.constants.colors.BACKGROUND_COLOR);
 
     // Draw the curve and all of the control points
     var prevPoint = null;
@@ -397,7 +318,6 @@ App.prototype.draw = function() {
 
         prevPoint = point;
         point = curve.point;
-
         // Draw the curve segments
         if (step > 0) {
             drawLine(this.ctx, prevPoint.x, prevPoint.y, point.x, point.y, this.constants.LINE_WIDTH, this.constants.colors.CURVE);
@@ -431,110 +351,14 @@ App.prototype.draw = function() {
     }
 
 
-    this.drawKControlPoints(this.KControlPoints, this.constants.colors.SECONDARY_CONTROL_LINES);
+    //this.drawKControlPoints(this.KControlPoints, this.constants.colors.SECONDARY_CONTROL_LINES);
 
     // Draw the primary curve control points with connecting lines
     this.drawControlPoints(this.controlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
-    //this.drawParamControlPoints(this.paramControlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
-};
 
-function getGrapshNum(title){
-    switch(title){
-        case "Lagrange":
-            return this.orderSelection;
-        case "Monomial Basis":
-            return this.kValue;
-        default:
-            return 0;
-    }
-}
+    
+    
 
-App.prototype.getGraphY = function(curve, i){
-    switch(this.title){
-        case "Lagrange":
-            return curve.L[i];
-        case "Monomial Basis":
-            return this.kValue;
-        default:
-            return 0;
-    }
-}
-
-App.prototype.drawParamLagrange = function() {
-    if(this.title == "Bezier") return;
-    // Clear the render area
-    //clearCanvas(this.ctx, this.canvas.width, this.canvas.height, this.constants.colors.BACKGROUND_COLOR);
-    clearCanvas(this.param_ctx, this.param_canvas.width, this.param_canvas.height, this.constants.colors.BACKGROUND_COLOR);
-
-    // Draw the curve and all of the control points
-    var prevPoints = [];
-    var points = [];
-    var xmin = this.paramControlPoints[0].x;
-    var xmax = this.paramControlPoints[this.paramControlPoints.length -1].x;
-    var xdist = xmax - xmin;
-    var yref = 4 * this.param_canvas.height / 5;
-    var yrange = this.param_canvas.height / 2;
-    console.log(xmin, xmax, xdist);
-    //var n = getGrapshNum(this.title);
-    for (var step = 0, t = 0; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
-        
-        var curve = this.curves[step];
-        console.log(curve);
-        
-        if(this.title == "B-Spline"){
-            var k = this.kValue;
-            var nk2 = 2 * k + this.orderSelection;
-            t = this.ts[k] + (this.ts[nk2] - this.ts[k]) * t;
-        }
-
-        //prevPoints = points;
-        //point = curve.point;
-        for(var i = 0; i < curve.base.length; i++){
-            //var y = this.getGraphY(curve, i);
-            prevPoints[i] = points[i];
-            points[i] = new Point(xmin + t * xdist, yref - curve.base[i] * yrange);
-
-
-             // Draw the curve segments
-            if (step > 0) {
-                if(this.title == "Cubic Spline" || this.title == "Cubic Hermite Spline"){
-                    if(curve.draw[0]){
-                        drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, this.constants.colors.CURVE);
-                    }
-                } else
-                    drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, this.constants.colors.CURVE);
-            }
-                // Draw the curve points
-            if (step === parseInt(this.tSliderValue)) {
-                drawCircle(
-                    this.param_ctx,
-                    points[i].x,
-                    points[i].y,
-                    //0,0,
-                    this.constants.CURVE_POINT_RADIUS,
-                    this.constants.LINE_WIDTH,
-                    this.constants.colors.CURVE_POINTS_CURRENT,
-                    this.constants.colors.CURVE_POINTS_CURRENT
-                );
-            }
-            else {
-                drawCircle(
-                    this.param_ctx,
-                    points[i].x,
-                    points[i].y,
-                    //0,0,
-                    this.constants.CURVE_POINT_RADIUS,
-                    this.constants.LINE_WIDTH,
-                    this.constants.colors.CURVE_POINTS,
-                    this.constants.colors.CURVE_POINTS
-                )
-            }
-            
-        }
-        
-    }
-
-    this.drawParamControlPoints(this.paramControlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
 };
 
 /**
@@ -543,7 +367,7 @@ App.prototype.drawParamLagrange = function() {
  * @param color - The color of the control points
  * @param primaryPoints - True if the given set of control points are the primary control points for the curve
  */
-App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
+SubApp.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
 {
     // Iterate through every control point in the given set
     for (var ctrlPoint = 0; ctrlPoint < controlPoints.length; ctrlPoint++) {
@@ -570,40 +394,13 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
     }
 };
 
-App.prototype.drawParamControlPoints = function(controlPoints, color, primaryPoints)
-{
-    // Iterate through every control point in the given set
-    for (var ctrlPoint = 0; ctrlPoint < controlPoints.length; ctrlPoint++) {
-        var pt = controlPoints[ctrlPoint];
-
-        // Draw a line segment from the previous point to the current point
-        if (ctrlPoint > 0) {
-            var prevPt = controlPoints[ctrlPoint-1];
-            drawLine(this.param_ctx, pt.x, pt.y, prevPt.x, prevPt.y, this.constants.LINE_WIDTH, color);
-        }
-
-        // Draw a circle representing the current control point
-        var fillColor = primaryPoints ? color : this.constants.colors.BACKGROUND_COLOR;
-        drawRectangle(
-            this.param_ctx,
-            pt.x,
-            pt.y,
-            this.constants.CONTROL_POINT_WIDTH_HEIGHT,
-            this.constants.CONTROL_POINT_WIDTH_HEIGHT,
-            this.constants.LINE_WIDTH,
-            color,
-            fillColor
-        );
-    }
-};
-
 /**
  * Renders a set of control points connected by a line that runs from each control point to the next control point
  * @param controlPoints - The control points to render
  * @param color - The color of the control points
  * @param primaryPoints - True if the given set of control points are the primary control points for the curve
  */
- App.prototype.drawKControlPoints = function(controlPoints, color, primaryPoints)
+ SubApp.prototype.drawKControlPoints = function(controlPoints, color, primaryPoints)
  {
      if(controlPoints.length <= 0) return;
      // Iterate through every control point in the given set
@@ -634,7 +431,7 @@ App.prototype.drawParamControlPoints = function(controlPoints, color, primaryPoi
 /**
  * Refreshes the stored user-inputted values to match what is currently in the UI
  */
-App.prototype.gatherUserInput = function() {
+SubApp.prototype.gatherUserInput = function() {
     // Step control component
     this.numSteps = parseInt(document.getElementById('steps_input_' + this.td_id).value);
 
@@ -645,10 +442,6 @@ App.prototype.gatherUserInput = function() {
         this.kValue = parseInt(document.getElementById('k_input_' + this.td_id).value);
     }
 
-    if(this.kValue > this.orderSelection && this.title == "Monomial Basis"){
-        alert("Error: k > n !!!")
-    }
-
     // Order_input slider value
     this.tSliderValue = document.getElementById('tSlider_' + this.td_id).value;
     this.tValue = (this.tSliderValue / this.numSteps);
@@ -657,15 +450,12 @@ App.prototype.gatherUserInput = function() {
 /**
  * Generate the primary control points for the curve based on the currently stored user-inputted values.
  */
-App.prototype.generateControlPoints = function() {
+SubApp.prototype.generateControlPoints = function() {
     var spacePerPoint = (this.canvas.width / this.orderSelection);
     this.controlPoints = [];
 
+    y = 4* this.canvas.height / 5;
     for (var i = 0; i < this.orderSelection; i++) {
-        y = this.randomInt(this.constants.RANDOM_POINT_PADDING, this.canvas.height - this.constants.RANDOM_POINT_PADDING)
-        if(this.title == "Cubic Hermite Spline"){
-            y = this.canvas.height / 2;
-        }
         this.controlPoints.push(
             new Point(
                 i * spacePerPoint + (spacePerPoint / 2),
@@ -675,27 +465,7 @@ App.prototype.generateControlPoints = function() {
     }
 };
 
-App.prototype.generateParamControlPoints = function() {
-   
-    this.paramControlPoints = [];
-
-    y = 9* this.param_canvas.height / 10;
-    var n = this.orderSelection;
-    if(this.title == "B-Spline")
-        n += 3 * this.kValue;
-
-    var spacePerPoint = (this.param_canvas.width / n);
-    for (var i = 0; i < n; i++) {
-        this.paramControlPoints.push(
-            new Point(
-                i * spacePerPoint + (spacePerPoint / 2),
-                y
-            )
-        );
-    }
-};
-
-App.prototype.generateKControlPoints = function() {
+SubApp.prototype.generateKControlPoints = function() {
     this.KControlPoints = [];
     this.KControlLines = [];
     if(this.title != "Cubic Hermite Spline") return;
@@ -729,7 +499,7 @@ App.prototype.generateKControlPoints = function() {
  * @param max - The exclusive upper bound for the random int range
  * @returns {number}
  */
-App.prototype.randomInt = function(min, max) {
+SubApp.prototype.randomInt = function(min, max) {
     return Math.floor(Math.random()*(max-min) + min);
 };
 
@@ -739,7 +509,7 @@ App.prototype.randomInt = function(min, max) {
  * @param evt - The 'mousemove' event
  * @returns {{x: number, y: number}}
  */
-App.prototype.getMousePos = function(canvas, evt) {
+SubApp.prototype.getMousePos = function(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
     return {
         x: Math.floor(evt.clientX - rect.left),
@@ -753,7 +523,7 @@ App.prototype.getMousePos = function(canvas, evt) {
  * @param padding - The padding to use when checking for collision
  * @returns {boolean}
  */
-App.prototype.checkPointHover = function(point, padding) {
+SubApp.prototype.checkPointHover = function(point, padding) {
     if (!point)
         return false;
 
@@ -761,20 +531,12 @@ App.prototype.checkPointHover = function(point, padding) {
         point.y >= this.mousePosition.y - padding && point.y <= this.mousePosition.y + padding;
 };
 
-App.prototype.checkParamPointHover = function(point, padding) {
-    if (!point)
-        return false;
-
-    return point.x >= this.param_mousePosition.x - padding && point.x <= this.param_mousePosition.x + padding &&
-        point.y >= this.param_mousePosition.y - padding && point.y <= this.param_mousePosition.y + padding;
-};
-
 /**
  * Executes the application by initializing all of the app values and event listeners and performing the
  * initial 'update'. Subsequent updates will be performed in response to user-driven events
  * @param window - The browser window object
  */
-App.prototype.run = function(window, td_id, title, subapp_num) {
-    this.init(window, td_id, title, subapp_num);
+SubApp.prototype.run = function(window, td_id, title) {
+    this.init(window, td_id, title);
     this.update();
 };

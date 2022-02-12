@@ -7,7 +7,7 @@ function createControls(td_id, title){
     if(title == "Monomial Basis" || title == "B-Spline"){
         controls.appendChild(createNumInput(td_id, "k", 3));
     }
-    controls.appendChild(createNumInput(td_id, "n", 4));
+    controls.appendChild(createNumInput(td_id, "n", 6));
     controls.appendChild(createNumInput(td_id, "steps", 50));
     controls.appendChild(createSlider(td_id));
 

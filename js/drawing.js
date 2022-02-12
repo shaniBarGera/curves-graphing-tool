@@ -35,7 +35,7 @@ function drawZoneHeight(td){
 
 function resizeCanvas(box, td){
     var bw = (td.offsetWidth - 10);
-    var bh = (td.offsetHeight - drawZoneHeight(td));
+    var bh = (td.offsetHeight - drawZoneHeight(td) - (td.offsetHeight /4));
     box.width = bw;
     box.height = bh;
 }
