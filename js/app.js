@@ -430,11 +430,16 @@ App.prototype.gatherUserInput = function() {
 App.prototype.generateControlPoints = function() {
     var spacePerPoint = (this.canvas.width / this.orderSelection);
     this.controlPoints = [];
+
     for (var i = 0; i < this.orderSelection; i++) {
+        y = this.randomInt(this.constants.RANDOM_POINT_PADDING, this.canvas.height - this.constants.RANDOM_POINT_PADDING)
+        if(this.title == "Cubic Hermite Spline"){
+            y = this.canvas.height / 2;
+        }
         this.controlPoints.push(
             new Point(
                 i * spacePerPoint + (spacePerPoint / 2),
-                this.randomInt(this.constants.RANDOM_POINT_PADDING, this.canvas.height - this.constants.RANDOM_POINT_PADDING)
+                y
             )
         );
     }
@@ -445,19 +450,22 @@ App.prototype.generateKControlPoints = function() {
     this.KControlLines = [];
     if(this.title != "Cubic Hermite Spline") return;
     var spacePerPoint = (this.canvas.width / this.orderSelection);
+    var const_num = 8;
+    var dir = -1;
     for (var i = 0; i < this.orderSelection; i++) {
+        this.KControlPoints.push(
+            new Point(
+                this.controlPoints[i].x - (spacePerPoint / const_num),
+                this.controlPoints[i].y - (dir * spacePerPoint / const_num)
+            )
+        );
             this.KControlPoints.push(
                 new Point(
-                    this.controlPoints[i].x + (spacePerPoint / 4),
-                    this.controlPoints[i].y
+                    this.controlPoints[i].x + (spacePerPoint / const_num),
+                    this.controlPoints[i].y + (dir * spacePerPoint / const_num)
                 )
             );
-            this.KControlPoints.push(
-                new Point(
-                    this.controlPoints[i].x - (spacePerPoint / 4),
-                    this.controlPoints[i].y
-                )
-            );
+            dir *= -1;
     }
     /*for (var i = 0; i < this.KControlPoints.length - 1; i+=2) {
         this.KControlLines.push(new KControlLine(this.KControlPoints[i], this.KControlPoints[i + 1]));
