@@ -1,6 +1,5 @@
 html
 { 
-    height: 100%; 
     margin:0;
     padding:0;
 } 
@@ -22,17 +21,12 @@ header{
    grid-template-columns: 60px auto;
    height: fit-content;
    padding-bottom: 10px;
-
-}
-
-header a{
    color: white;
    font-size: 22px;
    font-family: Arial, sans-serif;
    letter-spacing: 0.43px;
-   margin-top: 10px;
+   padding-top: 10px;
 }
-
 
 footer{
    background-color: #2d2d2d;
@@ -40,33 +34,12 @@ footer{
    padding-top: 5px;
    padding-bottom: 1px;
    height: fit-content;
-}
-
-
-footer a{
    color: rgb(139, 139, 139);
-}
 
+}
 
 section {
-   height: 100%;
-   display: flex;
-   
-}
-
-#right-nav{
-   width: 50px;
-   background-color: #1e1e1e;
-   text-align: center;
-   padding-top: 10px;
-}
-
-#left-nav{
-   display: none;
-   width: 200px;
-   background-color: rgb(36, 36, 36);
-   
-   border-right:  rgb(54, 54, 54) solid 1px;
+   display: flex;  
 }
 
 main{

@@ -4,42 +4,35 @@
  * @constructor
  */
  function LagrangeCurve(controlPoints, step, num_steps) {
-    this.cp = controlPoints;
-    this.step_n = num_steps;
-    this.cp_n = controlPoints.length;  
-    this.step = step;
-
-    this.ts = [];
-    for(var i=0; i < this.cp_n; ++i){
-        this.ts[i] = i;
-    }
+      
 
     this.xs = [];
     this.ys = [];
-    LagrangeCurve.fillXY(this.xs, this.ys, controlPoints);
-    
-    this.L = [];
+    Matrix.fillXY(this.xs, this.ys, controlPoints);
 
-    var t = (step / (num_steps -1)) * (this.cp_n-1);
-    var x = 0, y = 0;
-    for(var i = 0; i < this.cp_n; ++i){
-        var numerator = 1, denominator = 1;
-        for(var j = 0; j < this.cp_n; ++j){
-            if(j == i) continue;
-            numerator *= (t - this.ts[j]);
-            denominator *= (this.ts[i] - this.ts[j]);
-        }
-        this.L[i]= numerator / denominator;
-        x += this.xs[i] * this.L[i];
-        y += this.ys[i] * this.L[i];
+    this.ts = [];
+    var n = controlPoints.length;
+    for(var i=0; i < n; ++i){
+        this.ts[i] = i;
     }
-    
-    this.point = new Point(x, y);
+    var t = (step / (num_steps -1)) * (n-1);
+
+    this.point = LagrangeCurve.interpolateXY(n, t, this.ts, this.xs, this.ys);
 }
 
-LagrangeCurve.fillXY = function(xs, ys, controlPoints){
-    for(var i = 0; i < controlPoints.length; ++i){
-        xs[i] = controlPoints[i].x;
-        ys[i] = controlPoints[i].y;
+LagrangeCurve.interpolateXY = function(n, t, ts, xs, ys){
+    var L = [];
+    var x = 0, y = 0;
+    for(var i = 0; i < n; ++i){
+        var numerator = 1, denominator = 1;
+        for(var j = 0; j < n; ++j){
+            if(j == i) continue;
+            numerator *= (t - ts[j]);
+            denominator *= (ts[i] - ts[j]);
+        }
+        L[i] = numerator / denominator;
+        x += xs[i] * L[i];
+        y += ys[i] * L[i];
     }
+    return new Point(x, y); 
 }

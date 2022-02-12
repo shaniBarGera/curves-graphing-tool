@@ -4,15 +4,11 @@
  * @constructor
  */
  function BSpline(controlPoints, step, num_steps, k) {
-    //var k = 4; // CHANGE: user should input this
-    this.cp = controlPoints;
-    this.step_n = num_steps;
-    this.cp_n = controlPoints.length;  
-    this.step = step;
+    var n = controlPoints.length;
 
-    this.nk = this.cp_n + k;
-    this.nk2 = this.cp_n + 2*k;
-    this.nk3 = this.cp_n + 3*k;
+    this.nk = n + k;
+    this.nk2 = n + 2*k;
+    this.nk3 = n + 3*k;
 
     this.ts = [];
     for(var i=0; i < this.nk3; ++i){
@@ -21,7 +17,7 @@
 
     this.xs = new Array(this.nk2);
     this.ys = new Array(this.nk2);
-    BSpline.fillXY(this.xs, this.ys, controlPoints, k, this.cp_n, this.nk2);
+    BSpline.fillXY(this.xs, this.ys, controlPoints, k, n, this.nk2);
     
     this.N = [];
 
@@ -40,8 +36,6 @@
 }
 
 BSpline.fillXY = function(xs, ys, controlPoints, k, n, nk2){
-    //console.log("fillXY");
-    //console.log(nk2);
     for(var i = 0; i < k; ++i){
         xs[i] = controlPoints[0].x;
         ys[i] = controlPoints[0].y;
@@ -62,7 +56,6 @@ BSpline.findN = function(ts,t, i, k){
     var N1 = BSpline.findN(ts, t, i, k-1) * (t - ts[i]) / (ts[i+k-1] - ts[i]);
     var N2 = BSpline.findN(ts, t, i+1, k-1) * (ts[i+k] - t) / (ts[i+k] - ts[i+1]);
     var N = N1 + N2;
-    //console.log(N1, N2, N);
     return N;
 
 }

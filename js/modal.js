@@ -15,3 +15,30 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+function createModal(title){
+  var modal = document.createElement("div");
+  modal.className = "modal";
+  modal.id = "myModal";
+
+  var modal_content = document.createElement("div");
+  modal_content.className = "modal-content";
+
+  var close = document.createElement("span");
+  close.className = "close";
+  close.innerHTML = "&times;";
+  modal_content.appendChild(close);
+
+  var info_text = document.createElement("p");
+  info_text.innerText = "hello world";
+  modal_content.appendChild(info_text);
+
+  modal.appendChild(modal_content);
+
+  return modal;
+}
+
+function showGenInfo(){
+  var modal = document.getElementById("gen_info_modal");
+  modal.style.display = "block";
+}

@@ -1,10 +1,10 @@
-.tooltip {
+.tooltip-left {
   position: relative;
   display: inline-block;
   text-decoration: none;
 }
 
-.tooltip .tooltiptext {
+.tooltip-left .tooltiptext-left {
   visibility: hidden;
   background-color: rgba(255, 255, 255, 0.87);
   color: black;
@@ -23,7 +23,7 @@
   transition: opacity 1s;
 }
 
-.tooltip .tooltiptext::after {
+.tooltip-left .tooltiptext-left::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -34,7 +34,7 @@
   border-color: transparent transparent transparent rgba(255, 255, 255, 0.87);
 
 }
-.tooltip:hover .tooltiptext {
+.tooltip-left:hover .tooltiptext-left {
   visibility: visible;
   opacity: 1;	
 }

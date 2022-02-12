@@ -9,9 +9,7 @@ App.prototype.constants = {
         CURVE_POINTS_CURRENT: 'rgba(255, 255, 255, 1.0)',
         CURVE_POINTS_CURRENT_OUTLINE: 'rgba(102, 51, 153, 1.0)',
         PRIMARY_CONTROL_LINE: 'rgba(102, 51, 153, 1.0)',
-        PRIMARY_CONTROL_POINTS: 'rgba(102, 51, 153, 1.0)',
-        PRIMARY_CONTROL_POINTS_OUTLINE: 'rgba(102, 51, 153, 1.0)',
-        SECONDARY_CONTROL_LINES: 'rgba(155, 255, 246, 1.0)',
+        SECONDARY_CONTROL_LINES: 'rgba(0, 190, 196, 1.0)',
         BACKGROUND_COLOR: 'rgba(30, 30, 30, 1.0)'
     },
     CONTROL_POINT_WIDTH_HEIGHT: 10,
@@ -19,7 +17,7 @@ App.prototype.constants = {
     RANDOM_POINT_PADDING: 20,
     RANDOM_POINT_SPACING: 50,
     LINE_WIDTH: 3,
-    orders: ['Linear', 'Quadratic', 'Cubic', 'Quartic']
+    ORDERS: ['Linear', 'Quadratic', 'Cubic', 'Quartic']
 };
 
 /**
@@ -184,7 +182,7 @@ App.prototype.fixTitle = function(){
     var order = '';
     var new_title = this.title;
     if(order_num < 6 && order_num > 1){
-        var order = this.constants.orders[order_num - 2];
+        var order = this.constants.ORDERS[order_num - 2];
         new_title = order + ' ' + this.title;
     }
     else if(order_num >= 6){
@@ -229,7 +227,7 @@ App.prototype.buildCurves = function() {
                 var curve = new BezierCurve(controlPoints, t);
                 break;
             case "Cubic Spline":
-                var curve = new CSPL2(controlPoints, step, this.numSteps);
+                var curve = new CSPL(controlPoints, step, this.numSteps);
                 break;
             case "Lagrange":
                 var curve = new LagrangeCurve(controlPoints, step, this.numSteps);
@@ -357,7 +355,7 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
         }
 
         // Draw a circle representing the current control point
-        var fillColor = primaryPoints ? this.constants.colors.PRIMARY_CONTROL_POINTS : this.constants.colors.BACKGROUND_COLOR;
+        var fillColor = primaryPoints ? color : this.constants.colors.BACKGROUND_COLOR;
         drawRectangle(
             this.ctx,
             pt.x,
@@ -365,7 +363,7 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
             this.constants.CONTROL_POINT_WIDTH_HEIGHT,
             this.constants.CONTROL_POINT_WIDTH_HEIGHT,
             this.constants.LINE_WIDTH,
-            this.constants.colors.PRIMARY_CONTROL_POINTS_OUTLINE,
+            color,
             fillColor
         );
     }
@@ -417,6 +415,10 @@ App.prototype.gatherUserInput = function() {
 
     if(this.title == "Monomial Basis" || this.title == "B-Spline"){
         this.kValue = parseInt(document.getElementById('k_input_' + this.td_id).value);
+    }
+
+    if(this.kValue > this.orderSelection && this.title == "Monomial Basis"){
+        alert("Error: k > n !!!")
     }
 
     // Order_input slider value

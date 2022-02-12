@@ -1,6 +1,7 @@
 .tooltip-right {
     position: relative;
     display: inline-block;
+    text-decoration: none;
   }
   
   .tooltip-right .tooltiptext-right {
