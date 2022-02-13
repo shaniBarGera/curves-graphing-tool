@@ -30,7 +30,7 @@ function drawZoneHeight(td){
     var controls_height = td_controls.offsetHeight;
     var formula_height = td_formula.offsetHeight;
     //var formula_height = 0;
-    return header_height + controls_height + formula_height;
+    return (header_height + controls_height + formula_height) * 0.6;
 }
 
 function resizeCanvas(box, td){

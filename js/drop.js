@@ -32,5 +32,7 @@ window.addEventListener("drop", function(event){
     var title = btn.firstElementChild.innerHTML;
     
     createWindow(td, title);
+
+    fixTableWrapper();
 });
 

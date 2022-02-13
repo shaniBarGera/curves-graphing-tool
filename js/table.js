@@ -65,6 +65,11 @@ function fixTable(table){
   }
 }
 
+function fixTableWrapper(){
+  var table = document.getElementById("myTable");
+  fixTable(table);
+}
+
 /*function outputsize() {
   width.value = textbox.offsetWidth
   height.value = textbox.offsetHeight

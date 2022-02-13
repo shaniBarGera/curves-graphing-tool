@@ -25,16 +25,24 @@ function clearAllWindows(){
 function clearWindow(td_id) {
     var td = document.getElementById(td_id);
     if(td == null) return;
+    var i = td.getAttribute("app", apps_num);
+    delete apps[i];
+    
     var canvas = document.getElementById(td_id + "_canvas");
+    var param_canvas = document.getElementById(td_id + "_parambox_canvas");
     if(canvas != null){
         var ctx = canvas.getContext('2d');
         clearCanvas(ctx, canvas.width, canvas.height, 'rgba(30, 30, 30, 1.0)');
     }
+    if(param_canvas != null){
+        var param_ctx = param_canvas.getContext('2d');
+        clearCanvas(param_ctx, param_canvas.width, param_canvas.height, 'rgba(30, 30, 30, 1.0)');
+    }
     while (td.firstChild) {
         td.removeChild(td.firstChild);
     }
-    var i = td.getAttribute("app", apps_num);
-    delete apps[i];
+   
+
 }
 
 function createWindow(td, title){

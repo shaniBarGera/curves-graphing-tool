@@ -1,4 +1,4 @@
-<html>
+<html  onresize="fixTableWrapper()">
     <head>
         <title>CG Curves</title>
         <link rel="stylesheet" href="css/layout.css">
@@ -16,13 +16,13 @@
     </head>
 
 
-	<body>
+	<body onresize="fixTableWrapper()">
         <header>
             <button class="hamburger" onclick="openNav()">&#x2630;</button>
             <a>Computer Graphics: Parametric Curves</a>
         </header>
         
-        <section>
+        <section onresize="fixTableWrapper()">
             <div class="left-nav" id="left-nav">
                 
                     <div class="tooltip-right">
@@ -69,8 +69,8 @@
                       
             </div>
 
-            <main>
-                <table id="myTable">
+            <main onresize="fixTableWrapper()">
+                <table id="myTable" onresize="fixTableWrapper()">
                     <tr>
                         <td id="t_0_0" ondrop="drop(event)" ondragover="allowDrop(event)"></td>
                     </tr>
