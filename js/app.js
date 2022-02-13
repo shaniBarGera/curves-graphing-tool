@@ -205,7 +205,10 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
     if(title == "Monomial Basis" || title == "B-Spline"){
         document.getElementById('k_input_' + this.td_id).addEventListener('input', function(evt) {
             app.gatherUserInput();
-            app.calc_ts();
+            if(title == "B-Spline"){
+                app.generateParamControlPoints();
+                app.calc_ts();
+            }
             app.update();
         });
     }
@@ -446,8 +449,6 @@ App.prototype.draw = function() {
 
 App.prototype.drawParam = function() {
     if(this.title == "Bezier") return;
-    // Clear the render area
-    //clearCanvas(this.ctx, this.canvas.width, this.canvas.height, this.constants.colors.BACKGROUND_COLOR);
     clearCanvas(this.param_ctx, this.param_canvas.width, this.param_canvas.height, this.constants.colors.BACKGROUND_COLOR);
     
     // Draw the curve and all of the control points
@@ -471,16 +472,9 @@ App.prototype.drawParam = function() {
     drawLine(this.param_ctx, p0.x, p0.y, p1.x, p1.y, this.constants.LINE_WIDTH / 2, this.constants.colors.GRID);
     this.param_ctx.fillText("y=0", p0.x - 20, p0.y + 6);
     
-    
-    
-    
-    
-
-    //var n = getGrapshNum(this.title);
     for (var step = 0, t = 0; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
         
         var curve = this.curves[step];
-        //console.log(curve);
         
         if(this.title == "B-Spline"){
             var k = this.kValue;

@@ -25,9 +25,10 @@ function clearAllWindows(){
 function clearWindow(td_id) {
     var td = document.getElementById(td_id);
     if(td == null) return;
+    
     var i = td.getAttribute("app", apps_num);
     delete apps[i];
-    
+
     var canvas = document.getElementById(td_id + "_canvas");
     var param_canvas = document.getElementById(td_id + "_parambox_canvas");
     if(canvas != null){
@@ -46,6 +47,7 @@ function clearWindow(td_id) {
 }
 
 function createWindow(td, title){
+    
     td.setAttribute("curvename", title);
     td.appendChild(createHeader(td.id, title), td.firstChild);
     td.appendChild(createControls(td.id, title));
@@ -148,7 +150,7 @@ function createParamBox(td, title){
         canvas.height = 0;
     } else{
         parambox.appendChild(header);
-        canvas.width = 700;
+        canvas.width = 1000;
         canvas.height = 350;
     }
     

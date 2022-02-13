@@ -2,6 +2,9 @@ function setCell(cell1, i, j){
     cell1.setAttribute("ondrop","drop(event)");
     cell1.setAttribute("ondragover","allowDrop(event)");
     cell1.id = "t_" + i + "_" + j;
+    var div = document.createElement("div");
+    div.id = "td_" + i + "_" + j;
+    cell1.appendChild(div);
 }
 
 function addCol(){;

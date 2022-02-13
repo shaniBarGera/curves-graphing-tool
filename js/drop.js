@@ -25,6 +25,7 @@ window.addEventListener("drop", function(event){
     
     var td_id = findtd(event.target);
     var td = document.getElementById(td_id);
+    console.log(td);
     clearWindow(td_id);
     
     var data = event.dataTransfer.getData("text");
