@@ -21,9 +21,7 @@
     }*/
 
     this.tsdiff = [];
-    for(var i = 0; i < n-1; ++i){
-        this.tsdiff[i] = ts[i+1] - ts[i];
-    }
+    CSPL.calcDiff(ts, n, this.tsdiff);
 
     this.Arr = Matrix.zerosMat(n, n);
     CSPL.fillMatrix(this.Arr, this.tsdiff);
@@ -50,8 +48,13 @@
     
     
     this.point = CSPL.interpolateXY(n, num_steps, step, ts, this.xs, this.ys, this.xks, this.yks, this.tsdiff, this.base, this.draw);
-    console.log(this);
     
+}
+
+CSPL.calcDiff = function(ts, n, tsdiff){
+    for(var i = 0; i < n-1; ++i){
+        tsdiff[i] = ts[i+1] - ts[i];
+    }
 }
 
 CSPL.calcKWeights = function(t){

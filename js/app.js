@@ -10,15 +10,17 @@ App.prototype.constants = {
         CURVE_POINTS_CURRENT_OUTLINE: 'rgba(102, 51, 153, 1.0)',
         PRIMARY_CONTROL_LINE: 'rgba(102, 51, 153, 1.0)',
         SECONDARY_CONTROL_LINES: 'rgba(0, 190, 196, 1.0)',
-        BACKGROUND_COLOR: 'rgba(30, 30, 30, 1.0)'
+        BACKGROUND_COLOR: 'rgba(30, 30, 30, 1.0)',
+        GRID: 'rgba(90, 90, 90, 1.0)',
+        PARAM_CURVE: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)', 'rgb(255, 132, 0)', 'rgb(255, 0, 127)', 'rgb(7, 239, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)']
     },
     CONTROL_POINT_WIDTH_HEIGHT: 10,
     CURVE_POINT_RADIUS: 5,
     RANDOM_POINT_PADDING: 20,
     RANDOM_POINT_SPACING: 50,
     LINE_WIDTH: 3,
-    ORDERS: ['Linear', 'Quadratic', 'Cubic', 'Quartic'],
-    PARAM_COLORS: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'orange', 'blue']
+    ORDERS: ['Linear', 'Quadratic', 'Cubic', 'Quartic']
+    
 };
 
 /**
@@ -185,6 +187,7 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
     var app = this;
     document.getElementById('steps_input_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
+        app.calc_ts();
         app.update();
     }.bind(this));
 
@@ -194,6 +197,7 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
         app.generateControlPoints();
         app.generateKControlPoints();
         app.generateParamControlPoints();
+        app.calc_ts();
         app.update();
     });
 
@@ -201,6 +205,7 @@ App.prototype.init = function(window, td_id, title, subapp_num) {
     if(title == "Monomial Basis" || title == "B-Spline"){
         document.getElementById('k_input_' + this.td_id).addEventListener('input', function(evt) {
             app.gatherUserInput();
+            app.calc_ts();
             app.update();
         });
     }
@@ -310,7 +315,7 @@ App.prototype.update = function() {
 
     this.curves = this.buildCurves();
     this.draw();
-    this.drawParamLagrange();
+    this.drawParam();
 };
 
 /**
@@ -410,7 +415,7 @@ App.prototype.draw = function() {
                 this.ctx,
                 point.x,
                 point.y,
-                this.constants.CURVE_POINT_RADIUS,
+                this.constants.CURVE_POINT_RADIUS * 1.7,
                 this.constants.LINE_WIDTH,
                 this.constants.colors.CURVE_POINTS_CURRENT,
                 this.constants.colors.CURVE_POINTS_CURRENT
@@ -438,48 +443,44 @@ App.prototype.draw = function() {
     //this.drawParamControlPoints(this.paramControlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
 };
 
-function getGrapshNum(title){
-    switch(title){
-        case "Lagrange":
-            return this.orderSelection;
-        case "Monomial Basis":
-            return this.kValue;
-        default:
-            return 0;
-    }
-}
 
-App.prototype.getGraphY = function(curve, i){
-    switch(this.title){
-        case "Lagrange":
-            return curve.L[i];
-        case "Monomial Basis":
-            return this.kValue;
-        default:
-            return 0;
-    }
-}
-
-App.prototype.drawParamLagrange = function() {
+App.prototype.drawParam = function() {
     if(this.title == "Bezier") return;
     // Clear the render area
     //clearCanvas(this.ctx, this.canvas.width, this.canvas.height, this.constants.colors.BACKGROUND_COLOR);
     clearCanvas(this.param_ctx, this.param_canvas.width, this.param_canvas.height, this.constants.colors.BACKGROUND_COLOR);
-
+    
     // Draw the curve and all of the control points
     var prevPoints = [];
     var points = [];
     var xmin = this.paramControlPoints[0].x;
     var xmax = this.paramControlPoints[this.paramControlPoints.length -1].x;
     var xdist = xmax - xmin;
-    var yref = 4 * this.param_canvas.height / 5;
-    var yrange = this.param_canvas.height / 2;
-    console.log(xmin, xmax, xdist);
+    var yref = 3 * this.param_canvas.height / 5;
+    var yrange = this.param_canvas.height / 3;
+
+    var p0 = new Point (xmin * 0.5, yref - yrange);
+    var p1 = new Point(xmax + xmin * 0.5, yref - yrange);
+    this.param_ctx.font="20px Arial";
+    this.param_ctx.fillStyle =  this.constants.colors.GRID;
+    this.param_ctx.textAlign = "center";
+    this.param_ctx.fillText("y=1", p0.x - 20, p0.y + 6);
+    drawLine(this.param_ctx, p0.x, p0.y, p1.x, p1.y, this.constants.LINE_WIDTH / 2, this.constants.colors.GRID);
+    p0 = new Point (xmin * 0.5, yref);
+    p1 = new Point(xmax + xmin * 0.5, yref);
+    drawLine(this.param_ctx, p0.x, p0.y, p1.x, p1.y, this.constants.LINE_WIDTH / 2, this.constants.colors.GRID);
+    this.param_ctx.fillText("y=0", p0.x - 20, p0.y + 6);
+    
+    
+    
+    
+    
+
     //var n = getGrapshNum(this.title);
     for (var step = 0, t = 0; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
         
         var curve = this.curves[step];
-        console.log(curve);
+        //console.log(curve);
         
         if(this.title == "B-Spline"){
             var k = this.kValue;
@@ -489,6 +490,7 @@ App.prototype.drawParamLagrange = function() {
 
         //prevPoints = points;
         //point = curve.point;
+        var j = 0;
         for(var i = 0; i < curve.base.length; i++){
             //var y = this.getGraphY(curve, i);
             prevPoints[i] = points[i];
@@ -496,13 +498,26 @@ App.prototype.drawParamLagrange = function() {
 
 
              // Draw the curve segments
+             var color = this.constants.colors.PARAM_CURVE[i % 7];
+             if(this.title == "B-Spline"){
+                //if (i > 4 && i < curve.base.length - 4)
+                if( i < this.kValue){
+                    j = 0;
+                } else if(i > curve.base.length - this.kValue - 1){
+                    j = this.orderSelection - 1;
+                }else{
+                    j = i - this.kValue;
+                }
+                
+                color = this.constants.colors.PARAM_CURVE[j % 7];
+            }
             if (step > 0) {
                 if(this.title == "Cubic Spline" || this.title == "Cubic Hermite Spline"){
                     if(curve.draw[0]){
-                        drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, this.constants.colors.CURVE);
+                        drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, color);
                     }
                 } else
-                    drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, this.constants.colors.CURVE);
+                    drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, color);
             }
                 // Draw the curve points
             if (step === parseInt(this.tSliderValue)) {
@@ -511,10 +526,10 @@ App.prototype.drawParamLagrange = function() {
                     points[i].x,
                     points[i].y,
                     //0,0,
-                    this.constants.CURVE_POINT_RADIUS,
+                    this.constants.CURVE_POINT_RADIUS * 1.7,
                     this.constants.LINE_WIDTH,
-                    this.constants.colors.CURVE_POINTS_CURRENT,
-                    this.constants.colors.CURVE_POINTS_CURRENT
+                    color,
+                    color
                 );
             }
             else {
@@ -555,8 +570,17 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
             drawLine(this.ctx, pt.x, pt.y, prevPt.x, prevPt.y, this.constants.LINE_WIDTH, color);
         }
 
+        var outer_color = color;
         // Draw a circle representing the current control point
         var fillColor = primaryPoints ? color : this.constants.colors.BACKGROUND_COLOR;
+        if(this.title == "Lagrange"){
+            fillColor = this.constants.colors.PARAM_CURVE[ctrlPoint];
+            outer_color = fillColor;
+        } else if (this.title == "B-Spline" ){
+        //&& ctrlPoint > 0 && ctrlPoint < controlPoints.length - 1){
+            fillColor = this.constants.colors.PARAM_CURVE[ctrlPoint];
+            outer_color = fillColor;
+        }
         drawRectangle(
             this.ctx,
             pt.x,
@@ -564,20 +588,34 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
             this.constants.CONTROL_POINT_WIDTH_HEIGHT,
             this.constants.CONTROL_POINT_WIDTH_HEIGHT,
             this.constants.LINE_WIDTH,
-            color,
+            outer_color,
             fillColor
         );
+
+        this.ctx.font="30px Arial";
+        this.ctx.fillStyle = fillColor;
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("P", pt.x, pt.y + 35);
+        this.ctx.font="20px Arial";
+        this.ctx.fillText(ctrlPoint, pt.x + 15, pt.y + 35);
     }
 };
 
 App.prototype.drawParamControlPoints = function(controlPoints, color, primaryPoints)
 {
+    var first = 0;
+    var n = controlPoints.length;
+
+    /*if(this.title == "B-Spline"){
+        first = 3;
+        n -= 2;
+    }*/
     // Iterate through every control point in the given set
-    for (var ctrlPoint = 0; ctrlPoint < controlPoints.length; ctrlPoint++) {
+    for (var ctrlPoint = first; ctrlPoint < n; ctrlPoint++) {
         var pt = controlPoints[ctrlPoint];
 
         // Draw a line segment from the previous point to the current point
-        if (ctrlPoint > 0) {
+        if (ctrlPoint > first) {
             var prevPt = controlPoints[ctrlPoint-1];
             drawLine(this.param_ctx, pt.x, pt.y, prevPt.x, prevPt.y, this.constants.LINE_WIDTH, color);
         }
@@ -588,12 +626,20 @@ App.prototype.drawParamControlPoints = function(controlPoints, color, primaryPoi
             this.param_ctx,
             pt.x,
             pt.y,
-            this.constants.CONTROL_POINT_WIDTH_HEIGHT,
-            this.constants.CONTROL_POINT_WIDTH_HEIGHT,
+            this.constants.CONTROL_POINT_WIDTH_HEIGHT * 1.7,
+            this.constants.CONTROL_POINT_WIDTH_HEIGHT * 1.7,
             this.constants.LINE_WIDTH,
             color,
             fillColor
         );
+
+        this.param_ctx.font="30px Arial";
+        this.param_ctx.fillStyle = color;
+        this.param_ctx.textAlign = "center";
+        this.param_ctx.fillText("t", pt.x, pt.y + 35);
+        this.param_ctx.font="20px Arial";
+        this.param_ctx.fillText(ctrlPoint, pt.x + 15, pt.y + 35);
+
     }
 };
 
@@ -642,12 +688,16 @@ App.prototype.gatherUserInput = function() {
     this.orderSelection = parseInt(document.getElementById('n_input_' + this.td_id).value);
 
     if(this.title == "Monomial Basis" || this.title == "B-Spline"){
-        this.kValue = parseInt(document.getElementById('k_input_' + this.td_id).value);
+        var k_input = document.getElementById('k_input_' + this.td_id)
+        k_input.max = this.orderSelection;
+        this.kValue = parseInt(k_input.value);
+      
+        if(this.kValue > this.orderSelection){
+            alert("Error: k > n !!!")
+        }
     }
 
-    if(this.kValue > this.orderSelection && this.title == "Monomial Basis"){
-        alert("Error: k > n !!!")
-    }
+    
 
     // Order_input slider value
     this.tSliderValue = document.getElementById('tSlider_' + this.td_id).value;
@@ -679,7 +729,7 @@ App.prototype.generateParamControlPoints = function() {
    
     this.paramControlPoints = [];
 
-    y = 9* this.param_canvas.height / 10;
+    y = 3* this.param_canvas.height / 5;
     var n = this.orderSelection;
     if(this.title == "B-Spline")
         n += 3 * this.kValue;

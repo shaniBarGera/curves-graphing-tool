@@ -1,5 +1,5 @@
 .param-box{
-    height: 300px;
+    height: 400px;
     width: 100%;
     margin: 0;
     padding-top: 5px;
@@ -18,7 +18,10 @@
     margin: 0;
     padding-top: 5px;
     padding-bottom: 5px;
-    border-bottom: rgb(128, 128, 128) solid 1px;
+    /*border-bottom: rgb(128, 128, 128) solid 1px;*/
     color: white;
     font :20px Arial;
+    letter-spacing: 1px;
+    display: grid;
+    grid-template-columns: auto 50px;
 }

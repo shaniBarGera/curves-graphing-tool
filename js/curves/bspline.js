@@ -10,40 +10,25 @@
     this.nk2 = n + 2*k;
     this.nk3 = n + 3*k;
 
-    /*this.ts_ext = [];
-    for(var i=0; i < k; ++i){
-        this.ts_ext[i] = (i - k) / (n-1);  // if diffs between input ts are equal the sames diffs will be between new extended ts array
-    }
-    for(var i=k; i < this.nk; ++i){
-        this.ts_ext[i] = ts[i-k];
-    }
-    for(var i=this.nk; i < this.nk3; ++i){
-        this.ts_ext[i] = 1 + (1 + i - this.nk) / (n-1); // if diffs between input ts are equal the sames diffs will be between new extended ts array
-    }
-
-    for(var i=0; i < this.nk3; ++i){
-        console.log(step, i , this.ts_ext[i]);
-    }*/
-
     this.xs = new Array(this.nk2);
     this.ys = new Array(this.nk2);
     BSpline.fillXY(this.xs, this.ys, controlPoints, k, n, this.nk2);
     
     this.base = [];
-
-    //var t = k + (step / (num_steps -1)) * (this.nk -1);
     var t = ts[k] + (ts[this.nk2] - ts[k]) * step / (num_steps -1);
-    this.sumN = 0;
+    
+    this.point = BSpline.interpolateXY(this.nk2, this.base, ts, t, k, this.xs, this.ys);
+}
+
+BSpline.interpolateXY = function(nk2, base, ts, t, k, xs, ys){
     var x = 0, y = 0;
-    for(var i = 0; i < this.nk2; ++i){
-        this.base[i] = BSpline.findN(ts, t, i, k);
-        //this.sumN += this.N[i];
-        x += this.xs[i] * this.base[i];
-        y += this.ys[i] * this.base[i];
+    for(var i = 0; i < nk2; ++i){
+        base[i] = BSpline.findN(ts, t, i, k);
+        x += xs[i] * base[i];
+        y += ys[i] * base[i];
         
     }
-  
-    this.point = new Point(x, y);
+    return new Point(x, y);
 }
 
 BSpline.fillXY = function(xs, ys, controlPoints, k, n, nk2){

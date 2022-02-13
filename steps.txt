@@ -1,14 +1,10 @@
 
 need to do:
-write general info
-add input parametarization option
-fix t value display for all functions
-make uniform parametarization
-
+add general info
 
 bugs:
-fix canvas when window size changes
-fix canvas when split/merge windows
+fix B-Spline parametrization
+fix canvas sizing
 make table fixed height
 fix equation info to be right after equation and fit box to td size
 

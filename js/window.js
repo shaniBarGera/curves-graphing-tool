@@ -43,8 +43,7 @@ function createWindow(td, title){
     td.appendChild(createControls(td.id, title));
     td.appendChild(createFormula(td, title));
     td.appendChild(createCanvas(td));
-
-    td.appendChild(createParamBox(td.id, title));
+    td.appendChild(createParamBox(td, title));
 
     addApp(td, title);
     
@@ -77,13 +76,30 @@ function addFormualImg(title){
     return img;
 }
 
+function addParamImage(title){
+    var img = document.createElement("img");
+    
+   
+    if(title == "Cubic Hermite Spline" || title == "Cubic Spline"){
+        img.src = "imgs/info/C-Spline-param-info.png";
+    } else if(title == "Monomial Basis") {
+        img.src="imgs/info/general-param-info.png";
+    } else{
+        img.src = "imgs/info/" + title + "-param-info.png";
+    }
+    
+    img.style.width = "650px";
+    return img;
+}
+
 function createFormula(td, title){
     var formula = document.createElement("div");
     formula.id = td.id + "_formula";
     formula.className = "formula";
     
-    var info_tooltip = createToolTip(title);
-    var popup = createPopUp(title);
+    var info_tooltip = createToolTip(title, '\u{2148}',  "click to show/hide more info about equation");
+    var info_img = getFormulaInfoImg(title);
+    var popup = createPopUp(title, info_img);
     popup.appendChild(info_tooltip);
     var img = addFormualImg(title);
    
@@ -96,29 +112,36 @@ function createFormula(td, title){
     return formula;
 }
 
-function createParamBox(td_id, title){
-    
+function createParamBox(td, title){
     var parambox = document.createElement("div");
-    parambox.id = td_id + "_parambox";
+    parambox.id = td.id + "_parambox";
     parambox.className = "param-box";
 
     var header = document.createElement("div");
-    header.id = td_id + "_parambox_header";
+    header.id = td.id + "_parambox_header";
     header.className = "parambox-header";
     var text = document.createElement('a');
     text.innerText = "Parametrization";
     header.appendChild(text);
+
+    var info_tooltip = createToolTip(title,  '\u{2148}', "click to show/hide more info about parametrization");
+
+    var info = addParamImage(title);
+    var popup = createParamBoxPopUp(title, info);
+    popup.appendChild(info_tooltip);
+    header.appendChild(popup);
     
     var canvas = document.createElement("canvas");
-    canvas.id = td_id + "_parambox_canvas";
+    canvas.id = td.id + "_parambox_canvas";
 
     if(title == "Bezier"){
+        parambox.style.display = "none";
         canvas.width = 0;
         canvas.height = 0;
     } else{
         parambox.appendChild(header);
-        canvas.width = 1000;
-        canvas.height = 250;
+        canvas.width = 700;
+        canvas.height = 350;
     }
     
     parambox.appendChild(canvas);
@@ -127,7 +150,7 @@ function createParamBox(td_id, title){
     return parambox;
 }
 
-function createParamBoxPopUp(title){
+function createParamBoxPopUp(title, info){
     var container = document.createElement("div");
     container.className = "param-box-popup";
     container.onclick = function(){
@@ -138,7 +161,7 @@ function createParamBoxPopUp(title){
     var content = document.createElement("span");
     content.className = "param-box-popuptext";
     content.id = title + "_parambox";
-    content.innerHTML = "parambox";
+    content.appendChild(info);
 
     container.appendChild(content);
     return container;

@@ -14,15 +14,8 @@
         return;
     }
 
-    /*this.ts = [];
-    for(var i = 0; i < n; ++i){
-        this.ts[i] = i / (n-1);
-    }*/
-
     this.tsdiff = [];
-    for(var i = 0; i < n-1; ++i){
-        this.tsdiff[i] = ts[i+1] - ts[i];
-    }
+    CSPL.calcDiff(ts, n, this.tsdiff);
 
     this.xs = [];
     this.ys = [];
@@ -30,7 +23,7 @@
 
     this.xks = [];
     this.yks = [];
-    var const_num = 4;
+    var const_num = 12;
     for(var i = 0; i < n; i++){
         var j = i * 2;
         this.xks[i] = const_num * (kControlPoints[j + 1].x - kControlPoints[j].x);
