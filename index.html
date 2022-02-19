@@ -81,9 +81,9 @@
             </main>
 
             <div class="right-nav">
-                <div class="tooltip-left">
+                <!---<div class="tooltip-left">
                     <button id="right-nav-btn" class="right-nav-btn" onclick="addCol()">
-                        <!---<a>&#x2637;</a>!--->
+                        
                         <img src="imgs/icons/split-vertical.png" class="icon-img"></img>
                         
                     </button>
@@ -92,7 +92,7 @@
 
                 <div class="tooltip-left">
                     <button id="right-nav-btn" class="right-nav-btn" onclick="delCol()">
-                        <!---<a>&#x2610;</a>!--->
+                       
                         <img src="imgs/icons/merge-vertical.png" class="icon-img"></img>
                     </button>
                     <span class="tooltiptext-left">Merge Window Vertically</span>
@@ -100,7 +100,7 @@
 
                 <div class="tooltip-left">
                     <button id="right-nav-btn" class="right-nav-btn" onclick="addRow()">
-                        <!---<a>+</a>!--->
+                       
                         <img src="imgs/icons/split-horizontal.png" class="icon-img"></img>
                     </button>
                     <span class="tooltiptext-left">Split Window Horizontally</span>
@@ -108,18 +108,36 @@
                 
                 <div class="tooltip-left">
                     <button id="right-nav-btn" class="right-nav-btn" onclick="delRow()">
-                        <!---<a>-</a>!--->
+                       
                         <img src="imgs/icons/merge-horizontal.png" class="icon-img"></img>
                     </button>
                     <span class="tooltiptext-left">Merge Window Horizontally</span>
                 </div>
 
-                <!---<div class="tooltip-left">
+                <div class="tooltip-left">
                     <button class="right-nav-btn" onclick="openAllCurves()">
                         <a>&#9998;</a>
                     </button>
                     <span class="tooltiptext-left">Open All Curves</span>
                 </div> !--->
+
+                <div class="tooltip-left">
+                    <button class="right-nav-btn">
+                    
+                            <input id=table_size_input_cols class="table-size-input" type="number" value=1 size=1 min=1 max=4 ></input>
+                   
+                    </button>
+                    <span class="tooltiptext-left">Number of Columns</span>
+                </div> 
+
+                <div class="tooltip-left">
+                    <button class="right-nav-btn">
+                    
+                            <input id=table_size_input_rows class="table-size-input" type="number" value=1 size=1 min=1 ></input>
+                   
+                    </button>
+                    <span class="tooltiptext-left">Number of Rows</span>
+                </div> 
 
                 <div class="tooltip-left">
                     <button class="right-nav-btn" onclick="clearAllWindows()">

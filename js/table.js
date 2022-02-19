@@ -1,3 +1,56 @@
+var table_cols_num = 1;
+var table_rows_num = 1;
+
+document.getElementById('table_size_input_cols').addEventListener('input', function(evt) {
+  table_cols_num = parseInt(document.getElementById('table_size_input_cols').value);
+  resetTable();
+});
+
+document.getElementById('table_size_input_rows').addEventListener('input', function(evt) {
+  table_rows_num = parseInt(document.getElementById('table_size_input_rows').value);
+  resetTable();
+});
+
+function clearAllWindows(){
+  /*var table = document.getElementById("myTable");
+  for(i = 0; i < table.rows.length; i++){
+      for(j = 0; j < table.rows[0].cells.length; j++){
+          var td = table.rows[i].cells[j];
+          var div = td.firstElementChild;
+          clearWindow(div.id);
+      }
+  }*/
+  document.getElementById('table_size_input_cols').value = 1;
+  document.getElementById('table_size_input_rows').value = 1;
+  table_cols_num = 1;
+  table_rows_num = 1;
+  resetTable();
+}
+
+function clearTable(){
+  var table = document.getElementById("myTable");
+  for(var i=table.rows.length - 1;i >= 0;i--){
+    table.deleteRow(i);
+  }
+}
+
+function createTable(){
+  var table = document.getElementById("myTable");
+  for(var i=0;i < table_rows_num;i++){// first loop to create row
+    var row = table.insertRow(i);
+    for(var j=0;j < table_cols_num;j++){// nested loop to create column in all rows
+      var cell1 = row.insertCell(j);
+      setCell(cell1, i, j);
+    }
+  }
+}
+
+function resetTable(){
+  console.log(table_cols_num, table_rows_num);
+  clearTable();
+  createTable();
+}
+
 function setCell(cell1, i, j){
     cell1.id = "t_" + i + "_" + j;
     var div = document.createElement("div");
@@ -71,8 +124,8 @@ function fixTable(table){
 }
 
 function fixTableWrapper(){
-  var table = document.getElementById("myTable");
-  fixTable(table);
+  //var table = document.getElementById("myTable");
+  //fixTable(table);
 }
 
 /*function outputsize() {

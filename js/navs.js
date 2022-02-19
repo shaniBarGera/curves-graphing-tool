@@ -12,16 +12,7 @@ function openNav() {
   }
 }
 
-function clearAllWindows(){
-  var table = document.getElementById("myTable");
-  for(i = 0; i < table.rows.length; i++){
-      for(j = 0; j < table.rows[0].cells.length; j++){
-          var td = table.rows[i].cells[j];
-          var div = td.firstElementChild;
-          clearWindow(div.id);
-      }
-  }
-}
+
 
 
 function openAllCurves(){
