@@ -1,12 +1,13 @@
 .right-nav{
-  width: 80px;
+  width: 100px;
   background-color: #1e1e1e;
   text-align: center;
   padding-top: 10px;
+  
 }
 
 .left-nav{
-  display: none;
+  display: block;
   width: 200px;
   background-color: rgb(36, 36, 36);
   height: 100%;

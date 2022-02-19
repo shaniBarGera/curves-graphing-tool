@@ -16,9 +16,9 @@
     </head>
 
 
-	<body onresize="fixTableWrapper()">
-        <header>
-            <button class="hamburger" onclick="openNav()">&#x2630;</button>
+	<body onresize="fixTableWrapper1()">
+        <header id="main_header">
+           
             <a>Computer Graphics: Parametric Curves</a>
         </header>
         
@@ -66,22 +66,49 @@
                         </button>
                         <span class="tooltiptext-right">Drag and Drop</span>
                     </div>
+
+                    
+                <div class="tooltip-right">
+                    <button class="right-nav-btn">
+                    
+                            <input id=table_size_input_cols class="table-size-input" type="number" value=1 size=1 min=1 max=4 ></input>
+                   
+                    </button>
+                    <span class="tooltiptext-right">Number of Columns</span>
+                </div> 
+
+                <div class="tooltip-right">
+                    <button class="right-nav-btn">
+                    
+                            <input id=table_size_input_rows class="table-size-input" type="number" value=1 size=1 min=1 ></input>
+                   
+                    </button>
+                    <span class="tooltiptext-right">Number of Rows</span>
+                </div> 
+
+                <div class="tooltip-right">
+                    <button class="right-nav-btn" onclick="clearAllWindows()">
+                        <a>&#x2715;</a>
+                    </button>
+                    <span class="tooltiptext-right">Clear All Windows</span>
+                </div> 
+
                       
             </div>
 
             <main onresize="fixTableWrapper()">
                 <table id="myTable" onresize="fixTableWrapper()">
-                    <tr>
+                    <!--<tr>
                         <td id="t_0_0" >
                             <div id="td_0_0" class="td_content" ondrop="drop(event)" ondragover="allowDrop(event)">
                             </div>
                         </td>
-                    </tr>
+                    </tr>!-->
                 </table>
             </main>
 
-            <div class="right-nav">
-                <!---<div class="tooltip-left">
+            <!---<div class="right-nav">
+                <div class="tooltip-left">
                     <button id="right-nav-btn" class="right-nav-btn" onclick="addCol()">
                         
                         <img src="imgs/icons/split-vertical.png" class="icon-img"></img>
@@ -119,34 +146,9 @@
                         <a>&#9998;</a>
                     </button>
                     <span class="tooltiptext-left">Open All Curves</span>
-                </div> !--->
+                </div>
 
                 <div class="tooltip-left">
-                    <button class="right-nav-btn">
-                    
-                            <input id=table_size_input_cols class="table-size-input" type="number" value=1 size=1 min=1 max=4 ></input>
-                   
-                    </button>
-                    <span class="tooltiptext-left">Number of Columns</span>
-                </div> 
-
-                <div class="tooltip-left">
-                    <button class="right-nav-btn">
-                    
-                            <input id=table_size_input_rows class="table-size-input" type="number" value=1 size=1 min=1 ></input>
-                   
-                    </button>
-                    <span class="tooltiptext-left">Number of Rows</span>
-                </div> 
-
-                <div class="tooltip-left">
-                    <button class="right-nav-btn" onclick="clearAllWindows()">
-                        <a>&#x2715;</a>
-                    </button>
-                    <span class="tooltiptext-left">Clear All Windows</span>
-                </div> 
-
-                <!---<div class="tooltip-left">
                     <button class="right-nav-btn" onclick="match()">
                         <a>&#9901;</a>
                     </button>
@@ -169,10 +171,17 @@
                         </div> 
                     </div>
                     <span class="tooltiptext-left">General Info</span>
-                </div>!--->  
-            </div>
+                </div>  
+            </div>!--->
        
         </section>
+    
+        
+
+        <footer>
+            <a>Made by: Shani Bar-Gera 2021</a>
+        </footer>
+
         <script src="js/curves/matrix.js"></script>
         <script src="js/curves/bezier.js"></script>
         <script src="js/curves/linear.js"></script>
@@ -190,10 +199,5 @@
         <script src="js/table.js"></script>
         <script src="js/navs.js"></script>
         <script src="js/drop.js"></script>
-        
-
-        <footer>
-            <a>Made by: Shani Bar-Gera 2021</a>
-        </footer>
 	</body>
 </html>

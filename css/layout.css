@@ -7,25 +7,22 @@ html
 body {
    padding:0;
    margin: 0;
-   height: 100%;
+
    display: grid;
-   grid-template-rows: auto auto auto;
+   grid-template-rows: 60px auto 30px;
    
 }
 
 header{
    background: linear-gradient(#303030, #3b3b3b);
    margin: 0px;
+   padding: 0;
    text-align: center;
-   display: grid;
-   grid-template-columns: 60px auto;
-   height: fit-content;
-   padding-bottom: 10px;
    color: white;
    font-size: 22px;
    font-family: Arial, sans-serif;
    letter-spacing: 0.43px;
-   padding-top: 10px;
+   height: 60px;
 }
 
 footer{
@@ -33,12 +30,15 @@ footer{
    text-align: center;
    padding-top: 5px;
    padding-bottom: 1px;
-   height: fit-content;
+   height: 30px;
    color: rgb(139, 139, 139);
 
 }
 
 section {
+  
+   height: 100%;
+  
    display: flex;  
 }
 

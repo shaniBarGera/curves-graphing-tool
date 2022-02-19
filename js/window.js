@@ -1,5 +1,7 @@
 var apps = [];
 var apps_num = -1;
+var canvas_proportion = 0.55;
+var canvas_top_elements_h = 181;
 
 function addApp(td, title){
     apps_num++;
@@ -64,7 +66,7 @@ function addFormualImg(title){
         img.src="imgs/formulas/"+title+"-formula.png";
     }
     
-    img.height = "60";
+    img.height = "70";
     img.style.width = "100%";
     img.style.objectFit = "scale-down";
     return img;
@@ -134,8 +136,8 @@ function createParamBox(td, title){
         canvas.height = 0;
     } else{
         parambox.appendChild(header);
-        canvas.width = 1000;
-        canvas.height = 350;
+        canvas.width = table_col_w;
+        canvas.height = (table_row_h - canvas_top_elements_h) * (1-canvas_proportion) - 42;
     }
     
     parambox.appendChild(canvas);
@@ -154,13 +156,17 @@ function drawZoneHeight(td){
     var controls_height = td_controls.offsetHeight;
     var formula_height = td_formula.offsetHeight;
     //var formula_height = 0;
-    return (header_height + controls_height + formula_height);
+    return header_height + controls_height + formula_height + 100;
 }
 
 function resizeCanvas(box, td){
-    var bw = (td.offsetWidth - 10);
-    var bh = (td.offsetHeight - drawZoneHeight(td));
-    box.width = bw;
+    var bh = (table_row_h - canvas_top_elements_h);
+    var title = td.getAttribute("curvename");
+    if(title != "Bezier"){
+        bh *= canvas_proportion;
+    } 
+    console.log(title, bh);
+    box.width = table_col_w;
     box.height = bh;
 }
 
@@ -168,5 +174,13 @@ function createCanvas(td){
     var box = document.createElement("canvas");
     box.id = td.id + "_canvas";
     resizeCanvas(box, td);
+    return box;
+}
+
+function createEmptyCanvas(){
+    var box = document.createElement("canvas");
+    box.width = table_col_w;
+    box.height = table_row_h;
+
     return box;
 }
