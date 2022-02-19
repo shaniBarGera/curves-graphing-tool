@@ -65,14 +65,14 @@ function createToolTip(title, icon, content){
 
 function createParamBoxPopUp(title, info){
     var container = document.createElement("div");
-    container.className = "param-box-popup";
+    container.className = "popup";
     container.onclick = function(){
         var popup = document.getElementById(title + "_parambox");
         popup.classList.toggle("show");
     };
 
     var content = document.createElement("span");
-    content.className = "param-box-popuptext";
+    content.className = "popuptext";
     content.id = title + "_parambox";
     content.appendChild(info);
 

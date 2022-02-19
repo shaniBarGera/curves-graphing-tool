@@ -48,7 +48,7 @@ function createWindow(td, title){
 function createHeader(td_id, title){
     var header = document.createElement("div");
     header.id = td_id + "_header";
-    header.className = "window-header";
+    header.className = "td-header";
     var text = document.createElement('a');
     text.innerText = title;
     header.appendChild(text);
@@ -115,7 +115,7 @@ function createParamBox(td, title){
 
     var header = document.createElement("div");
     header.id = td.id + "_parambox_header";
-    header.className = "parambox-header";
+    header.className = "param-box-header";
     var text = document.createElement('a');
     text.innerText = "Parametrization";
     header.appendChild(text);

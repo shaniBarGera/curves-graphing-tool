@@ -17,7 +17,7 @@ function createControls(td_id, title){
 function createNumInput(td_id, title, value){
     var div = document.createElement("div");
     div.id = title + "_input_wrapper_" + td_id;
-    div.className = "control-input";
+    div.className = "td-content-input-wrapper";
     var text = document.createTextNode(title + " ");
     div.appendChild(text);
     var input = document.createElement("input");
@@ -25,7 +25,7 @@ function createNumInput(td_id, title, value){
     input.value = value;
     input.size = "1";
     input.min = "1";
-    input.className ="input-num";
+    input.className ="td-content-input";
     input.id = title + "_input_" + td_id;
     div.appendChild(input);
     return div;
@@ -34,7 +34,7 @@ function createNumInput(td_id, title, value){
 function createSlider(td_id){
     var div = document.createElement("div");
     div.id = "sliderControl_" + td_id;
-    div.className = "control-input";
+    div.className = "td-content-input-wrapper";
     var label = document.createElement("label");
     label.id = "tValue_" + td_id;
     label.style.width = "70px";

@@ -1,11 +1,12 @@
-#myTable {
+/*************** Table *****************/
+
+#curves-table {
     margin: 5px;
     padding:0;
     position: relative;
     border: 3px solid rgb(97, 96, 96);
     border-spacing: 0;
-    border-collapse: collapse;
-    
+    border-collapse: collapse; 
 }
 
 tr{
@@ -16,15 +17,81 @@ tr{
   
 td {
     border: 3px solid rgb(97, 96, 96);
-    vertical-align: top;
 }
+
+
+
+/*************** Content of td *****************/
 
 .td_content{
     top:0;
     vertical-align: top;
-    
     min-height: 600px;
     max-height: 100%;
-    min-width: 500px;
+    min-width: 510px;
     max-width: 100%;
+}
+
+.td-header{
+    background-color: #3f3f3f;
+    display : inline-block;
+    vertical-align : top;
+    width : 100%;
+    height: 40px;
+    text-align : center;
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color : white;
+    font : 25px Arial, sans-serif;
+    text-decoration : none;
+}
+
+.td-controls{
+    background-color: #474747;
+    color : white;
+    font :20px Arial;
+    width : auto;
+    height: 45px;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.formula{
+    background-color: #1e1e1e;
+    display : grid;
+    grid-template-columns: auto 40px;
+    vertical-align : top;
+    width : 100%;
+    height: 75px;
+    text-align : center;
+    align-items: center;
+    margin: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom: rgb(85, 85, 85) solid 1px; 
+}
+
+.param-box{
+    width: 100%;
+    margin: 0;
+    border-top: rgb(85, 85, 85) solid 1px; 
+    border-radius: 5px;
+    text-align: center;
+}
+
+.param-box-header{
+    vertical-align : top;
+    width : 100%;
+    height: 38px;
+    text-align : center;
+    align-items: center;
+    margin: 0;
+    padding-top: 2px;
+    color: white;
+    font :20px Arial;
+    letter-spacing: 1px;
+    display: grid;
+    grid-template-columns: auto 50px;
 }

@@ -1,7 +1,7 @@
 bugs:
-white edges appear sometimes
 move popup
 clean code
+fix t value
 
 bonus:
 switch between dark mode and light mode

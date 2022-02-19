@@ -36,7 +36,7 @@ function clearAllWindows(){
 }
 
 function clearTable(){
-  var table = document.getElementById("myTable");
+  var table = document.getElementById("curves-table");
   for(var i=table.rows.length - 1;i >= 0;i--){
     table.deleteRow(i);
   }
@@ -44,7 +44,7 @@ function clearTable(){
 
 function createTable(){
   console.log("here");
-  var table = document.getElementById("myTable");
+  var table = document.getElementById("curves-table");
   //var header = document.getElementById("main_header");
   var body = document.body,
     html = document.documentElement;
@@ -56,7 +56,7 @@ var body_width = Math.max( body.scrollWidth, body.offsetWidth,
   var table_h = body_height - 130;
   var table_w = body_width - 300;
   var row_h = Math.max(table_h / table_rows_num, 600);
-  var col_w =  Math.max(table_w / table_cols_num, 500);
+  var col_w =  Math.max(table_w / table_cols_num, 510);
   table_col_w = col_w;
   table_row_h = row_h;
   console.log(row_h, col_w, table_w, table_h);
@@ -128,7 +128,7 @@ function fixTable(table){
 }
 function fixTableWrapper1(){
   console.log("resize table");
-  var table = document.getElementById("myTable");
+  var table = document.getElementById("curves-table");
   //fixTable(table);
 }
 

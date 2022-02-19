@@ -1,84 +1,88 @@
 <html>
     <head>
+
         <title>CG Curves</title>
+
         <link rel="stylesheet" href="css/layout.css">
-        <link rel="stylesheet" href="css/navs.css">
         <link rel="stylesheet" href="css/table.css">   
-        <link rel="stylesheet" href="css/window.css">
-        <link rel="stylesheet" href="css/controls.css">
-        <link rel="stylesheet" href="css/parambox.css"> 
-        <link rel="stylesheet" href="css/parambox-popup.css">
-        <link rel="stylesheet" href="css/popup.css"> 
-        <link rel="stylesheet" href="css/tooltip/tooltip-left.css">  
-        <link rel="stylesheet" href="css/tooltip/tooltip-right.css"> 
-        <link rel="stylesheet" href="css/tooltip/tooltip-top.css"> 
+        <link rel="stylesheet" href="css/inputs.css">
+        <link rel="stylesheet" href="css/tooltip.css"> 
+        <link rel="stylesheet" href="css/popup.css">
+
     </head>
 
 
 	<body>
-        <div height=60></div>
+        <div height=60></div> <!--this is just a buffer for header-->
         <header id="main_header">
             <a>Computer Graphics: Parametric Curves</a>
         </header>
         
         <section>
-            <div style="width:222px" height=100></div>
+
+            <div style="width:240px" height=100></div> <!--this is just a buffer for left sidebar-->
             <div class="left-nav" id="left-nav">
-                <div class="curves-menu">
-                        <div class="tooltip-right">
-                            <button id="Monomial-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                                <a>Monomial Basis</a>
-                            </button>
-                            <span class="tooltiptext-right">Drag and Drop</span>
-                        </div>
-                        
-                        <div class="tooltip-right">
-                            <button id="Lagrange-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                                <a>Lagrange</a>
-                            </button>
-                            <span class="tooltiptext-right">Drag and Drop</span>
-                        </div>
-    
-                        <div class="tooltip-right">
-                            <button id="HB-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                                <a>Cubic Hermite Spline</a>
-                            </button>
-                            <span class="tooltiptext-right">Drag and Drop</span>
-                        </div>
-    
-                        <div class="tooltip-right">
-                            <button id="Splines-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                                <a>Cubic Spline</a>
-                            </button>
-                            <span class="tooltiptext-right">Drag and Drop</span>
-                        </div>
-    
-                        <div class="tooltip-right">
-                            <button id="Bezier-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                                <a>Bezier</a>
-                            </button>
-                            <span class="tooltiptext-right">Drag and Drop</span>
-                        </div>
-    
-                        <div class="tooltip-right">
-                            <button id="BSpline-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                                <a>B-Spline</a>
-                            </button>
-                            <span class="tooltiptext-right">Drag and Drop</span>
-                        </div>
-                 </div>
                 
-                <div class="table-controls">
+                <a>Curves Menu</a>
+                <div class="curves-menu">  
+
                     <div class="tooltip-right">
-                        <div class="table-input">
+                        <button id="Monomial-btn" class="curve-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Monomial Basis</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+                        
+                    <div class="tooltip-right">
+                    <button id="Lagrange-btn" class="curve-btn"  draggable="true" ondragstart="drag(event)">
+                        <a>Lagrange</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+    
+                    <div class="tooltip-right">
+                        <button id="HB-btn" class="curve-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Cubic Hermite Spline</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+    
+                    <div class="tooltip-right">
+                        <button id="Splines-btn" class="curve-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Cubic Spline</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+    
+                    <div class="tooltip-right">
+                        <button id="Bezier-btn" class="curve-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>Bezier</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+    
+                    <div class="tooltip-right">
+                        <button id="BSpline-btn" class="curve-btn"  draggable="true" ondragstart="drag(event)">
+                            <a>B-Spline</a>
+                        </button>
+                        <span class="tooltiptext-right">Drag and Drop</span>
+                    </div>
+
+                </div>
+
+                <a>Screen Controls</a>
+                <div class="table-controls">
+
+                    <div class="tooltip-right">
+                        <div class="table-size-input-wrapper">
                             <a>Columns</a>
-                            <input id=table_size_input_cols class="table-size-input" type="number" value=1 size=1 min=1 max=4 ></input>
+                            <input id=table_size_input_cols class="table-size-input" type="number" value=1 size=1 min=1></input>
                         </div> 
                         <span class="tooltiptext-right">Number of Columns to Split Screen</span>
                     </div> 
     
                     <div class="tooltip-right">
-                        <div class="table-input">
+                        <div class="table-size-input-wrapper">
                             <a>Rows</a>
                             <input id=table_size_input_rows class="table-size-input" type="number" value=1 size=1 min=1 ></input>
                         </div>
@@ -91,24 +95,17 @@
                         </button>
                         <span class="tooltiptext-right">Clear All Curves</span>
                     </div> 
-                </div>    
-                
 
-                      
+                </div> 
+
             </div>
 
             <main>
-                
-                    <table id="myTable"></table>
-                
+                <table id="curves-table"></table>
             </main>
+
         </section>
     
-
-        <footer>
-            <a>Made by: Shani Bar-Gera 2021</a>
-        </footer>
-
         <script src="js/curves/matrix.js"></script>
         <script src="js/curves/bezier.js"></script>
         <script src="js/curves/linear.js"></script>
@@ -118,7 +115,7 @@
         <script src="js/curves/monomial.js"></script>
         <script src="js/curves/hermite.js"></script>
 
-        <script src="js/window.js"></script>
+        <script src="js/td-content.js"></script>
         <script src="js/app.js"></script>
         <script src="js/instructions.js"></script>
         <script src="js/controls.js"></script>

@@ -88,3 +88,11 @@ Matrix.Pair = function(prev, next){
     this.prev = prev;
     this.next = next;
 }
+
+Matrix.copyVec = function(vecToCopy){
+    var vec = [];
+    for (var i = 0; i < vecToCopy.length; i++){
+        vec[i] = vecToCopy[i];
+    }
+    return vec;
+}
