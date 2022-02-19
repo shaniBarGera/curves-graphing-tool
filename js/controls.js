@@ -2,7 +2,7 @@ function createControls(td_id, title){
     // controls main box
     var controls = document.createElement("div");
     controls.id = td_id + "_controls";
-    controls.className = "controls";
+    controls.className = "td-controls";
 
     if(title == "Monomial Basis" || title == "B-Spline"){
         controls.appendChild(createNumInput(td_id, "k", 3));

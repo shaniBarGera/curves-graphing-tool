@@ -107,8 +107,8 @@ function setCell(cell1, i, j, height, width){
 
       var title = div.getAttribute("curvename");
       if(title){
-        clearWindow(div.id);
-        createWindow(div, title);
+        clearTdContent(div.id);
+        createTdContent(div, title);
       }
     }
   }
