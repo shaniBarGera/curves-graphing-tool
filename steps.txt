@@ -1,9 +1,7 @@
 bugs:
-fix canvas sizing
-add table size as input
-resize table when browser changes
-clear window makes bugs
-
+white edges appear sometimes
+move popup
+clean code
 
 bonus:
 switch between dark mode and light mode

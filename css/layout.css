@@ -16,13 +16,17 @@ body {
 header{
    background: linear-gradient(#303030, #3b3b3b);
    margin: 0px;
-   padding: 0;
+   padding-top: 15px;
    text-align: center;
    color: white;
    font-size: 22px;
    font-family: Arial, sans-serif;
+   font-weight: bold;
    letter-spacing: 0.43px;
-   height: 60px;
+   height: 45px;
+   position: fixed;
+   z-index: 1;
+   width: 100%;
 }
 
 footer{
@@ -36,9 +40,9 @@ footer{
 }
 
 section {
-  
+   top: 60px;
    height: 100%;
-  
+   left:200px;
    display: flex;  
 }
 

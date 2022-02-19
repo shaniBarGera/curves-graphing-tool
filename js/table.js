@@ -54,8 +54,8 @@ var body_height = Math.max( body.scrollHeight, body.offsetHeight,
 var body_width = Math.max( body.scrollWidth, body.offsetWidth, 
                         html.clientWidth, html.scrollWidth, html.offsetWidth );
   var table_h = body_height - 130;
-  var table_w = window.innerWidth - 300;
-  var row_h = Math.max(table_h / table_rows_num, 500);
+  var table_w = body_width - 300;
+  var row_h = Math.max(table_h / table_rows_num, 600);
   var col_w =  Math.max(table_w / table_cols_num, 500);
   table_col_w = col_w;
   table_row_h = row_h;

@@ -1,16 +1,11 @@
 #myTable {
-    /*width: 100%;*/
     margin: 5px;
-    /*min-height: 93vh;
-    max-height: 100%;*/
     padding:0;
-    /*padding-right: 10px;
-    border-spacing: 2px;
-    table-layout: fixed;*/
     position: relative;
     border: 3px solid rgb(97, 96, 96);
     border-spacing: 0;
     border-collapse: collapse;
+    
 }
 
 tr{
@@ -25,12 +20,10 @@ td {
 }
 
 .td_content{
-    /*margin: 1px;
-    border: 3px solid rgb(97, 96, 96);*/
     top:0;
     vertical-align: top;
     
-    min-height: 500px;
+    min-height: 600px;
     max-height: 100%;
     min-width: 500px;
     max-width: 100%;

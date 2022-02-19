@@ -1,4 +1,4 @@
-<html  onresize="fixTableWrapper()">
+<html>
     <head>
         <title>CG Curves</title>
         <link rel="stylesheet" href="css/layout.css">
@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="css/controls.css">
         <link rel="stylesheet" href="css/parambox.css"> 
         <link rel="stylesheet" href="css/parambox-popup.css">
-        <link rel="stylesheet" href="css/modal.css"> 
         <link rel="stylesheet" href="css/popup.css"> 
         <link rel="stylesheet" href="css/tooltip/tooltip-left.css">  
         <link rel="stylesheet" href="css/tooltip/tooltip-right.css"> 
@@ -16,167 +15,95 @@
     </head>
 
 
-	<body onresize="fixTableWrapper1()">
+	<body>
+        <div height=60></div>
         <header id="main_header">
-           
             <a>Computer Graphics: Parametric Curves</a>
         </header>
         
-        <section onresize="fixTableWrapper()">
+        <section>
+            <div style="width:222px" height=100></div>
             <div class="left-nav" id="left-nav">
+                <div class="curves-menu">
+                        <div class="tooltip-right">
+                            <button id="Monomial-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
+                                <a>Monomial Basis</a>
+                            </button>
+                            <span class="tooltiptext-right">Drag and Drop</span>
+                        </div>
+                        
+                        <div class="tooltip-right">
+                            <button id="Lagrange-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
+                                <a>Lagrange</a>
+                            </button>
+                            <span class="tooltiptext-right">Drag and Drop</span>
+                        </div>
+    
+                        <div class="tooltip-right">
+                            <button id="HB-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
+                                <a>Cubic Hermite Spline</a>
+                            </button>
+                            <span class="tooltiptext-right">Drag and Drop</span>
+                        </div>
+    
+                        <div class="tooltip-right">
+                            <button id="Splines-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
+                                <a>Cubic Spline</a>
+                            </button>
+                            <span class="tooltiptext-right">Drag and Drop</span>
+                        </div>
+    
+                        <div class="tooltip-right">
+                            <button id="Bezier-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
+                                <a>Bezier</a>
+                            </button>
+                            <span class="tooltiptext-right">Drag and Drop</span>
+                        </div>
+    
+                        <div class="tooltip-right">
+                            <button id="BSpline-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
+                                <a>B-Spline</a>
+                            </button>
+                            <span class="tooltiptext-right">Drag and Drop</span>
+                        </div>
+                 </div>
                 
+                <div class="table-controls">
                     <div class="tooltip-right">
-                        <button id="Monomial-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                            <a>Monomial Basis</a>
-                        </button>
-                        <span class="tooltiptext-right">Drag and Drop</span>
-                    </div>
-                    
-                    <div class="tooltip-right">
-                        <button id="Lagrange-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                            <a>Lagrange</a>
-                        </button>
-                        <span class="tooltiptext-right">Drag and Drop</span>
-                    </div>
-
-                    <div class="tooltip-right">
-                        <button id="HB-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                            <a>Cubic Hermite Spline</a>
-                        </button>
-                        <span class="tooltiptext-right">Drag and Drop</span>
-                    </div>
-
-                    <div class="tooltip-right">
-                        <button id="Splines-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                            <a>Cubic Spline</a>
-                        </button>
-                        <span class="tooltiptext-right">Drag and Drop</span>
-                    </div>
-
-                    <div class="tooltip-right">
-                        <button id="Bezier-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                            <a>Bezier</a>
-                        </button>
-                        <span class="tooltiptext-right">Drag and Drop</span>
-                    </div>
-
-                    <div class="tooltip-right">
-                        <button id="BSpline-btn" class="left-nav-btn"  draggable="true" ondragstart="drag(event)">
-                            <a>B-Spline</a>
-                        </button>
-                        <span class="tooltiptext-right">Drag and Drop</span>
-                    </div>
-
-                    
-                <div class="tooltip-right">
-                    <button class="right-nav-btn">
-                    
+                        <div class="table-input">
+                            <a>Columns</a>
                             <input id=table_size_input_cols class="table-size-input" type="number" value=1 size=1 min=1 max=4 ></input>
-                   
-                    </button>
-                    <span class="tooltiptext-right">Number of Columns</span>
-                </div> 
-
-                <div class="tooltip-right">
-                    <button class="right-nav-btn">
-                    
+                        </div> 
+                        <span class="tooltiptext-right">Number of Columns to Split Screen</span>
+                    </div> 
+    
+                    <div class="tooltip-right">
+                        <div class="table-input">
+                            <a>Rows</a>
                             <input id=table_size_input_rows class="table-size-input" type="number" value=1 size=1 min=1 ></input>
-                   
-                    </button>
-                    <span class="tooltiptext-right">Number of Rows</span>
-                </div> 
-
-                <div class="tooltip-right">
-                    <button class="right-nav-btn" onclick="clearAllWindows()">
-                        <a>&#x2715;</a>
-                    </button>
-                    <span class="tooltiptext-right">Clear All Windows</span>
-                </div> 
+                        </div>
+                        <span class="tooltiptext-right">Number of Rows to Split Screen</span>
+                    </div> 
+    
+                    <div class="tooltip-right">
+                        <button class="reset-btn" onclick="clearAllWindows()">
+                            <a>&#x2715;  Clear All</a>
+                        </button>
+                        <span class="tooltiptext-right">Clear All Curves</span>
+                    </div> 
+                </div>    
+                
 
                       
             </div>
 
-            <main onresize="fixTableWrapper()">
-                <table id="myTable" onresize="fixTableWrapper()">
-                    <!--<tr>
-                        <td id="t_0_0" >
-                            <div id="td_0_0" class="td_content" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            </div>
-                        </td>
-                    </tr>!-->
-                </table>
-            </main>
-
-            <!---<div class="right-nav">
-                <div class="tooltip-left">
-                    <button id="right-nav-btn" class="right-nav-btn" onclick="addCol()">
-                        
-                        <img src="imgs/icons/split-vertical.png" class="icon-img"></img>
-                        
-                    </button>
-                    <span class="tooltiptext-left">Split Window Vertically</span>
-                </div>
-
-                <div class="tooltip-left">
-                    <button id="right-nav-btn" class="right-nav-btn" onclick="delCol()">
-                       
-                        <img src="imgs/icons/merge-vertical.png" class="icon-img"></img>
-                    </button>
-                    <span class="tooltiptext-left">Merge Window Vertically</span>
-                </div>
-
-                <div class="tooltip-left">
-                    <button id="right-nav-btn" class="right-nav-btn" onclick="addRow()">
-                       
-                        <img src="imgs/icons/split-horizontal.png" class="icon-img"></img>
-                    </button>
-                    <span class="tooltiptext-left">Split Window Horizontally</span>
-                </div>
+            <main>
                 
-                <div class="tooltip-left">
-                    <button id="right-nav-btn" class="right-nav-btn" onclick="delRow()">
-                       
-                        <img src="imgs/icons/merge-horizontal.png" class="icon-img"></img>
-                    </button>
-                    <span class="tooltiptext-left">Merge Window Horizontally</span>
-                </div>
-
-                <div class="tooltip-left">
-                    <button class="right-nav-btn" onclick="openAllCurves()">
-                        <a>&#9998;</a>
-                    </button>
-                    <span class="tooltiptext-left">Open All Curves</span>
-                </div>
-
-                <div class="tooltip-left">
-                    <button class="right-nav-btn" onclick="match()">
-                        <a>&#9901;</a>
-                    </button>
-                    <span class="tooltiptext-left">match control points of all curves</span>
-                </div>
-
-                <div class="tooltip-left">
-                    <button id="right-nav-btn" class="right-nav-btn" onclick="changeColors()">
-                        <a>&#x263C;</a>
-                    </button>
-                    <span class="tooltiptext-left">Invert Colors</span>
-                </div>
-              
-                <div class="tooltip-left">
-                    <button class="right-nav-btn" onclick="showGenInfo()"><a>&#x2148;</a></button>
-                    <div id="gen_info_modal" class="modal">
-                        <div class="modal-content">
-                          <span class="close">&times;</span>
-                          <p>General Info</p>
-                        </div> 
-                    </div>
-                    <span class="tooltiptext-left">General Info</span>
-                </div>  
-            </div>!--->
-       
+                    <table id="myTable"></table>
+                
+            </main>
         </section>
     
-        
 
         <footer>
             <a>Made by: Shani Bar-Gera 2021</a>
@@ -197,7 +124,6 @@
         <script src="js/controls.js"></script>
         <script src="js/drawing.js"></script>
         <script src="js/table.js"></script>
-        <script src="js/navs.js"></script>
         <script src="js/drop.js"></script>
 	</body>
 </html>
