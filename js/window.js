@@ -1,26 +1,11 @@
 var apps = [];
 var apps_num = -1;
-var subApps = [];
-var subApps_num = -1;
 
 function addApp(td, title){
     apps_num++;
-    var subapp_num = td.getAttribute("subapp", td);
-    apps[apps_num] = new App().run(this.window, td.id, title, subapp_num);
+    apps[apps_num] = new App().run(this.window, td.id, title);
     td.setAttribute("app", apps_num);
-    
 }
-
-function clearAllWindows(){
-    var table = document.getElementById("myTable");
-    for(i = 0; i < table.rows.length; i++){
-        for(j = 0; j < table.rows[0].cells.length; j++){
-            var td = table.rows[i].cells[j];
-            clearWindow(td.id);
-        }
-    }
-  }
-
   
 function clearWindow(td_id) {
     var td = document.getElementById(td_id);
@@ -56,7 +41,6 @@ function createWindow(td, title){
     td.appendChild(createParamBox(td, title));
 
     addApp(td, title);
-    
 }
 
 function createHeader(td_id, title){
@@ -160,19 +144,29 @@ function createParamBox(td, title){
     return parambox;
 }
 
-function createParamBoxPopUp(title, info){
-    var container = document.createElement("div");
-    container.className = "param-box-popup";
-    container.onclick = function(){
-        var popup = document.getElementById(title + "_parambox");
-        popup.classList.toggle("show");
-    };
 
-    var content = document.createElement("span");
-    content.className = "param-box-popuptext";
-    content.id = title + "_parambox";
-    content.appendChild(info);
 
-    container.appendChild(content);
-    return container;
+function drawZoneHeight(td){
+    var td_controls = document.getElementById(td.id + "_controls");
+    var td_header = document.getElementById(td.id + "_header");
+    var td_formula = document.getElementById(td.id + "_formula");
+    var header_height = td_header.offsetHeight;
+    var controls_height = td_controls.offsetHeight;
+    var formula_height = td_formula.offsetHeight;
+    //var formula_height = 0;
+    return (header_height + controls_height + formula_height);
+}
+
+function resizeCanvas(box, td){
+    var bw = (td.offsetWidth - 10);
+    var bh = (td.offsetHeight - drawZoneHeight(td));
+    box.width = bw;
+    box.height = bh;
+}
+
+function createCanvas(td){
+    var box = document.createElement("canvas");
+    box.id = td.id + "_canvas";
+    resizeCanvas(box, td);
+    return box;
 }

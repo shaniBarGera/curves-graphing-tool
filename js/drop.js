@@ -13,7 +13,7 @@ function drop(ev){
 function findtd(td){
     var curr = td;
     while(curr.parentElement){
-        if(curr.id.match('^t_[0-9]_[0-9]$')){
+        if(curr.id.match('^td_[0-9]_[0-9]$')){
             return curr.id;
         }
         curr = curr.parentElement;
@@ -25,7 +25,7 @@ window.addEventListener("drop", function(event){
     
     var td_id = findtd(event.target);
     var td = document.getElementById(td_id);
-    console.log(td);
+    //console.log(td);;
     clearWindow(td_id);
     
     var data = event.dataTransfer.getData("text");

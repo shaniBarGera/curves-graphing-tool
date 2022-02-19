@@ -21,5 +21,9 @@ td {
 }
 
 .td_content{
-    
+    overflow: hidden;
+    min-height: 500px;
+    max-height: 92vh;
+    width: 100%;
+    height: fit-content;
 }

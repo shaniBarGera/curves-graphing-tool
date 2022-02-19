@@ -1,9 +1,10 @@
 function setCell(cell1, i, j){
-    cell1.setAttribute("ondrop","drop(event)");
-    cell1.setAttribute("ondragover","allowDrop(event)");
     cell1.id = "t_" + i + "_" + j;
     var div = document.createElement("div");
     div.id = "td_" + i + "_" + j;
+    div.className = "td_content";
+    div.setAttribute("ondragover","allowDrop(event)");
+    div.setAttribute("ondrop","drop(event)");
     cell1.appendChild(div);
 }
 
@@ -56,13 +57,14 @@ function fixTable(table){
   for(i = 0; i < rnum; i++){
     for(var j=0; j < cnum; j++){
       cell1 = table.rows[i].cells[j];
-      cell1.style.width = col_w;
-      cell1.style.height = `${row_h}vh`;
+      div = cell1.firstElementChild;
+      div.width = col_w;
+      div.height = `${row_h}vh`;
 
-      var title = cell1.getAttribute("curvename");
+      var title = div.getAttribute("curvename");
       if(title){
-        clearWindow(cell1.id);
-        createWindow(cell1, title);
+        clearWindow(div.id);
+        createWindow(div, title);
       }
     }
   }

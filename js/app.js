@@ -27,7 +27,7 @@ App.prototype.constants = {
  * Sets the starting values for the app, both environmental references and starting curve data
  * @param window - the browser window object
  */
-App.prototype.init = function(window, td_id, title, subapp_num) {
+App.prototype.init = function(window, td_id, title) {
     // Capture the window and canvas elements
     this.window = window;
     this.td_id = td_id;
@@ -231,10 +231,11 @@ App.prototype.calc_ts = function(){
         this.ts[i] = dx / dist;
     }
 
-    console.log("ts:");
+    /*console.log("ts:");
     for(var i = 0; i < n; i++){
         console.log(this.ts[i]);
     }
+    */
 }
 
 App.prototype.fixKControlPoints = function(){
@@ -818,7 +819,7 @@ App.prototype.checkParamPointHover = function(point, padding) {
  * initial 'update'. Subsequent updates will be performed in response to user-driven events
  * @param window - The browser window object
  */
-App.prototype.run = function(window, td_id, title, subapp_num) {
-    this.init(window, td_id, title, subapp_num);
+App.prototype.run = function(window, td_id, title) {
+    this.init(window, td_id, title);
     this.update();
 };
