@@ -1,65 +1,44 @@
+/* global variables */
 var table_cols_num = 1;
 var table_rows_num = 1;
 var table_col_w = 500;
 var table_row_h = 500;
 
+
+/****************************** Create Table ******************************/
+
+// Create initial table
 document.addEventListener('readystatechange', event => { 
-
-  // When HTML/DOM elements are ready:
-  if (event.target.readyState === "interactive") {   //does same as:  ..addEventListener("DOMContentLoaded"..
-      
-  }
-
-  // When window loaded ( external resources are loaded too- `css`,`src`, etc...) 
   if (event.target.readyState === "complete") {
-      
-      createTable();
+    createTable();
   }
 });
 
-document.getElementById('table_size_input_cols').addEventListener('input', function(evt) {
-  table_cols_num = parseInt(document.getElementById('table_size_input_cols').value);
-  resetTable();
-});
-
-document.getElementById('table_size_input_rows').addEventListener('input', function(evt) {
-  table_rows_num = parseInt(document.getElementById('table_size_input_rows').value);
-  resetTable();
-});
-
-function clearAllWindows(){
-  document.getElementById('table_size_input_cols').value = 1;
-  document.getElementById('table_size_input_rows').value = 1;
-  table_cols_num = 1;
-  table_rows_num = 1;
-  resetTable();
-}
-
-function clearTable(){
-  var table = document.getElementById("curves-table");
-  for(var i=table.rows.length - 1;i >= 0;i--){
-    table.deleteRow(i);
-  }
-}
-
+/**
+* Creates Table 
+* @result A table with size: table_cols_num x table_rows_nun
+*/
 function createTable(){
-  console.log("here");
+  // get window size
   var table = document.getElementById("curves-table");
-  //var header = document.getElementById("main_header");
   var body = document.body,
-    html = document.documentElement;
-
-var body_height = Math.max( body.scrollHeight, body.offsetHeight, 
-                       html.clientHeight, html.scrollHeight, html.offsetHeight );
-var body_width = Math.max( body.scrollWidth, body.offsetWidth, 
-                        html.clientWidth, html.scrollWidth, html.offsetWidth );
+  html = document.documentElement;
+  var body_height = Math.max( body.scrollHeight, body.offsetHeight, 
+                        html.clientHeight, html.scrollHeight, html.offsetHeight );
+  var body_width = Math.max( body.scrollWidth, body.offsetWidth, 
+                          html.clientWidth, html.scrollWidth, html.offsetWidth );
+    
+  // calc table size
   var table_h = body_height - 130;
   var table_w = body_width - 300;
+
+  // calc cell size 
   var row_h = Math.max(table_h / table_rows_num, 600);
   var col_w =  Math.max(table_w / table_cols_num, 510);
   table_col_w = col_w;
   table_row_h = row_h;
-  console.log(row_h, col_w, table_w, table_h);
+
+  // create table
   for(var i=0;i < table_rows_num;i++){// first loop to create row
     var row = table.insertRow(i);
     for(var j=0;j < table_cols_num;j++){// nested loop to create column in all rows
@@ -69,75 +48,82 @@ var body_width = Math.max( body.scrollWidth, body.offsetWidth,
   }
 }
 
+/**
+* Sets initial table cell
+* @param cell - cell to seet
+* @param i - row number of cell in table
+* @param j - column number of cell in table
+* @param height - cell's wanted height
+* @param width - cell's wanted width
+* @result Cell is in wanted size with wanted attributes
+*/
+function setCell(cell, i, j, height, width){
+  cell.id = "t_" + i + "_" + j;
+  var div = document.createElement("div");
+  div.id = "td_" + i + "_" + j;
+  div.className = "td_content";
+  div.setAttribute("ondragover","allowDrop(event)");
+  div.setAttribute("ondrop","drop(event)");
+  div.height = height;
+  div.width = width;
+  var canvas = createEmptyCanvas(); // set initial canvas to fix cell's size
+  div.appendChild(canvas);
+  cell.appendChild(div);
+}
+
+/**
+ * Create an empty canvas
+ * @returns an empty canvas in size of a table cell
+ */
+function createEmptyCanvas(){
+  var box = document.createElement("canvas");
+  box.width = table_col_w;
+  box.height = table_row_h;
+  return box;
+}
+
+
+
+/****************************** Update Table ******************************/
+
+// Set number of columns of table
+document.getElementById('table_size_input_cols').addEventListener('input', function(evt) {
+  table_cols_num = parseInt(document.getElementById('table_size_input_cols').value);
+  resetTable();
+});
+
+// Set number of rows of table
+document.getElementById('table_size_input_rows').addEventListener('input', function(evt) {
+  table_rows_num = parseInt(document.getElementById('table_size_input_rows').value);
+  resetTable();
+});
+
+/**
+* Remove all table cells and create new ones
+*/
 function resetTable(){
-  console.log(table_cols_num, table_rows_num);
   clearTable();
   createTable();
 }
 
-function setCell(cell1, i, j, height, width){
-    cell1.id = "t_" + i + "_" + j;
-    var div = document.createElement("div");
-    div.id = "td_" + i + "_" + j;
-    div.className = "td_content";
-    div.setAttribute("ondragover","allowDrop(event)");
-    div.setAttribute("ondrop","drop(event)");
-    div.height = height;
-    div.width = width;
 
-    var canvas = createEmptyCanvas();
-    div.appendChild(canvas);
-
-    cell1.appendChild(div);
-
-
-}
-
-/*function fixTable(table){
-  var rnum = table.rows.length;
-  var cnum = table.rows[0].cells.length;
-  var row_h = 85 / rnum;
-  var col_w =  `${100 / cnum}%`;
-  for(i = 0; i < rnum; i++){
-    for(var j=0; j < cnum; j++){
-      cell1 = table.rows[i].cells[j];
-      div = cell1.firstElementChild;
-      div.width = col_w;
-      div.height = `${row_h}vh`;
-
-      var title = div.getAttribute("curvename");
-      if(title){
-        clearTdContent(div.id);
-        createTdContent(div, title);
-      }
-    }
-  }
-}*/
-
-
-function fixTable(table){
-  for(i = 0; i < table_rows_num; i++){
-    for(var j=0; j < table_cols_num; j++){
-      cell1 = table.rows[i].cells[j];
-      div = cell1.firstElementChild;
-      var td_canvas = document.getElementById(div.id + "_canvas");
-      resizeCanvas(td_canvas ,div);
-      
-    }
-  }
-}
-function fixTableWrapper1(){
-  console.log("resize table");
+/**
+* Removes all table cells
+*/
+function clearTable(){
   var table = document.getElementById("curves-table");
-  //fixTable(table);
+  for(var i=table.rows.length - 1;i >= 0;i--){
+    table.deleteRow(i);
+  }
 }
 
-function fixTableWrapper(){}
-
-/*function outputsize() {
-  width.value = textbox.offsetWidth
-  height.value = textbox.offsetHeight
+/**
+* clear content from all table cell and retrn table to size 1x1
+*/
+function clearAllWindows(){
+  document.getElementById('table_size_input_cols').value = 1;
+  document.getElementById('table_size_input_rows').value = 1;
+  table_cols_num = 1;
+  table_rows_num = 1;
+  resetTable();
 }
-
-outputsize()
-new ResizeObserver(outputsize).observe(textbox)*/

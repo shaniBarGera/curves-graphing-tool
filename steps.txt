@@ -2,6 +2,7 @@ bugs:
 move popup
 clean code
 fix t value
+add alert when k larger then n
 
 bonus:
 switch between dark mode and light mode

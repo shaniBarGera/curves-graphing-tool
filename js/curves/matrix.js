@@ -30,6 +30,7 @@ Matrix.solve = function(A, x)	// in Matrix, out solutions
         }
     }
 }
+
 Matrix.zerosMat = function(r,c) {var A = []; for(var i=0; i<r; i++) {A.push([]); for(var j=0; j<c; j++) A[i].push(0);} return A;}
 Matrix.printMat = function(A){ for(var i=0; i<A.length; i++) console.log(A[i]); }
 Matrix.swapRows = function(m, k, l) {var p = m[k]; m[k] = m[l]; m[l] = p;}
@@ -95,4 +96,19 @@ Matrix.copyVec = function(vecToCopy){
         vec[i] = vecToCopy[i];
     }
     return vec;
+}
+
+Curve = {}
+
+Curve.calcT = function(step, num_steps){
+    return (step / (num_steps -1));
+}
+
+Curve.interpolateXY = function(n, xs, ys, base){
+    var x = 0, y = 0;
+    for(var i = 0; i < n; ++i){
+        x += xs[i] * base[i];
+        y += ys[i] * base[i];
+    }
+    return new Point(x, y); 
 }

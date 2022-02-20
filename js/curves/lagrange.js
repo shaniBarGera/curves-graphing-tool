@@ -8,20 +8,12 @@
     this.xs = [];
     this.ys = [];
     Matrix.fillXY(this.xs, this.ys, controlPoints);
-
-    /*this.ts = [];
-    for(var i=0; i < n; ++i){
-        this.ts[i] = i;
-    }*/
-    var t = (step / (num_steps -1)) ;
-    //var t = (step / (num_steps -1)) * (n-1);
-
     this.base = [];
-
-    this.point = LagrangeCurve.interpolateXY(n, t, ts, this.xs, this.ys, this.base);
+    this.point = LagrangeCurve.interpolateXY(n, t, ts, this.xs, this.ys, this.base, step, num_steps);
 }
 
-LagrangeCurve.interpolateXY = function(n, t, ts, xs, ys, L){
+LagrangeCurve.interpolateXY = function(n, t, ts, xs, ys, L, step, num_steps){
+    var t = (step / (num_steps -1)) ;
     var x = 0, y = 0;
     for(var i = 0; i < n; ++i){
         var numerator = 1, denominator = 1;

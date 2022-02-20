@@ -1,4 +1,4 @@
-/*************** Table Size Number Input *****************/
+/****************************** Table Size Number Input ******************************/
 
 .table-size-input-wrapper{
     margin: 10px;
@@ -23,7 +23,7 @@
 
 
 
-/*************** Table Content Inputs *****************/
+/****************************** Table Content Inputs ******************************/
 
 .td-content-input-wrapper{
     display: inline-flex;
@@ -34,7 +34,7 @@
 
 
 
-/*************** Table Content Number Input *****************/
+/****************************** Table Content Number Input ******************************/
 
 .td-content-input{
     background-color : #1e1e1e;
@@ -54,7 +54,7 @@
 
 
 
-/*************** Table Content t-Slider Input *****************/
+/****************************** Table Content t-Slider Input ******************************/
 
 #tValue{
     display: inline-block;

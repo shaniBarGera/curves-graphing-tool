@@ -9,6 +9,8 @@
     this.y = y;
 }
 
+
+
 /**
  * Clear and fill a canvas with the specified color
  * @param ctx - The drawing context
