@@ -1,0 +1,9 @@
+Future Things To Add:
+    switch between dark mode and light mode
+    add match option to all windows onption (make all control points and steps same in all windows)
+    add general info
+    open all curves at once
+    fix equation info to be right after equation and fit box to td size
+    add alert when k larger then n
+    fix t value
+    improve code by making CHSPL inherit from CSPL not Curve
