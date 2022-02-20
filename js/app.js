@@ -339,16 +339,23 @@ App.prototype.buildCurves = function() {
                 var curve = new BezierCurve(controlPoints, t);
                 break;
             case "Cubic Spline":
-                var curve = new CSPL(controlPoints, step, this.numSteps, this.ts);
+                var curve = new CSPL1(controlPoints, step, this.numSteps, this.ts);
+                curve.build();
                 break;
             case "Lagrange":
                 var curve = new LagrangeCurve(controlPoints, step, this.numSteps, this.ts);
+                curve.build();
                 break;
             case "B-Spline":
-                var curve = new BSpline(controlPoints, step, this.numSteps, this.kValue, this.ts);
+                var curve = new BSPL(controlPoints, step, this.numSteps, this.ts, this.kValue);
+                curve.build();
                 break;
             case "Cubic Hermite Spline":
                 var curve = new CHSPL(controlPoints, step, this.numSteps, this.KControlPoints, this.ts);
+                var curve1 = new CHSPL1(controlPoints, step, this.numSteps, this.ts, this.KControlPoints);
+                curve1.build();
+                console.log(curve);
+                console.log(curve1);
                 break;
             case "Monomial Basis":
                 var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue, this.ts);

@@ -98,13 +98,13 @@ Matrix.copyVec = function(vecToCopy){
     return vec;
 }
 
-Curve = {}
+Curves = {}
 
-Curve.calcT = function(step, num_steps){
+Curves.calcT = function(step, num_steps){
     return (step / (num_steps -1));
 }
 
-Curve.interpolateXY = function(n, xs, ys, base){
+Curves.interpolateXY = function(n, xs, ys, base){
     var x = 0, y = 0;
     for(var i = 0; i < n; ++i){
         x += xs[i] * base[i];
