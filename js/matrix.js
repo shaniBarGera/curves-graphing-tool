@@ -90,3 +90,11 @@ Matrix.copyVec = function(vecToCopy){
     }
     return vec;
 }
+
+Matrix.dist = function(p1, p2){
+    var a = p1.x - p2.x;
+    var b = p1.y - p2.y;
+
+    var c = Math.sqrt( a*a + b*b );
+    return c;
+}

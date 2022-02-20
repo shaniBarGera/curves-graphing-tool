@@ -214,8 +214,7 @@ class CSPL extends Curve{
         var i = 0;
         var n = this.n;
         for(;i < n-1, this.relativeStep > this.ts[i]; ++i){
-            if(i >= n - 1) break;
-            console.log(i, n-1, this.relativeStep, this.ts[i]);
+        
         }
         
         i--;
@@ -224,7 +223,6 @@ class CSPL extends Curve{
         var diff_bottom = this.ts[i+1] - this.ts[i];
         
         this.t = diff_top / diff_bottom;
-        console.log(i, this.t, diff_bottom, diff_top);
         if(this.prev_relativeStep <= this.ts[i]) this.draw[0] = false;
     }
 
@@ -315,10 +313,7 @@ class CHSPL extends Curve{
             if(this.relativeStep == 0) return;
             var i = 0;
             var n = this.n;
-            for(;i < n-1, this.relativeStep > this.ts[i]; ++i){
-                if(i >= n - 1) break;
-                console.log(i, n-1, this.relativeStep, this.ts[i]);
-            }
+            for(;i < n-1, this.relativeStep > this.ts[i]; ++i);
             
             i--;
             this.i = i;
@@ -326,7 +321,7 @@ class CHSPL extends Curve{
             var diff_bottom = this.ts[i+1] - this.ts[i];
             
             this.t = diff_top / diff_bottom;
-            console.log(i, this.t, diff_bottom, diff_top);
+            
             if(this.prev_relativeStep <= this.ts[i]) this.draw[0] = false;
     }
 

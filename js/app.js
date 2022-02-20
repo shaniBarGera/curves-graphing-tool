@@ -105,6 +105,16 @@ App.prototype.init = function(window, td_id, title) {
         if (this.hovering === true) {
             this.dragging = true;
             document.body.classList.add('unselectable');
+        } else {
+            app.addControlPoint(this.mousePosition);
+            var input = document.getElementById('n_input_' + this.td_id);
+            input.value = parseInt(input.value) + 1;
+            this.orderSelection = parseInt(input.value);
+
+            app.generateKControlPoints();
+            app.generateParamControlPoints();
+            app.calcTs();
+            app.update();
         }
     }.bind(this));
 
@@ -237,6 +247,24 @@ App.prototype.calcTs = function(){
     }
 }
 
+/**
+ *  Add a new point to control points
+*/
+App.prototype.addControlPoint = function(p){
+    var p0 = this.controlPoints[0];
+    var pn = this.controlPoints[this.controlPoints.length -1];
+
+    var d1 = Matrix.dist(p, p0);
+    var d2 = Matrix.dist(p, pn);
+
+    if(d1 >= d2){
+        this.controlPoints.push(p);
+    } else{
+        this.controlPoints.unshift(p);
+    }
+
+    
+}
 
 /**
  *  Make sure in Cubic Hermite that the secondary control lines stick to the main control point in the middle and remain symatrical
