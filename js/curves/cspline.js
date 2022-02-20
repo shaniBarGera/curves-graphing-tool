@@ -15,11 +15,6 @@
         return;
     }
 
-    /*this.ts = [];
-    for(var i = 0; i < n; ++i){
-        this.ts[i] = i / (n-1);
-    }*/
-
     this.tsdiff = [];
     CSPL.calcDiff(ts, n, this.tsdiff);
 
