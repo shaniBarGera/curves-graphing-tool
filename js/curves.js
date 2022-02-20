@@ -288,7 +288,7 @@ class CSPL extends Curve{
 
 /****************************** Cubic Hermite Spline Curve ******************************/
 
-class CHSPL1 extends Curve{
+class CHSPL extends Curve{
     /**
      * Creates a Cubic Hermite Basis curve object for a specific point
      * @param controlPoints - the set of control point

@@ -12,7 +12,8 @@ App.prototype.constants = {
         SECONDARY_CONTROL_LINES: 'rgba(0, 190, 196, 1.0)',
         BACKGROUND_COLOR: 'rgba(30, 30, 30, 1.0)',
         GRID: 'rgba(90, 90, 90, 1.0)',
-        PARAM_CURVE: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)', 'rgb(255, 132, 0)', 'rgb(255, 0, 127)', 'rgb(7, 239, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)']
+        PARAM_CURVE: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)', 'rgb(255, 132, 0)', 
+        'rgb(255, 0, 127)', 'rgb(7, 239, 255)', 'rgb(255, 255, 0)', 'rgb(255, 0, 255)']
     },
     CONTROL_POINT_WIDTH_HEIGHT: 10,
     CURVE_POINT_RADIUS: 5,
@@ -48,11 +49,14 @@ App.prototype.init = function(window, td_id, title) {
 
     // Generate the initial control points
     this.generateControlPoints();
-
     this.generateKControlPoints();
-
     this.generateParamControlPoints();
-    this.calc_ts();
+
+    // Calculate the t_i s of the current curve
+    this.calcTs();
+
+
+    /************************************* LISTEN TO MAIN CANVAS ***************************************/
 
     // Add event listener for handling mouse movement
     this.canvas.addEventListener('mousemove', function(evt) {
@@ -63,7 +67,6 @@ App.prototype.init = function(window, td_id, title) {
             this.fixKControlPoints();
             this.hoveringPoint.x = this.mousePosition.x;
             this.hoveringPoint.y = this.mousePosition.y;
-           
             this.update();
         }
 
@@ -112,34 +115,29 @@ App.prototype.init = function(window, td_id, title) {
     }.bind(this));
 
 
+    /************************************* LISTEN TO PARAMETRIZATION CANVAS ***************************************/
+
     var last_point = this.paramControlPoints[this.paramControlPoints.length - 1];
     var first_point = this.paramControlPoints[0];
-    //this.next_param_point = last_point;
-    //this.prev_param_point = first_point;
 
     // Add event listener for handling mouse movement
     this.param_canvas.addEventListener('mousemove', function(evt) {
             this.param_mousePosition = this.getMousePos(this.param_canvas, evt);
           
-            //console.log(this.next_param_point, this.prev_param_point);
             // Handle dragging-and-dropping the control points
-            //
             if (this.param_dragging === true && 
-                this.param_mousePosition.x > first_point.x && this.param_mousePosition.x < last_point.x){
+                this.param_mousePosition.x > first_point.x && 
+                this.param_mousePosition.x < last_point.x){
                     if(this.paramControlPointIndex){
                         var j = parseInt(this.paramControlPointIndex) + 1;
                         var next = this.paramControlPoints[j];
                         var prev = this.paramControlPoints[this.paramControlPointIndex - 1];
-                        //console.log(this.paramControlPointIndex, prev, next);
                         if(this.param_mousePosition.x > prev.x && this.param_mousePosition.x < next.x){
                             this.param_hoveringPoint.x = this.param_mousePosition.x;
-                            this.calc_ts();
+                            this.calcTs();
                             this.update();
                         }
                     }
-                    
-                //this.param_mousePosition.x <= this.next_param_point.x && 
-                //this.param_mousePosition.x >= this.prev_param_point.x ) {
                         
             }
     
@@ -183,11 +181,14 @@ App.prototype.init = function(window, td_id, title) {
     }.bind(this));
 
 
+
+    /************************************* LISTEN TO INPUTS ***************************************/
+
     // Add event listener to handle any of the control values changing
     var app = this;
     document.getElementById('steps_input_' + this.td_id).addEventListener('input', function(evt) {
         app.gatherUserInput();
-        app.calc_ts();
+        app.calcTs();
         app.update();
     }.bind(this));
 
@@ -197,7 +198,7 @@ App.prototype.init = function(window, td_id, title) {
         app.generateControlPoints();
         app.generateKControlPoints();
         app.generateParamControlPoints();
-        app.calc_ts();
+        app.calcTs();
         app.update();
     });
 
@@ -207,7 +208,7 @@ App.prototype.init = function(window, td_id, title) {
             app.gatherUserInput();
             if(title == "B-Spline"){
                 app.generateParamControlPoints();
-                app.calc_ts();
+                app.calcTs();
             }
             app.update();
         });
@@ -220,7 +221,11 @@ App.prototype.init = function(window, td_id, title) {
     });
 };
 
-App.prototype.calc_ts = function(){
+
+/**
+ *  Calculate the relative position of the  t_i s of the current curve
+*/
+App.prototype.calcTs = function(){
     var n = this.paramControlPoints.length;
     if(n < 2) return;
     var dist = this.paramControlPoints[n - 1].x - this.paramControlPoints[0].x;
@@ -232,6 +237,10 @@ App.prototype.calc_ts = function(){
     }
 }
 
+
+/**
+ *  Make sure in Cubic Hermite that the secondary control lines stick to the main control point in the middle and remain symatrical
+*/
 App.prototype.fixKControlPoints = function(){
     if(this.title != "Cubic Hermite Spline") return;
 
@@ -258,23 +267,11 @@ App.prototype.fixKControlPoints = function(){
         this.KControlPoints[i].x -= dx;
         this.KControlPoints[i].y -= dy;
     }
-
-    //var line_index = Math.floor(curr_k_index / 2);
-
-    //this.changeKPoint(i, j, line_index);
-    console.log(this);
 }
 
-App.prototype.changeKPoint = function (p1_index, p2_index, line_index){
-    this.KControlLines[line_index].p1 = this.KControlPoints[p1_index];
-    this.KControlLines[line_index].p2 = this.KControlPoints[p2_index];
-
-    var p1 = this.KControlLines[line_index].p1;
-    var p2 = this.KControlLines[line_index].p2;
-    this.KControlLines[line_index].tan = tangent(p1, p2);
-    this.KControlLines[line_index].dist = distance(p1, p2);
-}
-
+/**
+ *  Change title name to fit to order of current curve
+*/
 App.prototype.fixTitle = function(){
     var order_num = 0;
     
@@ -296,6 +293,9 @@ App.prototype.fixTitle = function(){
     document.getElementById(this.td_id + '_header').firstChild.innerText = new_title;
 }
 
+/**
+ *  Display the value of t near the slider
+*/
 App.prototype.displayStep = function(){
     t = 't = ' + this.tValue;
     document.getElementById('tValue_' + this.td_id).innerHTML = t;
@@ -347,7 +347,7 @@ App.prototype.buildCurves = function() {
                 point.build();
                 break;
             case "Cubic Hermite Spline":
-                var point = new CHSPL1(controlPoints, relative_step, prev_relative_step, this.ts, this.KControlPoints);
+                var point = new CHSPL(controlPoints, relative_step, prev_relative_step, this.ts, this.KControlPoints);
                 point.build();
                 break;
             case "Monomial Basis":
@@ -363,22 +363,6 @@ App.prototype.buildCurves = function() {
     return curves;
 };
 
-App.prototype.drawSubCurve = function(step) {   
-    // If the current step matches the current slider value
-    if (step === parseInt(this.tSliderValue)) {
-        // Draw all of the control points for the control curve at the current point
-        var subCurve = this.curves[step];
-        while (subCurve.cp != null) {
-            this.drawControlPoints(
-                subCurve.cp,
-                this.constants.colors.SECONDARY_CONTROL_LINES,
-                false
-            );
-            subCurve = subCurve.curve;
-        }
-    }
-}
-
 /**
  * Renders the curve and all curve-related graphical elements in the app
  */
@@ -386,8 +370,7 @@ App.prototype.draw = function() {
 
     // Clear the render area
     clearCanvas(this.ctx, this.canvas.width, this.canvas.height, this.constants.colors.BACKGROUND_COLOR);
-    //clearCanvas(this.param_ctx, this.param_canvas.width, this.param_canvas.height, this.constants.colors.BACKGROUND_COLOR);
-
+   
     // Draw the curve and all of the control points
     var prevPoint = null;
     for (var step = 0, t = 0, point = null; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
@@ -439,19 +422,44 @@ App.prototype.draw = function() {
     }
 
 
+    // Draw the secondary curve control points for hermite spline
     this.drawKControlPoints(this.KControlPoints, this.constants.colors.SECONDARY_CONTROL_LINES);
 
     // Draw the primary curve control points with connecting lines
     this.drawControlPoints(this.controlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
-    //this.drawParamControlPoints(this.paramControlPoints, this.constants.colors.PRIMARY_CONTROL_LINE, true);
 };
 
+/**
+ * Draw Bezier sub curves
+ * @param step - current step to draw sub curves to
+ */
+App.prototype.drawSubCurve = function(step) {   
+    // If the current step matches the current slider value
+    if (step === parseInt(this.tSliderValue)) {
+        // Draw all of the control points for the control curve at the current point
+        var subCurve = this.curves[step];
+        while (subCurve.cp != null) {
+            this.drawControlPoints(
+                subCurve.cp,
+                this.constants.colors.SECONDARY_CONTROL_LINES,
+                false
+            );
+            subCurve = subCurve.curve;
+        }
+    }
+}
 
+
+/**
+ * Draw Parametrization curves
+ */
 App.prototype.drawParam = function() {
-    if(this.title == "Bezier") return;
+
+    if(this.title == "Bezier") return; 
+
     clearCanvas(this.param_ctx, this.param_canvas.width, this.param_canvas.height, this.constants.colors.BACKGROUND_COLOR);
     
-    // Draw the curve and all of the control points
+    // normalize points to canvas size
     var prevPoints = [];
     var points = [];
     var xmin = this.paramControlPoints[0].x;
@@ -460,6 +468,7 @@ App.prototype.drawParam = function() {
     var yref = 3 * this.param_canvas.height / 5;
     var yrange = this.param_canvas.height / 3;
 
+    // draw  lines of grid's y-axis for values y=0,1
     var p0 = new Point (xmin * 0.5, yref - yrange);
     var p1 = new Point(xmax + xmin * 0.5, yref - yrange);
     this.param_ctx.font="20px Arial";
@@ -472,29 +481,28 @@ App.prototype.drawParam = function() {
     drawLine(this.param_ctx, p0.x, p0.y, p1.x, p1.y, this.constants.LINE_WIDTH / 2, this.constants.colors.GRID);
     this.param_ctx.fillText("y=0", p0.x - 20, p0.y + 6);
     
+    // iterate over each step and draw parametrization points
     for (var step = 0, t = 0; step < this.numSteps; step++, t = step / (this.numSteps - 1)) {
         
         var curve = this.curves[step];
         
+        // address b-spline extension
         if(this.title == "B-Spline"){
             var k = this.kValue;
             var nk2 = 2 * k + this.orderSelection;
             t = this.ts[k] + (this.ts[nk2] - this.ts[k]) * t;
         }
 
-        //prevPoints = points;
-        //point = curve.point;
+        // for each base curve draw point of current step
         var j = 0;
         for(var i = 0; i < curve.base.length; i++){
-            //var y = this.getGraphY(curve, i);
             prevPoints[i] = points[i];
             points[i] = new Point(xmin + t * xdist, yref - curve.base[i] * yrange);
 
 
-             // Draw the curve segments
-             var color = this.constants.colors.PARAM_CURVE[i % 7];
-             if(this.title == "B-Spline"){
-                //if (i > 4 && i < curve.base.length - 4)
+            // set b-spline color of edge curves to be all the same because of the extension
+            var color = this.constants.colors.PARAM_CURVE[i % 7];
+            if(this.title == "B-Spline"){
                 if( i < this.kValue){
                     j = 0;
                 } else if(i > curve.base.length - this.kValue - 1){
@@ -505,6 +513,8 @@ App.prototype.drawParam = function() {
                 
                 color = this.constants.colors.PARAM_CURVE[j % 7];
             }
+
+            // Draw the curve segments
             if (step > 0) {
                 if(this.title == "Cubic Spline" || this.title == "Cubic Hermite Spline"){
                     if(curve.draw[0]){
@@ -513,13 +523,13 @@ App.prototype.drawParam = function() {
                 } else
                     drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, color);
             }
-                // Draw the curve points
+
+            // Draw the curve points
             if (step === parseInt(this.tSliderValue)) {
                 drawCircle(
                     this.param_ctx,
                     points[i].x,
                     points[i].y,
-                    //0,0,
                     this.constants.CURVE_POINT_RADIUS * 1.7,
                     this.constants.LINE_WIDTH,
                     color,
@@ -531,7 +541,6 @@ App.prototype.drawParam = function() {
                     this.param_ctx,
                     points[i].x,
                     points[i].y,
-                    //0,0,
                     this.constants.CURVE_POINT_RADIUS,
                     this.constants.LINE_WIDTH,
                     this.constants.colors.CURVE_POINTS,
@@ -587,6 +596,7 @@ App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
             fillColor
         );
 
+        // draw labels for control points
         this.ctx.font="30px Arial";
         this.ctx.fillStyle = fillColor;
         this.ctx.textAlign = "center";
@@ -601,10 +611,6 @@ App.prototype.drawParamControlPoints = function(controlPoints, color, primaryPoi
     var first = 0;
     var n = controlPoints.length;
 
-    /*if(this.title == "B-Spline"){
-        first = 3;
-        n -= 2;
-    }*/
     // Iterate through every control point in the given set
     for (var ctrlPoint = first; ctrlPoint < n; ctrlPoint++) {
         var pt = controlPoints[ctrlPoint];
@@ -628,6 +634,7 @@ App.prototype.drawParamControlPoints = function(controlPoints, color, primaryPoi
             fillColor
         );
 
+        // draw labels for control points
         this.param_ctx.font="30px Arial";
         this.param_ctx.fillStyle = color;
         this.param_ctx.textAlign = "center";
@@ -692,8 +699,6 @@ App.prototype.gatherUserInput = function() {
         }
     }
 
-    
-
     // Order_input slider value
     this.tSliderValue = document.getElementById('tSlider_' + this.td_id).value;
     this.tValue = (this.tSliderValue / this.numSteps);
@@ -720,6 +725,9 @@ App.prototype.generateControlPoints = function() {
     }
 };
 
+/**
+ * Generate the primary control points for the curve based on the currently stored user-inputted values.
+ */
 App.prototype.generateParamControlPoints = function() {
    
     this.paramControlPoints = [];
@@ -740,6 +748,9 @@ App.prototype.generateParamControlPoints = function() {
     }
 };
 
+/**
+ * Generate the secondary control points for the hermite curve based on the currently stored user-inputted values.
+ */
 App.prototype.generateKControlPoints = function() {
     this.KControlPoints = [];
     this.KControlLines = [];
@@ -762,9 +773,6 @@ App.prototype.generateKControlPoints = function() {
             );
             dir *= -1;
     }
-    /*for (var i = 0; i < this.KControlPoints.length - 1; i+=2) {
-        this.KControlLines.push(new KControlLine(this.KControlPoints[i], this.KControlPoints[i + 1]));
-    }*/
 }
 
 
