@@ -127,3 +127,11 @@ function clearAllWindows(){
   table_rows_num = 1;
   resetTable();
 }
+
+
+function addCurve(btn){
+  var text = btn.innerText;
+  var td = document.getElementById('td_0_0');
+  clearTdContent(td);
+  createTdContent(td, text);
+}
