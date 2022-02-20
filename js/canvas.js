@@ -1,15 +1,3 @@
-/**
- * Creates a new 2-D Point object
- * @param x - The value of the point in the first dimension
- * @param y - The value of the point in the second dimension
- * @constructor
- */
- function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
-
 
 /**
  * Clear and fill a canvas with the specified color

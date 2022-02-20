@@ -1,21 +1,31 @@
+/**
+ * Creates a new 2-D Point object
+ * @param x - The value of the point in the first dimension
+ * @param y - The value of the point in the second dimension
+ * @constructor
+ */
+ function Point(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+
+
 /****************************** Base Curve ******************************/
 
 class Curve {
     /**
      * Creates a curve object for a specific point
      * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
+     * @param relativeStep - current step / number of total steps -1
      * @constructor
     */
-    constructor(controlPoints, num_steps, step, ts) {
+    constructor(controlPoints, relativeStep, ts) {
         this.n = controlPoints.length; 
         this.cp = controlPoints.slice();
-        this.ts = ts.slice();
-        this.num_steps = num_steps;
-        this.step = step;
+        if(ts) this.ts = ts.slice();
 
-        this.relativeStep = (this.step / (this.num_steps -1))
+        this.relativeStep = relativeStep;
 
         this.draw = [true];
         this.curve = null;
@@ -82,13 +92,12 @@ class LagrangeCurve extends Curve {
     /**
      * Creates a Lagrange curve object for a specific point
      * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
+     * @param relativeStep - current step / number of total steps -1
      * @param ts - array of "t_i"s
      * @constructor
     */
-    constructor(controlPoints, step, num_steps, ts) {
-        super(controlPoints, num_steps, step, ts);
+    constructor(controlPoints, relativeStep, ts) {
+        super(controlPoints, relativeStep, ts);
     }
 
     // Fill base function L_i(t) for each i
@@ -113,14 +122,13 @@ class BSPL extends Curve {
     /**
      * Creates a B-Spline curve object for a specific point
      * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
+     * @param relativeStep - current step / number of total steps -1
      * @param k - order of curve
      * @param ts - array of "t_i"s
      * @constructor
     */
-    constructor(controlPoints, step, num_steps, ts, k) {
-        super(controlPoints, num_steps, step, ts);
+    constructor(controlPoints, relativeStep, ts, k) {
+        super(controlPoints, relativeStep, ts);
         this.k = k;
         this.nk2 = this.n + 2*k;
     }
@@ -172,15 +180,15 @@ class CSPL extends Curve{
     /**
      * Creates a C-Spline curve object for a specific point
      * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
+     * @param relativeStep - current step / number of total steps -1
+     * @param prev_relativeStep - previouse step / number of total steps -1
      * @param ts - array of "t_i"s
      * @constructor
     */
-    constructor(controlPoints, step, num_steps, ts) {
-        super(controlPoints, num_steps, step, ts);
+    constructor(controlPoints, relativeStep, prev_relativeStep, ts) {
+        super(controlPoints, relativeStep, ts);
 
-        this.prev_relativeStep = (this.step -1) / (this.num_steps - 1);
+        this.prev_relativeStep = prev_relativeStep;
         this.i = 0;
 
         this.xks = [];
@@ -280,20 +288,69 @@ class CSPL extends Curve{
 
 /****************************** Cubic Hermite Spline Curve ******************************/
 
-class CHSPL1 extends CSPL{
+class CHSPL1 extends Curve{
     /**
      * Creates a Cubic Hermite Basis curve object for a specific point
      * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
+     * @param relativeStep - current step / number of total steps -1
+     * @param prev_relativeStep - previouse step / number of total steps -1
      * @param k - order of curve
      * @param ts - array of "t_i"s
      * @param kControlPoints - array k's that match to contorl points
      * @constructor
     */
-     constructor(controlPoints, step, num_steps, ts, kControlPoints) {
-        super(controlPoints, num_steps, step, ts);
+     constructor(controlPoints, relativeStep, prev_relativeStep, ts, kControlPoints) {
+        super(controlPoints, relativeStep, ts);
         this.k_cp = kControlPoints.slice();
+
+        this.prev_relativeStep = prev_relativeStep;
+        this.i = 0;
+
+        this.xks = [];
+        this.yks = [];
+    }
+
+
+    calcT(){
+            if(this.relativeStep == 0) return;
+            var i = 0;
+            var n = this.n;
+            for(;i < n-1, this.relativeStep > this.ts[i]; ++i){
+                if(i >= n - 1) break;
+                console.log(i, n-1, this.relativeStep, this.ts[i]);
+            }
+            
+            i--;
+            this.i = i;
+            var diff_top = this.relativeStep - this.ts[i];
+            var diff_bottom = this.ts[i+1] - this.ts[i];
+            
+            this.t = diff_top / diff_bottom;
+            console.log(i, this.t, diff_bottom, diff_top);
+            if(this.prev_relativeStep <= this.ts[i]) this.draw[0] = false;
+    }
+
+    calcBase(){
+            var t = this.t;
+            this.base[0] =  1-3*Math.pow(t,2)+2*Math.pow(t,3); // H00
+            this.base[1] = 3*Math.pow(t,2)-2*Math.pow(t,3); //H01
+            this.base[2] =  t*Math.pow(1-t,2); //H10
+            this.base[3] = Math.pow(t,2)*(t-1); //H11
+    }
+
+    interpolateXY(){
+            var x = this.interpolate(this.xs, this.xks);
+            var y = this.interpolate(this.ys, this.yks);
+            this.point = new Point(x,y);
+    }
+
+    /**** InterpolateXY helper functions ****/
+
+    interpolate(cs, ks){
+            this.calcKs(cs, ks);
+            var i = this.i;
+            return cs[i] * this.base[0] + cs[i+1] * this.base[1] +
+                    ( ks[i] * this.base[2] +  ks[i+1] * this.base[3]) * this.tsdiff[i];
     }
 
     calcKs(){
@@ -304,8 +361,6 @@ class CHSPL1 extends CSPL{
             this.yks[i] = const_num * (this.k_cp[j + 1].y - this.k_cp[j].y);
         }
     }
-
-    setMatrixs(){}
 }
 
 
@@ -316,14 +371,13 @@ class MonomialBasis extends Curve {
     /**
      * Creates a monomial basis curve object for a specific point
      * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
+     * @param relativeStep - current step / number of total steps -1
      * @param k - order of curve
      * @param ts - array of "t_i"s
      * @constructor
     */
-    constructor(controlPoints, num_steps, step, ts, k) {
-      super(controlPoints, step, num_steps, ts);
+    constructor(controlPoints, relativeStep, ts, k) {
+      super(controlPoints, relativeStep, ts);
       this.k = k;
     }
 
@@ -369,4 +423,45 @@ class MonomialBasis extends Curve {
             this.base[i] = Math.pow(this.t, i);
         }
     }
+}
+
+
+
+/****************************** Bezier Curve ******************************/
+
+/**
+ * Creates a curve object
+ * @param controlPoints - The set of control points for the bezier curve
+ * @constructor
+ */
+ function BezierCurve(controlPoints, t) {
+    if (controlPoints.length === 1) {
+        this.point = controlPoints[0];
+        this.cp = null;
+        this.curve = null;
+    }
+    else {
+        this.point = null;
+        this.cp = controlPoints;
+        this.curve = new BezierCurve(bezier(controlPoints, t), t);
+    }
+}
+
+/**
+ * A bezier function that evaluates a set of control points at a value t and returns the resulting point or set of control points
+ * @param controlPoints - The control points the evaluate
+ * @param t - The value at which to evaluate the control points
+ * @returns {Array}
+ */
+function bezier(controlPoints, t) {
+    if (controlPoints.length < 2)
+        throw "Too few control points provided";
+
+    var points = [];
+    for(var i = 0; i < controlPoints.length-1; i++) {
+        points.push(
+            new Point(t * (controlPoints[i+1].x - controlPoints[i].x) + controlPoints[i].x, t * (controlPoints[i+1].y - controlPoints[i].y) + controlPoints[i].y)
+        );
+    }
+    return points;
 }

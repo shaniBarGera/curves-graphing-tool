@@ -230,12 +230,6 @@ App.prototype.calc_ts = function(){
         var dx = this.paramControlPoints[i].x - this.paramControlPoints[0].x;
         this.ts[i] = dx / dist;
     }
-
-    /*console.log("ts:");
-    for(var i = 0; i < n; i++){
-        console.log(this.ts[i]);
-    }
-    */
 }
 
 App.prototype.fixKControlPoints = function(){
@@ -331,62 +325,58 @@ App.prototype.buildCurves = function() {
     var controlPoints = this.controlPoints;
     var curves = [];
 
-    // Generate the set of curves for each order
+    // Generate point for each step
     for (var step = 0; step < this.numSteps; step++) {
+        var relative_step = step/(this.numSteps - 1);
+        var prev_relative_step = (step - 1)/(this.numSteps - 1);
+
         switch(this.title){
             case "Bezier":
-                var t = step/(this.numSteps - 1);
-                var curve = new BezierCurve(controlPoints, t);
+                var point = new BezierCurve(controlPoints, relative_step);
                 break;
             case "Cubic Spline":
-                var curve = new CSPL(controlPoints, step, this.numSteps, this.ts);
-                curve.build();
+                var point = new CSPL(controlPoints, relative_step, prev_relative_step, this.ts);
+                point.build();
                 break;
             case "Lagrange":
-                var curve = new LagrangeCurve(controlPoints, step, this.numSteps, this.ts);
-                curve.build();
+                var point = new LagrangeCurve(controlPoints, relative_step, this.ts);
+                point.build();
                 break;
             case "B-Spline":
-                var curve = new BSPL(controlPoints, step, this.numSteps, this.ts, this.kValue);
-                curve.build();
+                var point = new BSPL(controlPoints, relative_step, this.ts, this.kValue);
+                point.build();
                 break;
             case "Cubic Hermite Spline":
-                var curve = new CHSPL(controlPoints, step, this.numSteps, this.KControlPoints, this.ts);
-                var curve1 = new CHSPL1(controlPoints, step, this.numSteps, this.ts, this.KControlPoints);
-                curve1.build();
-                console.log(curve);
-                console.log(curve1);
+                var point = new CHSPL1(controlPoints, relative_step, prev_relative_step, this.ts, this.KControlPoints);
+                point.build();
                 break;
             case "Monomial Basis":
-                //var curve = new MonomialCurve(controlPoints, step, this.numSteps, this.kValue, this.ts);
-                var curve = new MonomialBasis(controlPoints, step, this.numSteps, this.ts, this.kValue);
-                curve.build();
+                var point = new MonomialBasis(controlPoints, relative_step, this.ts, this.kValue);
+                point.build();
                 break;
             default:
-                var curve = new LinearCurve(controlPoints, step, this.numSteps);
-                break;
+                throw this.title + 'does not exist!';
         }
-        curves.push(curve);
+        curves.push(point);
     }
     
     return curves;
 };
 
-App.prototype.drawSubCurve = function(step) {
-           // If the current step matches the current slider value
-           if (step === parseInt(this.tSliderValue)) {
-
-            // Draw all of the control points for the control curve at the current point
-            var subCurve = this.curves[step];
-            while (subCurve.controlPoints != null) {
-                this.drawControlPoints(
-                    subCurve.controlPoints,
-                    this.constants.colors.SECONDARY_CONTROL_LINES,
-                    false
-                );
-                subCurve = subCurve.curve;
-            }
+App.prototype.drawSubCurve = function(step) {   
+    // If the current step matches the current slider value
+    if (step === parseInt(this.tSliderValue)) {
+        // Draw all of the control points for the control curve at the current point
+        var subCurve = this.curves[step];
+        while (subCurve.cp != null) {
+            this.drawControlPoints(
+                subCurve.cp,
+                this.constants.colors.SECONDARY_CONTROL_LINES,
+                false
+            );
+            subCurve = subCurve.curve;
         }
+    }
 }
 
 /**
@@ -564,10 +554,11 @@ App.prototype.drawParam = function() {
  */
 App.prototype.drawControlPoints = function(controlPoints, color, primaryPoints)
 {
+    
     // Iterate through every control point in the given set
     for (var ctrlPoint = 0; ctrlPoint < controlPoints.length; ctrlPoint++) {
         var pt = controlPoints[ctrlPoint];
-
+        
         // Draw a line segment from the previous point to the current point
         if (ctrlPoint > 0) {
             var prevPt = controlPoints[ctrlPoint-1];

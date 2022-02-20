@@ -38,5 +38,3 @@ function findtd(target){
         curr = curr.parentElement;
     }
 }
-
-
