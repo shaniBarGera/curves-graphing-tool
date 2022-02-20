@@ -339,7 +339,7 @@ function getParamImage(title){
     } else if(title == "Cubic Hermite Spline" || title == "Cubic Spline"){
         img.src = "imgs/info/C-Spline-param-info.png";
     } else if(title == "Monomial Basis") {
-        img.src="imgs/info/general-param-info.png";
+        img.src="imgs/info/Monomial-info.png";
     } else{
         img.src = "imgs/info/" + title + "-param-info.png";
     }
