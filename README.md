@@ -1,6 +1,6 @@
 <div id="top"></div>
 
-# Computer Graphics: Parametric Curves Website (https://github.com/sindresorhus/awesome#readme)
+# Computer Graphics: Parametric Curves Website
 > A curated list of awesome READMEs
 
 Elements in beautiful READMEs include, but are not limited to: images, screenshots, GIFs, text formatting, etc.
