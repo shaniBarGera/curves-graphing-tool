@@ -21,12 +21,15 @@ class Curve {
 
         this.tsdiff = [];
         this.base = [];
-        this.point = null;
+        this.t = 1;
+        this.point = new Point(0,0);
+
     }
 
     build(){
         this.fillXY();
         this.calcDiff();
+        this.calcT();
         this.calcBase();
         this.interpolateXY();
     }
@@ -35,8 +38,17 @@ class Curve {
         Matrix.fillXY(this.xs, this.ys, this.cp);
     }
 
+    calcT(){
+        this.t = (this.step / (this.num_steps -1))
+    }
+
     interpolateXY(){
-        this.point = new Point(0,0);
+        var x = 0, y = 0;
+        for(var i = 0; i < this.base.length; ++i){
+            x += this.xs[i] * this.base[i];
+            y += this.ys[i] * this.base[i];
+        }
+        this.point = new Point(x, y);
     }
 
     calcBase(){
@@ -48,7 +60,7 @@ class Curve {
     }
 }
 
-class LagrangeCurve extends Curve {
+class LagrangeCurve1 extends Curve {
     /**
      * Creates a Lagrange curve object for a specific point
      * @param controlPoints - the set of control point
@@ -62,41 +74,15 @@ class LagrangeCurve extends Curve {
     }
 
     calcBase(){
-        var t = (step / (num_steps -1)) ;
         for(var i = 0; i < this.n; ++i){
             var numerator = 1, denominator = 1;
             for(var j = 0; j < this.n; ++j){
                 if(j == i) continue;
-                numerator *= (t - this.ts[j]);
+                numerator *= (this.t - this.ts[j]);
                 denominator *= (this.ts[i] - this.ts[j]);
             }
             this.base[i] = numerator / denominator;
         }
-    }
-    
-    interpolateXY(){
-        var x = 0, y = 0;
-        for(var i = 0; i < this.n; ++i){
-            x += this.xs[i] * this.base[i];
-            y += this.ys[i] * this.base[i];
-        }
-        return new Point(x, y); 
-    }
-}
-  
-class MonomialCurve extends Curve {
-    /**
-     * Creates a monomial basis curve object for a specific point
-     * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
-     * @param k - order of curve
-     * @param ts - array of "t_i"s
-     * @constructor
-    */
-    constructor(controlPoints, num_steps, step, ts, k) {
-      super(controlPoints, num_steps, step, ts);
-      this.k = k;
     }
 }
 
@@ -117,23 +103,7 @@ class CSPL extends Curve{
 }
 
 
-class CHSPL extends CSPL{
-    /**
-     * Creates a Cubic Hermite Basis curve object for a specific point
-     * @param controlPoints - the set of control point
-     * @param num_steps - number of total steps 
-     * @param step - current step ("t") to calculate
-     * @param k - order of curve
-     * @param ts - array of "t_i"s
-     * @param kControlPoints - array k's that match to contorl points
-     * @constructor
-    */
-    constructor(controlPoints, num_steps, step, ts,  kControlPoints) {
-        super(controlPoints, num_steps, step, ts);
-        this.draw = [true];
-        this.k_cp = kControlPoints.slice();
-    }
-}
+
 
 class BSPL extends Curve {
     /**
@@ -146,8 +116,47 @@ class BSPL extends Curve {
      * @constructor
     */
     constructor(controlPoints, num_steps, step, ts, k) {
-      super(controlPoints, num_steps, step, ts);
-      this.k = k;
+        super(controlPoints, num_steps, step, ts);
+        this.k = k;
+        this.nk2 = this.n + 2*k;
+    }
+
+    fillXY(){
+        // extend first and last control point k times
+        for(var i = 0; i < this.k; ++i){
+            this.xs[i] = this.cp[0].x;
+            this.ys[i] = this.cp[0].y;
+    
+            this.xs[this.nk2 - i - 1] = this.cp[this.n - 1].x;
+            this.ys[this.nk2 - i -1] = this.cp[this.n - 1].y;
+        }
+
+        for(var i = 0; i < this.n; ++i){
+            this.xs[i + this.k] = this.cp[i].x;
+            this.ys[i + this.k] = this.cp[i].y;
+        }
+    }
+
+    calcT(){
+        this.t = this.ts[this.k] + (this.ts[this.nk2] - this.ts[this.k]) * this.step / (this.num_steps -1);
+    }
+
+    calcBase(){
+        for(var i = 0; i < this.nk2; ++i){
+            this.base[i] = this.findN(this.ts, this.t, i, this.k);
+            console.log(i, this.base[i]);
+        }
+    }
+
+    findN(ts_ext,t, i, k){
+        var self = this;
+        
+        if(t < ts_ext[i] || t >= ts_ext[i+k]) return 0;
+        if(k == 1 ) return 1;
+
+        var N1 = self.findN(ts_ext, t, i, k-1) * (t - ts_ext[i]) / (ts_ext[i+k-1] - ts_ext[i]);
+        var N2 = self.findN(ts_ext, t, i+1, k-1) * (ts_ext[i+k] - t) / (ts_ext[i+k] - ts_ext[i+1]);
+        var N = N1 + N2;
+        return N;
     }
 }
-  
