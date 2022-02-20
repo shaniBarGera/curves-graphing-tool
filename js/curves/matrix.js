@@ -9,8 +9,6 @@ Matrix.solve = function(A, x)	// in Matrix, out solutions
         for(var i=k; i<m; i++) if(Math.abs(A[i][k])>vali) { i_max = i; vali = Math.abs(A[i][k]);}
         Matrix.swapRows(A, k, i_max);
         
-        //if(A[k][k] == 0) console.log("matrix is singular!");
-        
         // for all rows below pivot
         for(var i=k+1; i<m; i++)
         {
@@ -85,30 +83,10 @@ Matrix.fillXY = function(xs, ys, controlPoints){
     }
 }
 
-Matrix.Pair = function(prev, next){
-    this.prev = prev;
-    this.next = next;
-}
-
 Matrix.copyVec = function(vecToCopy){
     var vec = [];
     for (var i = 0; i < vecToCopy.length; i++){
         vec[i] = vecToCopy[i];
     }
     return vec;
-}
-
-Curves = {}
-
-Curves.calcT = function(step, num_steps){
-    return (step / (num_steps -1));
-}
-
-Curves.interpolateXY = function(n, xs, ys, base){
-    var x = 0, y = 0;
-    for(var i = 0; i < n; ++i){
-        x += xs[i] * base[i];
-        y += ys[i] * base[i];
-    }
-    return new Point(x, y); 
 }
