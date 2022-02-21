@@ -62,6 +62,10 @@ App.prototype.init = function(window, td_id, title) {
     this.canvas.addEventListener('mousemove', function(evt) {
         this.mousePosition = this.getMousePos(this.canvas, evt);
         
+        if(this.clickMainControlPoint){
+            this.clickMainControlPoint = false;
+        }
+
         // Handle dragging-and-dropping the control points
         if (this.dragging === true) {
             this.fixKControlPoints();
@@ -73,12 +77,14 @@ App.prototype.init = function(window, td_id, title) {
         // Otherwise listen for hovering over the primary control points
         else {
             this.hovering = false;
+            this.hoverMainControlPoint = false;
             for (var point in this.controlPoints) {
                 if (this.checkPointHover(this.controlPoints[point], this.constants.CONTROL_POINT_WIDTH_HEIGHT)) {
                     this.hovering = true;
                     this.hoveringPoint = this.controlPoints[point];
                     this.KControlPointIndex = null;
                     this.controlPointIndex = point;
+                    this.hoverMainControlPoint = true;
                 }
             }
             for (var point in this.KControlPoints) {
@@ -96,12 +102,16 @@ App.prototype.init = function(window, td_id, title) {
                 document.body.style.cursor = 'auto';
                 this.hovering = false;
                 this.hoveringPoint = null;
+                this.hoverMainControlPoint = false;
             }
         }
     }.bind(this), false);
 
     // Add event listener for clicking the mouse down
     this.canvas.addEventListener('mousedown', function(evt) {
+        if(this.hoverMainControlPoint){
+            this.clickMainControlPoint = true;
+        }
         if (this.hovering === true) {
             this.dragging = true;
             document.body.classList.add('unselectable');
@@ -120,7 +130,17 @@ App.prototype.init = function(window, td_id, title) {
 
     // Add event listener for unclicking the mouse
     this.canvas.addEventListener('mouseup', function(evt) {
-        
+        if(this.clickMainControlPoint){
+            this.controlPoints.splice(this.controlPointIndex, 1);
+            var input = document.getElementById('n_input_' + this.td_id);
+            input.value = parseInt(input.value) - 1;
+            this.orderSelection = parseInt(input.value);
+
+            app.generateKControlPoints();
+            app.generateParamControlPoints();
+            app.calcTs();
+            app.update();
+        } 
         this.dragging = false;
         document.body.classList.remove('unselectable')
     }.bind(this));
