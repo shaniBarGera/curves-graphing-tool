@@ -132,7 +132,7 @@ function createNumInput(td_id, title, value){
     input.type = "number";
     input.value = value;
     input.size = "1";
-    input.min = "1";
+    input.min = "2";
     input.className ="td-content-input";
     input.id = title + "_input_" + td_id;
 

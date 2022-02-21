@@ -130,16 +130,20 @@ App.prototype.init = function(window, td_id, title) {
 
     // Add event listener for unclicking the mouse
     this.canvas.addEventListener('mouseup', function(evt) {
-        if(this.clickMainControlPoint){
-            this.controlPoints.splice(this.controlPointIndex, 1);
-            var input = document.getElementById('n_input_' + this.td_id);
-            input.value = parseInt(input.value) - 1;
-            this.orderSelection = parseInt(input.value);
-
-            app.generateKControlPoints();
-            app.generateParamControlPoints();
-            app.calcTs();
-            app.update();
+        if(this.clickMainControlPoint){ // delete control point when clicked
+            if(this.controlPoints.length <= 2){
+                alert("Can't have less then 2 control points!");
+            } else{
+                this.controlPoints.splice(this.controlPointIndex, 1);
+                var input = document.getElementById('n_input_' + this.td_id);
+                input.value = parseInt(input.value) - 1;
+                this.orderSelection = parseInt(input.value);
+    
+                app.generateKControlPoints();
+                app.generateParamControlPoints();
+                app.calcTs();
+                app.update();
+            }
         } 
         this.dragging = false;
         document.body.classList.remove('unselectable')
@@ -236,12 +240,12 @@ App.prototype.init = function(window, td_id, title) {
     // Add an input listener to the custom curve order value input control
     if(title == "Monomial Basis" || title == "B-Spline"){
         document.getElementById('k_input_' + this.td_id).addEventListener('input', function(evt) {
-            app.gatherUserInput();
+            app.gatherUserInput();  
             if(title == "B-Spline"){
                 app.generateParamControlPoints();
                 app.calcTs();
             }
-            app.update();
+            app.update();   
         });
     }
 
@@ -739,17 +743,14 @@ App.prototype.gatherUserInput = function() {
     // Step control component
     this.numSteps = parseInt(document.getElementById('steps_input_' + this.td_id).value);
 
-    // Order radio button group
+    // Control points number
     this.orderSelection = parseInt(document.getElementById('n_input_' + this.td_id).value);
 
     if(this.title == "Monomial Basis" || this.title == "B-Spline"){
-        var k_input = document.getElementById('k_input_' + this.td_id)
+        var k_input = document.getElementById('k_input_' + this.td_id);
+        var k_value = k_input.value;
+        this.kValue = parseInt(k_value);
         k_input.max = this.orderSelection;
-        this.kValue = parseInt(k_input.value);
-      
-        if(this.kValue > this.orderSelection){
-            alert("Error: k > n !!!")
-        }
     }
 
     // Order_input slider value

@@ -445,9 +445,6 @@ class MonomialBasis extends Curve {
  * @returns {Array}
  */
 function bezier(controlPoints, t) {
-    if (controlPoints.length < 2)
-        throw "Too few control points provided";
-
     var points = [];
     for(var i = 0; i < controlPoints.length-1; i++) {
         points.push(
