@@ -76,12 +76,6 @@ Matrix.copyArr = function(arr, newArray, RHS, k){
     }       
 }
 
-Matrix.fillXY = function(xs, ys, controlPoints){
-    for(var i = 0; i < controlPoints.length; ++i){
-        xs[i] = controlPoints[i].x;
-        ys[i] = controlPoints[i].y;
-    }
-}
 
 Matrix.copyVec = function(vecToCopy){
     var vec = [];
@@ -98,3 +92,4 @@ Matrix.dist = function(p1, p2){
     var c = Math.sqrt( a*a + b*b );
     return c;
 }
+

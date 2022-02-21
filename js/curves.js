@@ -314,13 +314,9 @@ class CHSPL extends Curve{
             var i = 0;
             var n = this.n;
             for(;i < n-1, this.relativeStep > this.ts[i]; ++i);
-            
             i--;
             this.i = i;
-            var diff_top = this.relativeStep - this.ts[i];
-            var diff_bottom = this.ts[i+1] - this.ts[i];
-            
-            this.t = diff_top / diff_bottom;
+            this.t = (this.relativeStep - this.ts[i]) / (this.ts[i+1] - this.ts[i]);
             
             if(this.prev_relativeStep <= this.ts[i]) this.draw[0] = false;
     }

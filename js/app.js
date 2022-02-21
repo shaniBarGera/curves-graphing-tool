@@ -120,6 +120,7 @@ App.prototype.init = function(window, td_id, title) {
 
     // Add event listener for unclicking the mouse
     this.canvas.addEventListener('mouseup', function(evt) {
+        
         this.dragging = false;
         document.body.classList.remove('unselectable')
     }.bind(this));
@@ -248,22 +249,26 @@ App.prototype.calcTs = function(){
 }
 
 /**
- *  Add a new point to control points
+ *  Add a new point to control points in nearest location on curve
 */
 App.prototype.addControlPoint = function(p){
-    var p0 = this.controlPoints[0];
-    var pn = this.controlPoints[this.controlPoints.length -1];
 
-    var d1 = Matrix.dist(p, p0);
-    var d2 = Matrix.dist(p, pn);
-
-    if(d1 >= d2){
-        this.controlPoints.push(p);
-    } else{
+    // if p before curve
+    if(p.x < this.controlPoints[0].x){
         this.controlPoints.unshift(p);
+        return;
     }
 
-    
+    // if p between pi and pj
+    for(var i = 1; i < this.controlPoints.length; i++){
+        if(p.x < this.controlPoints[i].x && p.x >= this.controlPoints[i-1].x){
+            this.controlPoints.splice(i, 0, p);
+            return;
+        }
+    }
+
+    // if p after curve
+    this.controlPoints.push(p);
 }
 
 /**
