@@ -45,8 +45,8 @@ This website enables to show different parametric curves learned in computer gra
 ### Built With
 
 * [JavaScript](https://www.javascript.com/)
-* HTML
-* css
+* [HTML](https://www.investopedia.com/terms/h/html.asp)
+* [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
