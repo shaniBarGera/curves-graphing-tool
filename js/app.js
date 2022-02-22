@@ -371,7 +371,6 @@ App.prototype.update = function() {
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
 
     this.curves = this.buildCurves();
-    console.log(this);
     this.draw();
     this.drawParam();
 };
