@@ -356,7 +356,7 @@ App.prototype.fixTitle = function(){
  *  Display the value of t near the slider
 */
 App.prototype.displayStep = function(){
-    t = 't = ' + this.tValue;
+    t = 't = ' + (Math.round(this.tValue * 100) / 100).toFixed(2);
     document.getElementById('tValue_' + this.td_id).innerHTML = t;
 }
 
