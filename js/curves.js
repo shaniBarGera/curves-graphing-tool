@@ -213,9 +213,7 @@ class CSPL extends Curve{
         if(this.relativeStep == 0) return;
         var i = 0;
         var n = this.n;
-        for(;i < n-1, this.relativeStep > this.ts[i]; ++i){
-        
-        }
+        for(;i < n-1, this.relativeStep > this.ts[i]; ++i);
         
         i--;
         this.i = i;
