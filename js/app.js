@@ -119,7 +119,7 @@ App.prototype.init = function(window, td_id, title) {
             app.addControlPoint(this.mousePosition);
             var input = document.getElementById('n_input_' + this.td_id);
             input.value = parseInt(input.value) + 1;
-            this.orderSelection = parseInt(input.value);
+           app.gatherUserInput();
 
             app.generateKControlPoints();
             app.generateParamControlPoints();
@@ -133,12 +133,14 @@ App.prototype.init = function(window, td_id, title) {
         if(this.clickMainControlPoint){ // delete control point when clicked
             if(this.controlPoints.length <= 2){
                 alert("Can't have less then 2 control points!");
+            } else if((this.title == "Monomial Basis" || this.title == "B-Spline") &&
+                        this.kValue == this.controlPoints.length){
+                alert("Number of control points must be bigger or equal to k!");
             } else{
                 this.controlPoints.splice(this.controlPointIndex, 1);
                 var input = document.getElementById('n_input_' + this.td_id);
                 input.value = parseInt(input.value) - 1;
-                this.orderSelection = parseInt(input.value);
-    
+                app.gatherUserInput();
                 app.generateKControlPoints();
                 app.generateParamControlPoints();
                 app.calcTs();
@@ -229,7 +231,7 @@ App.prototype.init = function(window, td_id, title) {
 
     // Add an input listener to the custom curve order value input control
     document.getElementById('n_input_' + this.td_id).addEventListener('input', function(evt) {
-        app.gatherUserInput();
+        app.gatherUserInput("n");
         app.generateControlPoints();
         app.generateKControlPoints();
         app.generateParamControlPoints();
@@ -238,14 +240,14 @@ App.prototype.init = function(window, td_id, title) {
     });
 
     // Add an input listener to the custom curve order value input control
-    if(title == "Monomial Basis" || title == "B-Spline"){
+    if(this.title == "Monomial Basis" || this.title == "B-Spline"){
         document.getElementById('k_input_' + this.td_id).addEventListener('input', function(evt) {
-            app.gatherUserInput();  
-            if(title == "B-Spline"){
+            app.gatherUserInput("k");  
+            //if(this.title == "B-Spline"){
                 app.generateParamControlPoints();
                 app.calcTs();
-            }
-            app.update();   
+            //}
+            app.update();  
         });
     }
 
@@ -369,6 +371,7 @@ App.prototype.update = function() {
     document.getElementById('tSlider_' + this.td_id).setAttribute('max', this.numSteps);
 
     this.curves = this.buildCurves();
+    console.log(this);
     this.draw();
     this.drawParam();
 };
@@ -526,14 +529,14 @@ App.prototype.drawParam = function() {
     var yrange = this.param_canvas.height / 3;
 
     // draw  lines of grid's y-axis for values y=0,1
-    var p0 = new Point (xmin * 0.5, yref - yrange);
+    var p0 = new Point (xmin * 0.5 + 15, yref - yrange);
     var p1 = new Point(xmax + xmin * 0.5, yref - yrange);
-    this.param_ctx.font="20px Arial";
-    this.param_ctx.fillStyle =  this.constants.colors.GRID;
+    this.param_ctx.font = "20px Arial";
+    this.param_ctx.fillStyle = this.constants.colors.GRID;
     this.param_ctx.textAlign = "center";
     this.param_ctx.fillText("y=1", p0.x - 20, p0.y + 6);
     drawLine(this.param_ctx, p0.x, p0.y, p1.x, p1.y, this.constants.LINE_WIDTH / 2, this.constants.colors.GRID);
-    p0 = new Point (xmin * 0.5, yref);
+    p0 = new Point (xmin * 0.5 + 15, yref);
     p1 = new Point(xmax + xmin * 0.5, yref);
     drawLine(this.param_ctx, p0.x, p0.y, p1.x, p1.y, this.constants.LINE_WIDTH / 2, this.constants.colors.GRID);
     this.param_ctx.fillText("y=0", p0.x - 20, p0.y + 6);
@@ -549,17 +552,18 @@ App.prototype.drawParam = function() {
             var nk2 = 2 * k + this.orderSelection;
             t = this.ts[k] + (this.ts[nk2] - this.ts[k]) * t;
         }
-
+        
         // for each base curve draw point of current step
         var j = 0;
         for(var i = 0; i < curve.base.length; i++){
             prevPoints[i] = points[i];
             points[i] = new Point(xmin + t * xdist, yref - curve.base[i] * yrange);
-
+            
 
             // set b-spline color of edge curves to be all the same because of the extension
             var color = this.constants.colors.PARAM_CURVE[i % 7];
             if(this.title == "B-Spline"){
+                
                 if( i < this.kValue){
                     j = 0;
                 } else if(i > curve.base.length - this.kValue - 1){
@@ -577,8 +581,9 @@ App.prototype.drawParam = function() {
                     if(curve.draw[0]){
                         drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, color);
                     }
-                } else
+                } else{
                     drawLine(this.param_ctx, prevPoints[i].x, prevPoints[i].y, points[i].x, points[i].y, this.constants.LINE_WIDTH, color);
+                }
             }
 
             // Draw the curve points
@@ -739,19 +744,25 @@ App.prototype.drawParamControlPoints = function(controlPoints, color, primaryPoi
 /**
  * Refreshes the stored user-inputted values to match what is currently in the UI
  */
-App.prototype.gatherUserInput = function() {
-    // Step control component
-    this.numSteps = parseInt(document.getElementById('steps_input_' + this.td_id).value);
-
-    // Control points number
-    this.orderSelection = parseInt(document.getElementById('n_input_' + this.td_id).value);
+App.prototype.gatherUserInput = function(input_type = "") {
+    var n_input = document.getElementById('n_input_' + this.td_id);
+    var k_input = document.getElementById('k_input_' + this.td_id);
 
     if(this.title == "Monomial Basis" || this.title == "B-Spline"){
-        var k_input = document.getElementById('k_input_' + this.td_id);
-        var k_value = k_input.value;
-        this.kValue = parseInt(k_value);
-        k_input.max = this.orderSelection;
+        if(n_input.value < k_input.value){
+            if(input_type == "n") n_input.value = parseInt(n_input.value) + 1; 
+            else if(input_type == "k") k_input.value -= 1;
+            alert("n must be larger or equal to k!");  
+            return;
+        }       
+        this.kValue = parseInt(k_input.value);
     }
+    
+    // Control points number
+    this.orderSelection = parseInt(n_input.value);
+
+    // Step control component
+    this.numSteps = parseInt(document.getElementById('steps_input_' + this.td_id).value);
 
     // Order_input slider value
     this.tSliderValue = document.getElementById('tSlider_' + this.td_id).value;
@@ -783,13 +794,13 @@ App.prototype.generateControlPoints = function() {
  * Generate the primary control points for the curve based on the currently stored user-inputted values.
  */
 App.prototype.generateParamControlPoints = function() {
-   
+    
     this.paramControlPoints = [];
 
     y = 3* this.param_canvas.height / 5;
     var n = this.orderSelection;
     if(this.title == "B-Spline")
-        n += 3 * this.kValue;
+        n = parseInt(n) + 3 * this.kValue;
 
     var spacePerPoint = (this.param_canvas.width / n);
     for (var i = 0; i < n; i++) {

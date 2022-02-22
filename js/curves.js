@@ -130,7 +130,7 @@ class BSPL extends Curve {
     constructor(controlPoints, relativeStep, ts, k) {
         super(controlPoints, relativeStep, ts);
         this.k = k;
-        this.nk2 = this.n + 2*k;
+        this.nk2 = this.n + 2 * this.k;
     }
 
     fillXY(){
