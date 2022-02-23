@@ -133,7 +133,7 @@ App.prototype.init = function(window, td_id, title) {
         if(this.clickMainControlPoint){ // delete control point when clicked
             if(this.controlPoints.length <= 2){
                 alert("Can't have less then 2 control points!");
-            } else if((this.title == "Monomial Basis" || this.title == "B-Spline") &&
+            } else if((this.title == "Monomial Basis") &&
                         this.kValue == this.controlPoints.length){
                 alert("Number of control points must be bigger or equal to k!");
             } else{
@@ -747,13 +747,16 @@ App.prototype.gatherUserInput = function(input_type = "") {
     var n_input = document.getElementById('n_input_' + this.td_id);
     var k_input = document.getElementById('k_input_' + this.td_id);
 
-    if(this.title == "Monomial Basis" || this.title == "B-Spline"){
+    if(this.title == "Monomial Basis"){
         if(n_input.value < k_input.value){
             if(input_type == "n") n_input.value = parseInt(n_input.value) + 1; 
             else if(input_type == "k") k_input.value -= 1;
             alert("n must be larger or equal to k!");  
             return;
-        }       
+        }  
+    }
+
+    if(this.title == "Monomial Basis" || this.title == "B-Spline"){
         this.kValue = parseInt(k_input.value);
     }
     
