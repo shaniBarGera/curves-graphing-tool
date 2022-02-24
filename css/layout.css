@@ -15,19 +15,20 @@ body {
 }
 
 header{
-   background: linear-gradient(#303030, #3b3b3b);
+   background: #303030;
    margin: 0px;
-   padding-top: 15px;
    text-align: center;
    color: white;
    font-size: 22px;
    font-family: Arial, sans-serif;
    font-weight: bold;
    letter-spacing: 0.43px;
-   height: 45px;
+   height: 60px;
    position: fixed;
    z-index: 1;
    width: 100%;
+   display : grid;
+   grid-template-columns: auto 100px;
 }
 
 section {
