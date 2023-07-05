@@ -86,7 +86,7 @@ Bugs to Solve:
 
 Shani Bar-Gera: [www.linkedin.com/in/shani-bar-gera-153987186](www.linkedin.com/in/shani-bar-gera-153987186) 
 
-Project Link: [https://github.com/shaniBarGera/WebPorject.git](https://github.com/shaniBarGera/WebPorject.git)
+Project Link: [https://github.com/shaniBarGera/curves-graphing-tool.git](https://github.com/shaniBarGera/curves-graphing-tool.git)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
