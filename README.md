@@ -63,16 +63,16 @@ This website enables to show different parametric curves learned in computer gra
 ## Future Work
 
 Feature to add:
-- ( ) Add general information button to add more information in futuer
-- [ ] Add option to open all curves at once
-- [ ] Alert user when k input value is larger then n
-- [ ] Improve code by making CHSPL inherit from CSPL not Curve 
-- [ ] Add option to match all control points from differnt screens in order to better compare the curves
-- [ ] Add option to change color scheme
+- Add general information button to add more information in futuer
+- Add option to open all curves at once
+- Alert user when k input value is larger then n
+- Improve code by making CHSPL inherit from CSPL not Curve 
+- Add option to match all control points from differnt screens in order to better compare the curves
+- Add option to change color scheme
 
 Bugs to Solve:
-- [ ] Peresent more digits of the t value
-- [ ] Redraw curves dynamically when changeing screen
+- Peresent more digits of the t value
+- Redraw curves dynamically when changeing screen
 
 
 
