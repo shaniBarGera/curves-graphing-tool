@@ -63,7 +63,7 @@ This website enables to show different parametric curves learned in computer gra
 ## Future Work
 
 Feature to add:
-- Add general information button to add more information in futuer
+- Add general information button to add more information in the future
 - Add option to open all curves at once
 - Alert user when k input value is larger then n
 - Improve code by making CHSPL inherit from CSPL not Curve 
