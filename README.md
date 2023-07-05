@@ -72,7 +72,7 @@ Feature to add:
 
 Bugs to Solve:
 - Peresent more digits of the t value
-- Redraw curves dynamically when changeing screen
+- Redraw curves dynamically when changing screen
 
 
 
