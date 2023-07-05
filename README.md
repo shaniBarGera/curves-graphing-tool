@@ -95,8 +95,6 @@ Project Link: [https://github.com/shaniBarGera/curves-graphing-tool.git](https:/
 <!-- Links -->
 ## Related Links
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
 * [Bezier Demo](https://github.com/ryanmid/bezier-curves)
 * [Bezier Demo](http://math.hws.edu/eck/cs424/notes2013/canvas/bezier.html )
 * [Bezier Animation](https://doc.babylonjs.com/divingDeeper/mesh/drawCurves)
