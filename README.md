@@ -2,7 +2,7 @@
 
 # Computer Graphics: Parametric Curves Website
 
-This website enables to show different parametric curves learned in computer graphics course. It is possible to play with their control points, paremters. It is also possible to split the screen and compare different curves.
+This website enables to show different parametric curves learned in computer graphics course. It is possible to play with their control points and parameters. It is also possible to split the screen and compare different curves.
 
 
 <!-- TABLE OF CONTENTS -->
