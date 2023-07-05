@@ -4,6 +4,8 @@
 
 This website enables to show different parametric curves learned in computer graphics course. It is possible to play with their control points and parameters. It is also possible to split the screen and compare different curves.
 
+Checkout my project's website: https://shanibla.wixsite.com/cg-curves
+
 
 <!-- TABLE OF CONTENTS -->
 <details>
